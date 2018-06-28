@@ -38,9 +38,9 @@ def query(search, cat):
 				on names_and_terms.category_id = categories.id
 			where 
 				(
-					verified_plaintext ~ %s 
-					or description_plaintext ~ %s
-					or verified_alternates ~ %s
+					verified_plaintext ~* %s 
+					or description_plaintext ~* %s
+					or verified_alternates ~* %s
 				)
 				and 
 				(categories.id = %s or categories.parent_id = %s or %s)
