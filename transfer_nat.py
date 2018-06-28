@@ -2,6 +2,7 @@ import re
 import sys
 import csv
 import requests
+import codecs
 import psycopg2
 
 from datetime import datetime
@@ -51,7 +52,7 @@ def create_row(src_row):
 
 	#	Description.
 	desc = src_row[ITEM_DESC]
-	desc = re.sub(r'<\/{0,1}(?:div|br)(?:\s\/){0,1}>', '', desc)
+	desc = re.sub(r'<\/{0,1}(?:div|br).*?>', '', desc)
 	desc = desc.replace('&nbsp;', ' ').replace('&quot;', '"')\
 		.replace('&amp;', '"').replace("\'", "'").strip()
 	row.append(maybe_none(desc))
@@ -102,7 +103,7 @@ def main(argv):
 		return 1
 
 	print('Reading from', filename)
-	with open(filename, 'r') as input_file:
+	with codecs.open(filename, 'r', encoding='utf-8') as input_file:
 		reader = csv.reader(input_file, delimiter=',')
 		rows = list(reader)[1:]
 
@@ -124,13 +125,19 @@ def main(argv):
 		) values (%s);
 	'''
 	conn = psycopg2.connect(database='nat', user='postgres', 
-		password='postgres', host='localhost')
+			password='postgres', host='localhost')
 	cur = conn.cursor()
-	for row in rows:
+	row_cnt = len(rows)
+	for i, row in enumerate(rows):
 		db_row = create_row(row)
 		fmt = ', '.join('%s' for i in range(len(db_row)))
-		print(db_row)
-		cur.execute(sql%fmt, db_row)
+		try:
+			cur.execute(sql%fmt, db_row)
+		except Exception as ex:
+			print(db_row)
+			raise ex
+		if i % 100 == 0:
+			print('\r%d/%d rows'%(i, row_cnt), end='')
 	conn.commit()
 	conn.close()
 

@@ -12,20 +12,20 @@ create table categories (
 
 create table names_and_terms (
 	id serial primary key,
-	verified varchar(200) not null,
-	verified_plaintext varchar(200) not null,
-	verified_alternates varchar(60),
+	verified varchar(800) not null,
+	verified_plaintext varchar(800) not null,
+	verified_alternates varchar(800),
 	verification_source varchar(1000),
 	description text,
 	description_plaintext text,
 	comments text,
 	relationship text,
 	location text,
-	alpha_order varchar(120) not null,
+	alpha_order varchar(320) not null,
 	created_time timestamp not null, 
-	created_by varchar(120) not null,
+	created_by varchar(320) not null,
 	modified_time timestamp,
-	modified_by varchar(120),
+	modified_by varchar(320),
 	revised_time timestamp,
 	category_id integer references categories (id)
 );
