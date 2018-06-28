@@ -1,0 +1,4 @@
+psycopg2
+falcon
+requests
+werkzeug

@@ -1,1 +1,0 @@
-select verified, description from names_and_terms where verified_plaintext ~ 'pipe';

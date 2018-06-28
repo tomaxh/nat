@@ -25,10 +25,27 @@ COMMENTS = 25
 check_links = False
 error_links = list()
 
+conn = psycopg2.connect(database='nat', user='postgres', 
+		password='postgres', host='localhost')
+cur = conn.cursor()
+
 def maybe_none(value):
 	if len(value) == 0:
 		return None
 	return value
+
+category_ids = dict()
+def load_cat(name):
+	if name in category_ids:
+		return category_ids[name]
+
+	cur.execute('select id from categories where name = %s', (name,))
+	cat_id = cur.fetchone()
+	if not cat_id:
+		raise Exception('No category %s'%name)
+
+	category_ids[name] = cat_id
+	return cat_id
 
 def create_row(src_row):
 	row = list()
@@ -89,7 +106,9 @@ def create_row(src_row):
 	row.append(revised)
 
 	#	TODO: Categories.
-	row.append(None)
+	cat_parts = src_row[ITEM_TYPE].split('#')[1].replace('?', '&').split(':')
+	cat_id = load_cat(cat_parts[-1])
+	row.append(cat_id)
 	
 	return row
 
@@ -124,9 +143,7 @@ def main(argv):
 			category_id
 		) values (%s);
 	'''
-	conn = psycopg2.connect(database='nat', user='postgres', 
-			password='postgres', host='localhost')
-	cur = conn.cursor()
+	
 	row_cnt = len(rows)
 	for i, row in enumerate(rows):
 		db_row = create_row(row)
