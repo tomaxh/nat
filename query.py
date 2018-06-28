@@ -18,5 +18,5 @@ for row in cur.fetchall():
 		'description': row[2]
 	})
 	
-print(json.dumps(results_ser))
+print(json.dumps(results_ser, indent=4))
 
