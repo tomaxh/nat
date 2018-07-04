@@ -5,8 +5,8 @@ drop table categories;
 
 create table categories (
 	id serial primary key,
-	name varchar(60) not null,
-	keywords varchar(400),
+	name varchar(100) not null,
+	keywords varchar(800),
 	parent_id integer references categories(id)
 );
 
