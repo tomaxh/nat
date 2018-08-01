@@ -42,12 +42,19 @@ class QueryEndpointSearchVerified:
 		resp.append_header('Access-Control-Allow-Origin', '*')
 		resp.body = query.queryVerified(query_dict['s'], query_dict.get('c'))
 
+
+'''
+TODO:Get insert API and 
+'''
 class QueryEndpointInsert():
 
 	def on_post(self, req, resp):
+		resp.append_header('Access-Control-Allow-Origin', '*')
 		
+
 		data = json.loads(req.stream.read())
 		resp.status = falcon.HTTP_200
+
 		query.queryInsert(data)
 		print(data)
 
@@ -67,7 +74,7 @@ class QueryEndpointGetOne():
 		resp.status=falcon.HTTP_200
 		itemID=req.query_string
 		print(query.queryGetAllInfo(itemID))
-	
+
 
 app = falcon.API()
 app.add_route('/vsearch', QueryEndpointSearchVerified())

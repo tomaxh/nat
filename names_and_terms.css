@@ -1,3 +1,4 @@
+
 * { box-sizing: content-box; }
 
 .list, .cats {
@@ -7,23 +8,26 @@
 .item {
 	position: relative;
 	padding: 5px;
-	margin: 10px;
+	
 }
 
 .item:nth-child(2n) {
+	background-color: #ffffff;
+}
+.item:nth-child(2n+1) {
 	background-color: #eeeeee;
 }
 
-.item .title, .item .desc {
+.item .title {
 	display: inline-block;
 	vertical-align: top;
-	width: 50%;
+	width: 30%;
 	position: relative;
 }
 
 .item .main-title {
-	margin-bottom: 10px;
-	font-size: 13pt;	
+	margin-bottom: 4px;
+	font-size: 12pt;	
 }
 
 .item .alt-title {
@@ -31,9 +35,21 @@
 	color: #444444;
 }
 
-.item .desc {
+.row{
 	color: #444444;
 	font-size: 10pt;
+	display: inline-block;
+	vertical-align: top;
+	width: 90%;
+	position: relative;
+}
+.item .desc {
+	color: #444444;
+	font-size: 12pt;
+	display: inline-block;
+	vertical-align: top;
+	width: 70%;
+	position: relative;
 }
 
 .item .badge {
@@ -47,7 +63,7 @@
 	vertical-align: top;
 	margin: 5px;
 	padding: 5px;
-	background-color: #eeeeee;
+	background-color: #dbdeec;
 	border-radius: 2px;
 	cursor: pointer;
 }
@@ -56,3 +72,46 @@
 	background-color: pink;
 	cursor: default;
 }
+
+
+.highlight { 
+	background-color: yellow; 
+}
+
+
+
+#current{
+	background-color: burlywood;
+}
+
+.modal-header{
+	height:40px;
+}
+#ModalLabel{
+	font-size:14;
+}
+.close{
+	margin-top:15px;
+	margin-right:15px;
+}
+.modal {
+	text-align: left;
+	
+	position: absolute;
+	left: 50%;
+	top: 50%;
+
+ }
+ .modal-dialog {
+  padding-top: 15%;
+}
+.input-labels{
+	font-size:14px;
+	margin-left:10px;
+}
+
+#titleinput, #titleinput2, #descriptioninput, #alphasort, #category, #comments, #relationship, #location, #verification{
+	height:35px;
+	
+}
+

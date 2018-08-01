@@ -1,13 +1,14 @@
 import requests
+import re
 
 def testInsert():
     requests.post("http://localhost:7990/insert",
                 
                     json={
-                        "verified":"<b>Tester2 inserted by new API.</b>",
+                        "verified":"TERMXX",
                         "verified_plaintext":"Tester2 inserted by new API.",
                         "alpha_order":"Tester1 inderted aplha_order.",
-                        "category_id":4,
+                        "category":"PEopLE",
                         "verified_alternates":None,
                         "verification_source":None,
                         "description":"<b>The testing item 2 inserted by REQUEST and POST method",
@@ -20,6 +21,8 @@ def testInsert():
                         "modified_time":None,
                         "modified_by":None,
                         "revised_time":None
+
+                        
                     }
                 )
 
@@ -53,6 +56,11 @@ def testUpdate():
                     }
         
         )
+def processSearch():
+    originalSearch = "?the searching string"
+    if originalSearch[0]=="?":
+        w = originalSearch[1:].split()
+        print(w)
 
 if __name__ == '__main__':
-    testUpdate()
+    processSearch()

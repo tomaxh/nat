@@ -5,6 +5,7 @@ import json
 import time
 
 from datetime import datetime
+import re
 
 def ser_datetime(the):
 	if not isinstance(the, datetime):
@@ -13,9 +14,11 @@ def ser_datetime(the):
 	return the.strftime('%m/%d/%Y %H:%M %p')
 
 '''
-General search using all the feilds
+TODO: MULTIPLE CATEGORY
+
 '''
 def query(search, cat):
+
 	conn = psycopg2.connect(
 		database='nat', 
 		user='postgres', 
@@ -24,33 +27,112 @@ def query(search, cat):
 	)
 	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-	cursor.execute("select id from categories where name = %s", (cat,))
+	cursor.execute("select id from categories where name ~* %s", (cat,))
 	row = cursor.fetchone()
 	cat_id = row['id'] if row else None
 
 	start = time.time()
-	cursor.execute("""
+	if search[0]=='!':
+		cursor.execute("""
 
-		select 
-				names_and_terms.id, verified, verified_alternates, verification_source, 
-				description, comments, relationship, location, name as category,
-				created_time, created_by, modified_time, modified_by, revised_time
-			from 
-				names_and_terms 
-				inner join categories 
-				on names_and_terms.category_id = categories.id
-			where 
-				(
-					verified_plaintext ~* %s 
-					or description_plaintext ~* %s
-					or verified_alternates ~* %s
-				)
-				and 
-				(categories.id = %s or categories.parent_id = %s or %s)
-			order by alpha_order desc;
-		
-	""", (*(search,)*3, *(cat_id,)*2, True if cat is None else False))
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext ~* %s 
+						or description_plaintext ~* %s
+						or verified_alternates ~* %s
+						or comments ~* %s
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order;
+			
+		""", (*('\\m'+search[1:]+'\\M',)*4, *(cat_id,)*2, True if cat is None else False))
+	
+	elif search[0]=='*':
+		cursor.execute("""
 
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext ~* %s
+						or description_plaintext ~* %s
+						or verified_alternates ~* %s
+						or comments ~* %s
+
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order;
+			
+		""", (*(search[1:]+"\\M",)*4, *(cat_id,)*2, True if cat is None else False))
+	elif search.find("*")>0:
+
+		cursor.execute("""
+
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext ~* %s
+						or description_plaintext ~* %s
+						or verified_alternates ~* %s
+						or comments ~* %s
+
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order;
+			
+		""", (*("\\m"+search[0:search.find("*")],)*4, *(cat_id,)*2, True if cat is None else False))
+	else:
+		cursor.execute("""
+
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext ~* %s
+						or description_plaintext ~* %s
+						or verified_alternates ~* %s
+						or comments ~* %s
+
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order;
+			
+		""", (*(search,)*4, *(cat_id,)*2, True if cat is None else False))
+	
+
+	
+	
 	return json.dumps({
 		'time': time.time() - start,
 		'results': list(cursor.fetchall())
@@ -72,27 +154,96 @@ def queryVerified(search, cat):
 	cat_id = row['id'] if row else None
 
 	start = time.time()
-	cursor.execute("""
+	if search[0]=='!':
+		cursor.execute("""
 
-		select 
-				names_and_terms.id, verified, verified_alternates, verification_source, 
-				description, comments, relationship, location, name as category,
-				created_time, created_by, modified_time, modified_by, revised_time
-			from 
-				names_and_terms 
-				inner join categories 
-				on names_and_terms.category_id = categories.id
-			where 
-				(
-					verified_plaintext~* %s 
-					or verified_alternates ~* %s
-				)
-				and 
-				(categories.id = %s or categories.parent_id = %s or %s)
-			order by alpha_order desc;
-		
-	""", (*(search,)*2, *(cat_id,)*2, True if cat is None else False))
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext~* %s 
+						or verified_alternates ~* %s
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order;
+			
+		""", (*('\\m'+search[1:]+'\\M',)*2, *(cat_id,)*2, True if cat is None else False))
+	
+	elif search[0]=='*':
+		cursor.execute("""
 
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext ~* %s
+						or verified_alternates ~* %s
+
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order;
+			
+		""", (*("\\w+"+search[1:],)*2, *(cat_id,)*2, True if cat is None else False))
+	elif search.find("*")>0:
+
+		cursor.execute("""
+
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext ~* %s
+						or verified_alternates ~* %s
+
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order;
+			
+		""", (*(search[0:search.find("*")]+"\\w+",)*2, *(cat_id,)*2, True if cat is None else False))
+	else:
+		cursor.execute("""
+
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext ~* %s
+						or verified_alternates ~* %s
+
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order;
+			
+		""", (*(search,)*2, *(cat_id,)*2, True if cat is None else False))
+	
 	return json.dumps({
 		'time': time.time() - start,
 		'results': list(cursor.fetchall())
@@ -125,17 +276,50 @@ def queryDelete(id,table='names_and_terms'):
 		return e
 
 
-def queryInsert(data):
-	
-	if data['verified']==None or data['alpha_order']==None or data['category_id']==None:
-		return 'Required items not provided.'
+def checkCat(data):
+
+
 	conn = psycopg2.connect(
 		database='nat',
 		user='postgres',
 		password= 'postgres',
 		host='localhost'
 	)
+	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+	cursor.execute("""
+		SELECT id FROM
+			categories
+		WHERE
+			name ~* %s;	
+		
+	""",('\\m'+data['category']+'\\M',)
+	)
+	k= json.dumps({
+		'result':list(cursor.fetchall())
+	}, indent=4, default=ser_datetime)
+
+	m = re.search(r'\d+',k)
+	if m==None:
+		return None
+	else:
+		return m[0]
+
+def queryInsert(data):
 	
+	if data['verified']==None or data['alpha_order']==None or data['category']==None:
+		return 'Required fields are missing.'
+	
+	category_id = checkCat(data)
+	if category_id==None:
+		return "Invalid category name."
+
+	conn = psycopg2.connect(
+		database='nat',
+		user='postgres',
+		password= 'postgres',
+		host='localhost'
+	)
+
 	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 	cursor.execute("""
 		INSERT INTO 
@@ -179,11 +363,12 @@ def queryInsert(data):
 		data['modified_time'],
 		data['modified_by'],
 		data['revised_time'],
-		data['category_id']
+		category_id
 		)
 	)
 	conn.commit()
 	conn.close()
+	return "Insert Completed."
 
 def queryGetAllInfo(id):
 	itemId=id
@@ -207,10 +392,7 @@ def queryGetAllInfo(id):
 	d1=json.dumps(cursor.fetchall()[0], indent=4, default=ser_datetime)
 	d2=json.loads(d1)
 	return d2
-	'''
-	Auto fill the webform for the user to make modifications,ignore unecessary fields
-	'''
-	
+
 def queryUpdates(data):
 
 	conn = psycopg2.connect(
@@ -268,12 +450,12 @@ if __name__ == '__main__':
 	queryVerified(search, cat)
 	print(queryVerified(search, cat))
 '''
-	json={
-                    "id":87699,
-                        "verified":"<b>Tester2 UPDATED by new API.</b>",
+	json1={
+    
+                        "verified":"Big dad",
                         "verified_plaintext":"Tester2 inserted by new API.",
                         "alpha_order":"Tester1 inderted aplha_order.",
-                        "category_id":4,
+                        "category":'sd',
                         "verified_alternates":None,
                         "verification_source":None,
                         "description":"<b>The testing item 2 UPDATEED by REQUEST and POST method",
@@ -287,7 +469,7 @@ if __name__ == '__main__':
                         "modified_by":None,
                         "revised_time":None
                     }
-	queryUpdates(json)
+	print(queryInsert(json1))
 
 	
 
