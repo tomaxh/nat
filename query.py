@@ -3,9 +3,10 @@ import psycopg2.extras
 import sys
 import json
 import time
-
 from datetime import datetime
 import re
+
+PAGE_OFFSET = 0
 
 def ser_datetime(the):
 	if not isinstance(the, datetime):
@@ -14,7 +15,7 @@ def ser_datetime(the):
 	return the.strftime('%m/%d/%Y %H:%M %p')
 
 '''
-TODO: MULTIPLE CATEGORY
+TODO: MULTIPLE CATEGORY (maybe not)
 
 '''
 def query(search, cat):

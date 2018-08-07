@@ -187,33 +187,34 @@ function vsearch() {
 }
 
 function insertItem(){
+	var tt = "dasd"
 	mdata={
 		"verified":"New test 731",
 		"verified_plaintext":"Tester2 inserted by new API.",
 		"alpha_order":"Tester1 inderted aplha_order.",
 		"category":"people",
-		"verified_alternates":"None",
-		"verification_source":"None",
+		"verified_alternates":null,
+		"verification_source":null,
 		"description":"<b>The testing item 2 inserted by REQUEST and POST method",
 		"description_plaintext":"The testing item inserted by REQUEST and POST method",
-		"comments":"None",
-		"relationship":"JACK's son",
-		"location":"None",
-		"created_time":"2025-02-02",
+		"comments":null,
+		"relationship":"bibi",
+		"location":null,
+		"created_time":"2012-01-31",
 		"created_by":"Tom",
-		"modified_time":"null",
-		"modified_by":"None",
-		"revised_time":"None"
+		"modified_time":null,
+		"modified_by":null,
+		"revised_time":null
 	}
-	var bdata = new Object();
+	/*
 	$.post({
 		type: "POST",
-
 		url: 'http://localhost:7990/insert',
 		contentType: "application/json",
-
-		data: JSON.stringify(bdata)
+		data: JSON.stringify(mdata)
 	  });
+	  */
+	  console.log(JSON.stringify(mdata))
 	
 	
 }
@@ -235,7 +236,11 @@ function highlights(){
 		flag=true;
 	}
 }
+
+
 function insert(){
+	var newItem;
+	var utc = new Date().toJSON().slice(0,10).replace(/-/g,'-');
 	var container = $('.modal-2').html('');
 	container.append($('<div>').addClass("modal fade").attr({"id":"myModal","tabindex":"-1", "role":"dialog", "aria-labelledby":"myModalLabel", "aria-hidden":"true"}));
 	$('#myModal').append($("<div>").addClass("modal-dialog").attr({"role":"document","id":"modal-dialog2"}));
@@ -244,7 +249,7 @@ function insert(){
 	$('#modal-header2').append($('<h4>').addClass("modal-title").attr({"id":"myModalLabel2"}).html("Create New Item"));
 	$('#modal-content2').append($('<div>').addClass('modal-body').attr({"id":"modal-body2"}));
 	$('#modal-body2').append($('<div>').addClass('row').attr({"id":"row2"}));
-	$('#row2').append($('<button>').addClass("btn btn-primary").html("Save").click(function(){
+	$('#row2').append($('<button>').addClass("btn btn-primary").html("Print").click(function(){
 		var htmltext = quillTitle.root.innerHTML;
 		var htmltext2 = quillAlternate.root.innerHTML;
 		var htmltext3 = quillDescription.root.innerHTML;
@@ -255,16 +260,19 @@ function insert(){
 		var htmltext8 = quillComments.root.innerHTML;
 		var htmltext9 = quillCategory.root.innerHTML;
 
-
 		console.log(htmltext+":"+quillTitle.getText()+'\n'+htmltext2+":"+quillAlternate.getText()+'\n'+htmltext3+":"+quillDescription.getText()+'\n'+
 		htmltext4+":"+quillAlphasort.getText()+'\n'+
 		htmltext5+":"+quillVerification.getText()+'\n'+
 		htmltext6+":"+quillRlationship.getText()+'\n'+
 		htmltext7+":"+quillLocation.getText()+'\n'+
 		htmltext8+":"+quillComments.getText()+'\n'+
-		htmltext9+":"+quillCategory.getText()+'\n'
-	)
+		htmltext9+":"+quillCategory.getText()+'\n'+
+		utc+'\n'+JSON.stringify(newItem)
+	);
+	
 	}));
+
+
 	$('#row2').append($('<label>').html("Title: ").addClass("input-labels"));
 	$('#row2').append($('<div>').attr({"id":"titleinput"}));
 	var options = {
@@ -332,7 +340,34 @@ function insert(){
 	var quillCategory = new Quill("#category",options2);
 	
 	$('#modal-content2').append($('<div>').addClass('modal-footer').attr({"id":"modal-footer2"}));
-	$('#modal-footer2').append($('<button>').addClass("btn btn-primary").html("iNSERT"));
+	$('#modal-footer2').append($('<button>').addClass("btn btn-primary").html("iNSERT").click(function(){
+		
+		newItem = {
+			"verified":quillTitle.root.innerHTML,
+			"verified_plaintext":quillTitle.getText().slice(0,-1),
+			"verified_alternates":quillAlternate.getText().slice(0,-1),
+			"verification_source":quillVerification.getText().slice(0,-1),
+			"description":quillDescription.root.innerHTML,
+			"description_plaintext":quillDescription.getText().slice(0,-1),
+			"comments":quillComments.getText().slice(0,-1),
+			"relationship":quillRlationship.getText().slice(0,-1),
+			"location":quillLocation.getText().slice(0,-1),
+			"alpha_order":quillAlphasort.getText().slice(0,-1),
+			"created_time":utc,
+			"created_by":"Tom",
+			"modified_time":utc,
+			"modified_by":"Tom",
+			"revised_time":utc,
+			"category":quillCategory.getText().toLowerCase().slice(0,-1)
+
+		};
+		$.post({
+			type: "POST",
+			url: 'http://localhost:7990/insert',
+			contentType: "application/json",
+			data: JSON.stringify(newItem)
+		  });
+	}));
 
 }
 
@@ -345,4 +380,6 @@ $('#textbox1').keypress(function(e){
 	}
 });
 $('#highlightbutton').click(highlights);
-$('#insert').click(insertItem);
+$('#insert').click(insert);
+$('#kkbtn').attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal2"});
+$('#textbox1').click(function(){category=null})

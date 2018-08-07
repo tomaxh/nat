@@ -50,13 +50,20 @@ class QueryEndpointInsert():
 
 	def on_post(self, req, resp):
 		resp.append_header('Access-Control-Allow-Origin', '*')
+		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
 		
-
 		data = json.loads(req.stream.read())
 		resp.status = falcon.HTTP_200
 
 		query.queryInsert(data)
 		print(data)
+
+	def on_options(self, req, resp):
+		resp.append_header('Access-Control-Allow-Origin', '*')
+		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+		resp.append_header('Access-Control-Allow-Headers', 'Content-Type')
+		
+
 
 class QueryEndpointUpdate():
 	def on_post(self, req, resp):
