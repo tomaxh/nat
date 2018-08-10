@@ -1,5 +1,8 @@
 create database nat;
+
 \c nat;
+set client_encoding to 'UTF8';
+
 drop table names_and_terms;
 drop table categories;
 

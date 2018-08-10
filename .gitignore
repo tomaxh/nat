@@ -2,3 +2,6 @@
 *.laccdb
 .vscode
 a.json
+
+*.txt
+newquery.sql

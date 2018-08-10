@@ -88,8 +88,8 @@ function buildResults(results) {
 			$(".f7").html("<b>Item Type:</b> "+one.category);
 			$(".f8").html("Created at <b>"+one.created_time+"</b> by <b>"+one.created_by+"</b>");
 			$(".f9").html("Modified at <b>"+one.modified_time+"</b> by <b>"+one.modified_by+"</b>");
-			
-			
+
+			update(one)
 
 		
 		}));
@@ -106,7 +106,14 @@ function search() {
 	if($('[name="search"]').val().length==0){
 		return; 
 	}
+	while($('[name="search"]').val()[$('[name="search"]').val().length-1]==' '){
+		$('[name="search"]').val($('[name="search"]').val().substr(0,$('[name="search"]').val().length-1))
+
+	}
+	$('[name="search"]').val($('[name="search"]').val().replace(/\s+/g, ' '));
+	
 	searchInput = $('[name="search"]').val();
+
 	if(searchInput.includes(" +")){
 		category=searchInput.split(" +")[1];
 		searchTerm = searchInput.split(" +")[0];
@@ -147,6 +154,11 @@ function vsearch() {
 	if($('[name="search"]').val().length==0){
 		return; 
 	}
+	while($('[name="search"]').val()[$('[name="search"]').val().length-1]==' '){
+		$('[name="search"]').val($('[name="search"]').val().substr(0,$('[name="search"]').val().length-1))
+
+	}
+	$('[name="search"]').val($('[name="search"]').val().replace(/\s+/g, ' '));
 	searchInput = $('[name="search"]').val();
 	if(searchInput.includes(" +")){
 		category=searchInput.split(" +")[1];
@@ -225,6 +237,13 @@ function highlights(){
 			$('.main-title, .desc, .alt-title').highlight($('[name="search"]').val().substring(1,));
 		}else if($('[name="search"]').val().indexOf("*")>0){
 			$('.main-title, .desc, .alt-title').highlight($('[name="search"]').val().substring(0,$('[name="search"]').val().indexOf("*")));
+		}else if($('[name="search"]').val()[0]=='?'){
+			var tmp = ($('[name="search"]').val().substring(1,).split(" "))
+			for (i in tmp){
+				$('.main-title, .desc, .alt-title').highlight(tmp[i]);
+			}
+			// $('.main-title, .desc, .alt-title').highlight(tmp);
+
 		}
 		else{
 			$('.main-title, .desc, .alt-title').highlight($('[name="search"]').val());
@@ -268,8 +287,9 @@ function insert(){
 		htmltext8+":"+quillComments.getText()+'\n'+
 		htmltext9+":"+quillCategory.getText()+'\n'+
 		utc+'\n'+JSON.stringify(newItem)
-	);
+		);
 	
+
 	}));
 
 
@@ -368,6 +388,17 @@ function insert(){
 			data: JSON.stringify(newItem)
 		  });
 	}));
+
+}
+
+function update(itemData){
+	$(".u1").html(itemData.verified)
+	$(".u2").html(itemData.description);
+
+	$("#update-item").click(function(){
+			
+		})
+
 
 }
 

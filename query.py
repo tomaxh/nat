@@ -106,6 +106,38 @@ def query(search, cat):
 				order by alpha_order;
 			
 		""", (*("\\m"+search[0:search.find("*")],)*4, *(cat_id,)*2, True if cat is None else False))
+	
+	
+	elif search[0]=='?':
+		w =':* & '.join(search[1:].split())+':*'
+		print(search)
+
+		cursor.execute("""
+		select t1id id,verified,verified_alternates, verification_source, 
+					description, comments, relationship, location, category,
+					created_time, created_by, modified_time, modified_by, revised_time
+    	from(
+    	select * FROM
+        (
+            SELECT  names_and_terms.id as t1id,verified,verified_alternates, verification_source, 
+                        description, comments, relationship, location, name as category,category_id,
+                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,description_plaintext,verified_alternates)) as t1 
+                from  
+                    (
+                    names_and_terms 
+                    join categories 
+                    on names_and_terms.category_id = categories.id
+                    )
+        )as t2 
+        
+        where (t1) @@ to_tsquery(%s) and 
+		(category_id = %s or %s)
+        
+
+    )as t3
+		
+		order by alpha_order;
+		""",(w,cat_id,True if cat is None else False))
 	else:
 		cursor.execute("""
 
@@ -446,31 +478,10 @@ def queryUpdates(data):
 	conn.close()
 
 if __name__ == '__main__':
-	'''search = sys.argv[1]
-	cat = sys.argv[2] if len(sys.argv) > 2 else None
-	queryVerified(search, cat)
-	print(queryVerified(search, cat))
-'''
-	json1={
-    
-                        "verified":"Big dad",
-                        "verified_plaintext":"Tester2 inserted by new API.",
-                        "alpha_order":"Tester1 inderted aplha_order.",
-                        "category":'sd',
-                        "verified_alternates":None,
-                        "verification_source":None,
-                        "description":"<b>The testing item 2 UPDATEED by REQUEST and POST method",
-                        "description_plaintext":"The testing item UPDATE by REQUEST and POST method",
-                        "comments":None,
-                        "relationship":"Norm's son",
-                        "location":None,
-                        "created_time":"2025-02-02",
-                        "created_by":"Tom",
-                        "modified_time":None,
-                        "modified_by":None,
-                        "revised_time":None
-                    }
-	print(queryInsert(json1))
+	
+	print(query('?pipe oil', 'places'))
+
+	
 
 	
 
