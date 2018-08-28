@@ -24,9 +24,14 @@ def dbUpdateName():
     
     cursor.execute('''delete from categories where ID=2 or ID=8 or ID=11 or ID=15 or ID=22 or ID=24 or ID=25 or ID=26 or ID=28 or ID=29 or ID=30 or ID=32''')
     
-    
-    '''???'''
     cursor.execute('''update categories set name=lower(name);''')
+    
+
+    
+    # cursor.execute('''
+    # alter table names_and_terms add column "fulltext_search" text;
+    # update names_and_terms set fulltext_search = concat_ws(';',verified_plaintext,description_plaintext,verified_alternates,comments)
+    # ''')
 
     conn.commit()
     conn.close()

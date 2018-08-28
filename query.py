@@ -3,7 +3,7 @@ import psycopg2.extras
 import sys
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 
 PAGE_OFFSET = 0
@@ -13,7 +13,9 @@ def ser_datetime(the):
 		raise TypeError(type(the))
 	
 	return the.strftime('%m/%d/%Y %H:%M %p')
-
+def set_datetime(the):
+	st = datetime.fromtimestamp(the).strftime('%Y-%m-%d %H:%M:%S')
+	return st
 '''
 TODO: MULTIPLE CATEGORY (maybe not)
 
@@ -33,13 +35,63 @@ def query(search, cat):
 	cat_id = row['id'] if row else None
 
 	start = time.time()
-	if search[0]=='!':
+	begin = datetime.today()+timedelta(days=1)
+	end = datetime.today()-timedelta(days=1)
+	
+	if search=='@':
+		if cat != 'style':
+			cursor.execute("""
+
+				select 
+						names_and_terms.id, verified, verified_alternates, verification_source, 
+						description, comments, relationship, location, name as category,
+						created_time, created_by, modified_time, modified_by, revised_time,alpha_order
+					from 
+						names_and_terms 
+						inner join categories 
+						on names_and_terms.category_id = categories.id
+					where 
+						(
+							(date %s <= created_time::date AND created_time::date <= date %s)
+								OR
+							(date %s <= modified_time::date AND modified_time::date <= date %s)
+						)
+						and 
+						(categories.id != %s )
+					order by alpha_order
+					limit 3000;
+					
+					""",(end,begin,end,begin,9,))
+		else:
+			cursor.execute("""
+
+				select 
+						names_and_terms.id, verified, verified_alternates, verification_source, 
+						description, comments, relationship, location, name as category,
+						created_time, created_by, modified_time, modified_by, revised_time,alpha_order
+					from 
+						names_and_terms 
+						inner join categories 
+						on names_and_terms.category_id = categories.id
+					where 
+						(
+							(date %s <= created_time::date AND created_time::date <= date %s)
+								OR
+							(date %s <= modified_time::date AND modified_time::date <= date %s)
+						)
+						and 
+						(categories.id = %s )
+					order by alpha_order
+					limit 3000;
+					
+					""",(end,begin,end,begin,9,))
+	elif search[0]=='!':
 		cursor.execute("""
 
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time
+					created_time, created_by, modified_time, modified_by, revised_time,alpha_order
 				from 
 					names_and_terms 
 					inner join categories 
@@ -53,7 +105,8 @@ def query(search, cat):
 					)
 					and 
 					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order;
+				order by alpha_order
+				limit 3000;
 			
 		""", (*('\\m'+search[1:]+'\\M',)*4, *(cat_id,)*2, True if cat is None else False))
 	
@@ -63,7 +116,7 @@ def query(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -78,7 +131,8 @@ def query(search, cat):
 					)
 					and 
 					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order;
+				order by alpha_order
+				limit 3000;
 			
 		""", (*(search[1:]+"\\M",)*4, *(cat_id,)*2, True if cat is None else False))
 	elif search.find("*")>0:
@@ -88,7 +142,7 @@ def query(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -103,25 +157,52 @@ def query(search, cat):
 					)
 					and 
 					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order;
+				order by alpha_order
+				limit 3000;
 			
 		""", (*("\\m"+search[0:search.find("*")],)*4, *(cat_id,)*2, True if cat is None else False))
 	
 	
-	elif search[0]=='?':
-		w =':* & '.join(search[1:].split())+':*'
+	elif search[0]=='"' and search[len(search)-1]=='"':
+		
 		print(search)
+		cursor.execute("""
 
+			select 
+					names_and_terms.id, verified, verified_alternates, verification_source, 
+					description, comments, relationship, location, name as category,
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+				from 
+					names_and_terms 
+					inner join categories 
+					on names_and_terms.category_id = categories.id
+				where 
+					(
+						verified_plaintext ~* %s
+						or description_plaintext ~* %s
+						or verified_alternates ~* %s
+						or comments ~* %s
+
+					)
+					and 
+					(categories.id = %s or categories.parent_id = %s or %s)
+				order by alpha_order
+				limit 3000;
+			
+		""", (*(search[1:-1],)*4, *(cat_id,)*2, True if cat is None else False))	
+
+	else:
+		w =':* & '.join(search.split())+':*'
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
-					created_time, created_by, modified_time, modified_by, revised_time
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
     	from(
     	select * FROM
         (
-            SELECT  names_and_terms.id as t1id,verified,verified_alternates, verification_source, 
+            SELECT  names_and_terms.id as t1id,parent_id, verified,verified_alternates, verification_source, 
                         description, comments, relationship, location, name as category,category_id,
-                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,description_plaintext,verified_alternates)) as t1 
+                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,description_plaintext,verified_alternates,comments)) as t1 
                 from  
                     (
                     names_and_terms 
@@ -131,38 +212,34 @@ def query(search, cat):
         )as t2 
         
         where (t1) @@ to_tsquery(%s) and 
-		(category_id = %s or %s)
+		(category_id = %s or parent_id = %s or %s )
         
 
     )as t3
 		
-		order by alpha_order;
-		""",(w,cat_id,True if cat is None else False))
-	else:
-		cursor.execute("""
-
-			select 
-					names_and_terms.id, verified, verified_alternates, verification_source, 
-					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time
-				from 
-					names_and_terms 
-					inner join categories 
-					on names_and_terms.category_id = categories.id
-				where 
-					(
-						verified_plaintext ~* %s
-						or description_plaintext ~* %s
-						or verified_alternates ~* %s
-						or comments ~* %s
-
-					)
-					and 
-					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order;
-			
-		""", (*(search,)*4, *(cat_id,)*2, True if cat is None else False))
-	
+		order by alpha_order
+		limit 3000;
+		""",(w,*(cat_id,)*2,True if cat is None else False))	
+		
+		#seems to be faster
+		# w =':* & '.join(search.split())+':*'
+		# cursor.execute("""
+		# 		select 
+		# 				names_and_terms.id, verified, verified_alternates, verification_source, 
+		# 				description, comments, relationship, location, name as category,
+		# 				created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+		# 		from 
+		# 				names_and_terms 
+		# 				inner join categories 
+		# 				on names_and_terms.category_id = categories.id
+		# 		where
+		# 				fulltext_search  @@ to_tsquery(%s) and
+		# 				(
+		# 				categories.id = %s or categories.parent_id = %s or %s
+		# 				)
+		# 		order by alpha_order
+		# 		limit 3000;
+		# """,(w,*(cat_id,)*2,True if cat is None else False))
 
 	
 	
@@ -193,7 +270,7 @@ def queryVerified(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -205,7 +282,8 @@ def queryVerified(search, cat):
 					)
 					and 
 					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order;
+				order by alpha_order
+				limit 3000;
 			
 		""", (*('\\m'+search[1:]+'\\M',)*2, *(cat_id,)*2, True if cat is None else False))
 	
@@ -215,7 +293,7 @@ def queryVerified(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -228,7 +306,8 @@ def queryVerified(search, cat):
 					)
 					and 
 					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order;
+				order by alpha_order
+				limit 3000;
 			
 		""", (*("\\w+"+search[1:],)*2, *(cat_id,)*2, True if cat is None else False))
 	elif search.find("*")>0:
@@ -238,7 +317,7 @@ def queryVerified(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -251,16 +330,19 @@ def queryVerified(search, cat):
 					)
 					and 
 					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order;
+				order by alpha_order
+				limit 3000;
 			
 		""", (*(search[0:search.find("*")]+"\\w+",)*2, *(cat_id,)*2, True if cat is None else False))
-	else:
+	
+	
+	elif search[0]=='"' and search[len(search)-1]=='"':
 		cursor.execute("""
 
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -273,17 +355,52 @@ def queryVerified(search, cat):
 					)
 					and 
 					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order;
+				order by alpha_order
+				limit 3000;
 			
-		""", (*(search,)*2, *(cat_id,)*2, True if cat is None else False))
+		""", (*(search[1:-1],)*2, *(cat_id,)*2, True if cat is None else False))
 	
+	
+	else:
+		
+		w =':* & '.join(search.split())+':*'
+		print(search)
+
+		cursor.execute("""
+		select t1id id,verified,verified_alternates, verification_source, 
+					description, comments, relationship, location, category,
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+    	from(
+    	select * FROM
+        (
+            SELECT  names_and_terms.id as t1id,verified,verified_alternates, verification_source, 
+                        description, comments, relationship, location, name as category,category_id,
+                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,verified_alternates,comments)) as t1 
+                from  
+                    (
+                    names_and_terms 
+                    join categories 
+                    on names_and_terms.category_id = categories.id
+                    )
+        )as t2 
+        
+        where (t1) @@ to_tsquery(%s) and 
+		(category_id = %s or %s)
+        
+
+    )as t3
+		
+		order by alpha_order
+		limit 3000;
+		""",(w,cat_id,True if cat is None else False))
+
 	return json.dumps({
 		'time': time.time() - start,
 		'results': list(cursor.fetchall())
 	}, indent=4, default=ser_datetime)
 
 '''delete item from tables'''
-def queryDelete(id,table='names_and_terms'):
+def queryDelete(id):
 	conn = psycopg2.connect(
 		database='nat',
 		user='postgres',
@@ -296,11 +413,11 @@ def queryDelete(id,table='names_and_terms'):
 
 			DELETE
 			FROM
-				%s
+				names_and_terms
 			WHERE
 				id=%s
 			
-		""" %(table,id)
+		""" %(id)
 		)
 		conn.commit()
 		conn.close()
@@ -423,10 +540,13 @@ def queryGetAllInfo(id):
 		''',(itemId,)
 	)
 	d1=json.dumps(cursor.fetchall()[0], indent=4, default=ser_datetime)
-	d2=json.loads(d1)
-	return d2
+	return d1
 
 def queryUpdates(data):
+	
+	category_id = checkCat(data)
+	if category_id==None:
+		return "Invalid category name."
 
 	conn = psycopg2.connect(
 		database='nat',
@@ -470,7 +590,7 @@ def queryUpdates(data):
 		data['modified_time'],
 		data['modified_by'],
 		data['revised_time'],
-		data['category_id'],
+		category_id,
 		data['id']
 		)
 	)
@@ -478,8 +598,26 @@ def queryUpdates(data):
 	conn.close()
 
 if __name__ == '__main__':
-	
-	print(query('?pipe oil', 'places'))
+	jsont={
+                        "id":87821,
+                        "verified":"tested by python",
+                        "verified_plaintext":"tested by python.",
+                        "alpha_order":"Tester1 inderted aplha_order.",
+                        "category":"people",
+                        "verified_alternates":None,
+                        "verification_source":None,
+                        "description":"UPDATED method",
+                        "description_plaintext":"The testing item UPDATE by REQUEST and POST method",
+                        "comments":None,
+                        "relationship":"Norm's son",
+                        "location":None,
+                        "created_time":"2025-02-02",
+                        "created_by":"Tom",
+                        "modified_time":None,
+                        "modified_by":None,
+                        "revised_time":None
+        }
+	queryUpdates(jsont)
 
 	
 

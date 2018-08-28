@@ -12,6 +12,8 @@ import query
 class QueryEndpointDelete:
 
 	def on_get(self,req,resp):
+		resp.append_header('Access-Control-Allow-Origin', '*')
+
 		resp.status = falcon.HTTP_200
 		itemID=req.query_string
 		resp.body=query.queryDelete(itemID)
@@ -29,6 +31,17 @@ class QueryEndpointSearch:
 		resp.append_header('Access-Control-Allow-Origin', '*')
 		resp.body = query.query(query_dict['s'], query_dict.get('c'))
 
+
+class QueryEndpointGetOne():
+
+	def on_get(self, req,resp):
+		resp.append_header('Access-Control-Allow-Origin', '*')
+
+		resp.status=falcon.HTTP_200
+		itemID=req.query_string
+		resp.body =  query.queryGetAllInfo(itemID)
+
+
 class QueryEndpointSearchVerified:
 
 	def on_get(self, req, resp):
@@ -43,9 +56,7 @@ class QueryEndpointSearchVerified:
 		resp.body = query.queryVerified(query_dict['s'], query_dict.get('c'))
 
 
-'''
-TODO:Get insert API and 
-'''
+
 class QueryEndpointInsert():
 
 	def on_post(self, req, resp):
@@ -67,21 +78,24 @@ class QueryEndpointInsert():
 
 class QueryEndpointUpdate():
 	def on_post(self, req, resp):
+		resp.append_header('Access-Control-Allow-Origin', '*')
+		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
 		
 		data = json.loads(req.stream.read())
 		resp.status = falcon.HTTP_200
+		print("here")
 		query.queryUpdates(data)
 		print(data)
 
+	def on_options(self, req, resp):
+		resp.append_header('Access-Control-Allow-Origin', '*')
+		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+		resp.append_header('Access-Control-Allow-Headers', 'Content-Type')
+	
 
-
-class QueryEndpointGetOne():
-
-	def on_get(self, req,resp):
-		resp.status=falcon.HTTP_200
-		itemID=req.query_string
-		print(query.queryGetAllInfo(itemID))
-
+'''
+optional api
+'''
 
 app = falcon.API()
 app.add_route('/vsearch', QueryEndpointSearchVerified())

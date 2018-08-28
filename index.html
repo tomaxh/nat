@@ -1,7 +1,10 @@
+<!DOCTYPE html>
+
 <html>
 	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<title>NAT Search Test</title>
-		<link rel="stylesheet" href="names_and_terms.css"></link>
+		<link rel="stylesheet" href="names_and_terms.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
@@ -16,12 +19,13 @@
 				<button id="vsearch" class="btn btn-secondary">Verified Search</button>
 				<button id="highlightbutton" class="btn btn-secondary">Highlight/Unhighlight</button>
 				<button id="insert" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">Add Item</button>
-				<button id="update" class="btn btn-secondary" >Update</button>
 			</div>
 		</div>
 		
-		<h2 style="margin-left:10px">Results</h2>
+		<h2 class="result-title" style="margin-left:10px"></h2>
+
 		<div class="results"></div>
+		
 		<!-- Modal -->
 		<div class="modal-1">
 			  <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -35,25 +39,26 @@
 						</div>
 						<div class="modal-body">
 							<div class="row">
-								<div class="f1" style="margin-left:20">col</div>
-								<div class="f3" style="margin-left:20">col</div>
-								<div class="f2" style="margin-left:20">col</div>
-								<div class="f4" style="margin-left:20">col</div>
-								<div class="f5" style="margin-left:20">col</div>
-								<div class="f6" style="margin-left:20">col</div>
-								<div class="f7" style="margin-left:20">col</div>
+								<div class="f1" style="margin-left:20px">col</div>
+								<div class="f3" style="margin-left:20px">col</div>
+								<div class="f2" style="margin-left:20px">col</div>
+								<div class="f4" style="margin-left:20px">col</div>
+								<div class="f5" style="margin-left:20px">col</div>
+								<div class="f6" style="margin-left:20px">col</div>
+								<div class="f7" style="margin-left:20px">col</div>
+								<div class="f7-1" style="margin-left:20px">col</div>
 
-								<div ><br/></div>
-								
+
 								<div class="small">
-										<div class="f0" style="margin-left:20">col</div>
-										<div class="f8" style="margin-left:20">col</div>
-										<div class="f9" style="margin-left:20">col</div>
+										<div class="f0" style="margin-left:20px">col</div>
+										<div class="f8" style="margin-left:20px">col</div>
+										<div class="f9" style="margin-left:20px">col</div>
 								</div>
 							</div>
 						<div class="modal-footer">
-								<button tyle="button" class="btn btn-primary" id="kkbtn">OPS</button>
-						  <button type="button" class="btn btn-primary" id="btn-modify" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-danger" id="deleteOne" >Delete</button>
+								<button type="button" class="btn btn-primary" id="update-item">Update</button>
+						  		<button type="button" class="btn btn-primary" id="btn-modify" data-dismiss="modal">Close</button>
 						</div>
 					 	
 						</div>
@@ -62,43 +67,8 @@
 			</div>
 		</div>
 		<div class="modal-2"></div>
-		<div class="modal fade" id="exampleModal2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-			  <div class="modal-content">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-					</button>
-				<div class="modal-header">
-				  <h5 class="modal-title" id="ModalLabel">Update Item</h5>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="u1" style="margin-left:20">col</div>
-						<div class="u2" style="margin-left:20">col</div>
-						<div class="u3" style="margin-left:20">col</div>
-						<div class="u4" style="margin-left:20">col</div>
-						<div class="u5" style="margin-left:20">col</div>
-						<div class="u6" style="margin-left:20">col</div>
-						<div class="u7" style="margin-left:20">col</div>
-
-						<div ><br/></div>
-						
-						<div class="small">
-								<div class="u0" style="margin-left:20">col</div>
-								<div class="u8" style="margin-left:20">col</div>
-								<div class="u9" style="margin-left:20">col</div>
-						</div>
-					</div>
-				<div class="modal-footer">
-					
-					<button tyle="button" class="btn btn-primary" id="update-item">Update</button>
-					<button type="button" class="btn btn-primary" id="btn-modify" data-dismiss="modal">Close</button>
-				</div>
-				 
-				</div>
-			  </div>
-		</div>
-	</div>
+		
+		<div class="modal-3"></div>
 	
 		<!-- Scripts -->
 		

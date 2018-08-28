@@ -43,7 +43,7 @@
 	width: 90%;
 	position: relative;
 }
-.item .desc {
+.item .desc  {
 	color: #444444;
 	font-size: 12pt;
 	display: inline-block;
@@ -64,9 +64,10 @@
 	margin: 5px;
 	padding: 5px;
 	background-color: #dbdeec;
-	border-radius: 2px;
+	border-radius: 20px;
 	cursor: pointer;
 }
+
 
 .current {
 	background-color: pink;
@@ -88,7 +89,7 @@
 	height:40px;
 }
 #ModalLabel{
-	font-size:14;
+	font-size:14pt;
 }
 .close{
 	margin-top:15px;
@@ -101,17 +102,62 @@
 	left: 50%;
 	top: 50%;
 
- }
+}
  .modal-dialog {
   padding-top: 15%;
+  
 }
 .input-labels{
-	font-size:14px;
-	margin-left:10px;
+	padding-top: 1.5%;
+	font-size:16px;
 }
 
-#titleinput, #titleinput2, #descriptioninput, #alphasort, #category, #comments, #relationship, #location, #verification{
-	height:35px;
+#titleinput, #titleinput2, #descriptioninput, #alphasort, #comments, #relationship, #location, #verification{
+	height:60px;
 	
 }
 
+.dropdown-menu {
+	width: 500px;
+  }
+
+.scrollable-menu {
+	height: auto;
+	max-height: 30vh;
+	overflow-x: hidden;
+  }
+
+#row2{
+	padding-left: 5%;
+}
+
+.split {
+	height: 100%;
+	position: fixed;
+    width: 48%;
+    z-index: 1;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.split2 {
+	height: 100%;
+	position: fixed;
+    width: 52%;
+    z-index: 1;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.verified-terms {
+    left: 0;
+    background-color: rgba(192, 238, 209, 0.904);
+}
+
+.verified-styles {
+    right: 0;
+    background-color: rgb(255, 238, 238);
+}
+
+.results> .list> .recent-item{
+	font-size: 12pt;
+}
