@@ -98,10 +98,15 @@ optional api
 '''
 
 app = falcon.API()
-app.add_route('/vsearch', QueryEndpointSearchVerified())
-app.add_route('/search',QueryEndpointSearch())
-app.add_route('/insert',QueryEndpointInsert())
-app.add_route('/delete',QueryEndpointDelete())
-app.add_route('/get',QueryEndpointGetOne())
-app.add_route('/update',QueryEndpointUpdate())
-werkzeug.serving.run_simple('0.0.0.0', 7990, app)
+prefix = '/nat-api'
+app.add_route(prefix + '/vsearch', QueryEndpointSearchVerified())
+app.add_route(prefix + '/search',QueryEndpointSearch())
+app.add_route(prefix + '/insert',QueryEndpointInsert())
+app.add_route(prefix + '/delete',QueryEndpointDelete())
+app.add_route(prefix + '/get',QueryEndpointGetOne())
+app.add_route(prefix + '/update',QueryEndpointUpdate())
+
+application = app
+
+if __name__ == '__main__':
+	werkzeug.serving.run_simple('0.0.0.0', 7990, app)
