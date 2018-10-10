@@ -11,6 +11,11 @@
 	</head>
 	<body>
 		<div class="top" style="margin-top:50px;margin-left:10px">
+		<div class="pull-right" style="margin-right:25px">
+		<p id="welcome">Welcome, User</p>
+		<button id="auth" class="btn btn-primary">User Log-in</button>
+		<button id="logout" class="btn btn-secondary">Log Out</button>
+		</div>
 			<div class="pull-left" style="margin-right:5px">
 				<input id="textbox1" class="form-control" style="width:300px" type="text" name="search" placeholder="Enter a term to search">
 			</div>
@@ -18,10 +23,8 @@
 				<button id="search" class="btn btn-primary">Search</button>
 				<button id="vsearch" class="btn btn-secondary">Verified Search</button>
 				<button id="highlightbutton" class="btn btn-secondary">Highlight/Unhighlight</button>
-				<button id="insert" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">Add Item</button>
+				<button id="insert" style="display:none;" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">Add Item</button>
 				<!-- update auth -->
-				<button id="auth">User Log-in</button>
-
 			</div>
 		</div>
 		
@@ -59,8 +62,8 @@
 								</div>
 							</div>
 						<div class="modal-footer">
-								<button type="button" class="btn btn-danger" id="deleteOne" >Delete</button>
-								<button type="button" class="btn btn-primary" id="update-item">Update</button>
+								<button type="button" style="display:none;" class="btn btn-danger" id="deleteOne" >Delete</button>
+								<button type="button" style="display:none;" class="btn btn-primary" id="update-item">Update</button>
 						  		<button type="button" class="btn btn-primary" id="btn-modify" data-dismiss="modal">Close</button>
 						</div>
 					 	

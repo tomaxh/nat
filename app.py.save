@@ -1,4 +1,3 @@
-
 import sys
 sys.path.insert(0, '.')
 
@@ -8,10 +7,7 @@ import urllib.parse
 import json
 import psycopg2
 
-# auth update
-import requests
 import query
-import requests
 
 class QueryEndpointDelete:
 
@@ -34,7 +30,6 @@ class QueryEndpointSearch:
 		print(query_dict)
 		resp.append_header('Access-Control-Allow-Origin', '*')
 		resp.body = query.query(query_dict['s'], query_dict.get('c'))
-		
 
 
 class QueryEndpointGetOne():
@@ -68,7 +63,8 @@ class QueryEndpointInsert():
 		resp.append_header('Access-Control-Allow-Origin', '*')
 		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
 		
-		data = json.loads(req.stream.read().decode('utf-8'))
+		data = json.loads(req.stream.read().decode('utf-8')q
+)
 		resp.status = falcon.HTTP_200
 
 		query.queryInsert(data)
@@ -82,12 +78,11 @@ class QueryEndpointInsert():
 
 
 class QueryEndpointUpdate():
-	
 	def on_post(self, req, resp):
 		resp.append_header('Access-Control-Allow-Origin', '*')
 		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
 		
-		data = json.loads(req.stream.read().decode('utf-8'))
+		data = json.loads(req.stream.read())
 		resp.status = falcon.HTTP_200
 		print("here")
 		query.queryUpdates(data)
@@ -98,61 +93,6 @@ class QueryEndpointUpdate():
 		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
 		resp.append_header('Access-Control-Allow-Headers', 'Content-Type')
 	
-# update
-class QueryEndpointAuth():
-	def on_post(self,req,resp):
-		resp.append_header('Access-Control-Allow-Origin', '*')
-		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-		
-		data = json.loads(req.stream.read())
-		resp.status = falcon.HTTP_200
-		response = query.ldapTest(data)
-		print('HI')
-		resp.set_cookie('user', 'falcon test') 
-		cookies = req.cookies
-		print(cookies)
-
-		# if 'user' in cookies:
-		# 	print('here')
-		# 	mycookie = cookies['user']
-		# 	print(mycookie)
-			
-		resp.body = query.queryCheckUser(response)
-
-		# resp.set_header('Location', '...')
-
-		# print(data)
-		# print(responce)
-		
-
-
-	def on_options(self, req, resp):
-		resp.append_header('Access-Control-Allow-Origin', '*')
-		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-		resp.append_header('Access-Control-Allow-Headers', 'Content-Type')
-
-	
-
-# update
-
-class QueryEndpointAuth():
-	def on_post(self,req,resp):
-		resp.append_header('Access-Control-Allow-Origin', '*')
-		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-		
-		data = json.loads(req.stream.read().decode('utf-8'))
-		resp.status = falcon.HTTP_200
-		responce = query.ldapTest(data)
-		resp.body =query.queryCheckUser(responce)
-
-		print(data)
-		print(responce)
-
-
-	def on_options(self, req, resp):
-		resp.append_header('Access-Control-Allow-Origin', '*')
-		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-		resp.append_header('Access-Control-Allow-Headers', 'Content-Type')
 
 '''
 optional api
@@ -166,8 +106,6 @@ app.add_route(prefix + '/insert',QueryEndpointInsert())
 app.add_route(prefix + '/delete',QueryEndpointDelete())
 app.add_route(prefix + '/get',QueryEndpointGetOne())
 app.add_route(prefix + '/update',QueryEndpointUpdate())
-# update
-app.add_route(prefix + '/auth',QueryEndpointAuth())
 
 application = app
 

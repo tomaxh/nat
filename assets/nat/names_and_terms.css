@@ -134,31 +134,35 @@
 .split {
 	height: 100%;
 	position: fixed;
-    width: 48%;
-    z-index: 1;
-    overflow-x: hidden;
-    padding-top: 20px;
+    	width: 48%;
+    	z-index: 1;
+    	overflow-x: hidden;
+   	padding-top: 20px;
 }
 .split2 {
 	height: 100%;
 	position: fixed;
-    width: 52%;
-    z-index: 1;
-    overflow-x: hidden;
-    padding-top: 20px;
+   	 width: 52%;
+    	z-index: 1;
+    	overflow-x: hidden;
+    	padding-top: 20px;
 }
 
 /* update */
 .verified-terms {
-    left: 0;
-    background: rgb(255, 198, 198)
+    	left: 0;
+    	background-color: #FFE6E2;
 }
-
 .verified-styles {
-    right: 0;
-	background-color: rgba(199, 243, 215, 0.904)
+    	right: 0;
+    	background-color:#DCF8DC; 
 }
 
 .results> .list> .recent-item{
 	font-size: 12pt;
+}
+
+#welcome{
+	border-style: ridge;
+	border-radius: 5px;
 }

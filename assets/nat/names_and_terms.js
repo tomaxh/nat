@@ -1,20 +1,17 @@
-var settings = {searchURL: 'http://localhost:7990/search'}, 
-	settings2 = {searchURL: 'http://localhost:7990/vsearch'},
-	settings3 = {searchURL: 'http://localhost:7990/insert'},
-	settings4 = {searchURL: 'http://localhost:7990/delete'},
-	settings5 = {searchURL: 'http://localhost:7990/get'},
+var settings = {searchURL: 	'http://tree.lass.leg.bc.ca/nat-api/search'}, 
+	settings2 = {searchURL: 'http://tree.lass.leg.bc.ca/nat-api/vsearch'},
+	settings3 = {searchURL: 'http://tree.lass.leg.bc.ca/nat-api/insert'},
+	settings4 = {searchURL: 'http://tree.lass.leg.bc.ca/nat-api/delete'},
+	settings5 = {searchURL: 'http://tree.lass.leg.bc.ca/nat-api/get'},
 	flag = false,
 	status,
 	categories,
 	searchInput,
 	currentid,
 	category,
-	selectItem,
+	selectItem;
 	recentVerified = "@",
-	recentStyles = "@ +style",
-	// update
-	userGroup="",
-	userName="";
+	recentStyles = "@ +style";
 
 
 function processResults(results, time) {
@@ -86,7 +83,7 @@ function buildResults(results) {
 							
 							var text = one.verified+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
-							console.log(text)
+							console.log(text);
 
 							var dt = new clipboard.DT();
 							dt.setData("text/html",text);
@@ -194,6 +191,7 @@ function buildRecentResults(results){
 						.click(function(){
 							var temp=one.description?one.description:"(No Description)";
 							
+
 							var text = one.verified+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
 
@@ -345,7 +343,7 @@ function search() {
 	
 	searchInput = $('[name="search"]').val();
 
-	if(searchInput.includes(" +")){
+	if(searchInput.indexOf(" +")>0){
 		category=searchInput.split(" +")[1];
 		searchTerm = searchInput.split(" +")[0];
 		var url = settings.searchURL + '?s=' + encodeURIComponent(searchTerm);
@@ -588,6 +586,7 @@ function insert(){
 	
 	$('.modal-2 #modal-content2').append($('<div>').addClass('modal-footer').attr({"id":"modal-footer2"}));
 	$('.modal-2 #modal-footer2').append($('<button>').addClass("btn btn-primary").html("INSERT").click(function(){
+		
 
 		if(quillTitle.root.innerHTML=="<p><br></p>"||$('.modal-2 #selectCat').text()=="Select Category "||quillAlphasort.root.innerHTML=="<p><br></p>"||quillVerification.root.innerHTML=="<p><br></p>"){
 			alert("Enter required information.")
@@ -610,16 +609,17 @@ function insert(){
 			"location":quillLocation.getText().slice(0,-1),
 			"alpha_order":quillAlphasort.getText().slice(0,-1),
 			"created_time":utc,
-			"created_by":"System Account",
+			"created_by":getCookie("user"),
 			"modified_time":utc,
-			"modified_by":"System Account",
+			"modified_by":getCookie("user"),
 			"revised_time":utc,
 			"category":$('#selectCat').text()
 
 		};
+		var url = "http://tree.lass.leg.bc.ca/nat-api/insert"
 		$.post({
 			type: "POST",
-			url: 'http://localhost:7990/insert',
+			url: url,
 			contentType: "application/json",
 			data: JSON.stringify(newItem)
 		});
@@ -769,6 +769,7 @@ function update(){
 	
 	$('.modal-3 #modal-content2').append($('<div>').addClass('modal-footer').attr({"id":"modal-footer2"}));
 	$('.modal-3 #modal-footer2').append($('<button>').addClass("btn btn-primary").html("Update").click(function(){
+		
 
 		if(quillTitle.root.innerHTML=="<p><br></p>"||$('.modal-3 #selectCat').text()=="Select Category "||quillAlphasort.root.innerHTML=="<p><br></p>"||quillVerification.root.innerHTML=="<p><br></p>"){
 			alert("Enter required information.")
@@ -797,14 +798,14 @@ function update(){
 			"location":quillLocation.getText().slice(0,-1),
 			"alpha_order":quillAlphasort.getText().slice(0,-1),
 			"modified_time":utc,
-			"modified_by":"System Account",
+			"modified_by":getCookie('user'),
 			"revised_time":utc,
 			"category":$('#selectCat').text()
 
 		};
 		$.post({
 			type: "POST",
-			url: "http://localhost:7990/update",
+			url: "http://tree.lass.leg.bc.ca/nat-api/update",
 			contentType: "application/json",
 			data: JSON.stringify(updateItem)
 		});
@@ -838,11 +839,53 @@ function deleteItem(){
 	
 		}else{return}
 }
+
+//update auth
+function getCookie(name){
+	var value = "; " + document.cookie;
+	var parts = value.split("; " + name +"=");
+	if (parts.length == 2) return parts.pop().split(";").shift();
+}
+//update auth
+function checkMainPage(){
+	if (getCookie('group') == "etls" || getCookie('group') == "researchers" ){
+
+		$('#insert, #deleteOne, #update-item').show();
+
+	}else{
+		$('#insert, #deleteOne, #update-item').hide()
+	}
+	
+	var userInfo1 = (getCookie("user"))?getCookie("user"):"Unrecognized";
+	var userInfo = "Welcome, "+userInfo1;
+	console.log(userInfo);
+	$('#welcome').html(userInfo);
+}
+
+
+
+
+//update auth
+function clearCookie(){
+	var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+	console.log("enter")
+	if(keys) {
+		for(var i = keys.length; i--;)
+			document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+			console.log("clear")
+	}
+	location.reload();
+}
+
 // update auth
 function userAuth(){
 	var credentials;
-	var authorized;
+	var authorized={
+		username:null,
+		usergroup:null,
+	};
 	$('#auth').attr({"type":"button","data-toggle":"modal","data-target":"#user-auth"})
+	
 	$('.modal-4 #log-in-btn').click(function(){
 		credentials = {
 			username: $('#username').val(),
@@ -850,40 +893,38 @@ function userAuth(){
 		}
 		$.post({
 			type: "POST",
-			url: "http://localhost:7990/auth",
+			url: "http://tree.lass.leg.bc.ca/nat-api/auth",
 			contentType: "text",
 			data: JSON.stringify(credentials),
 			complete: function(resp) {
-				userName = resp.responseJSON.full_name;
-				userGroup = resp.responseJSON.groups;
+				authorized.username = resp.responseJSON.full_name;
+				authorized.usergroup = resp.responseJSON.groups;
 				
-				// if (userGroup != 'researchers' | userGroup != 'etls'){
-				// 	return
-				// }
-				// document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-				// document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-				// document.cookie = "researchers; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-				// document.cookie = "pasword=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-				// document.cookie = "editors; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-				document.cookie = "name=oeschger"
-								// document.cookie = userGroup;
+				document.cookie = "user=" + authorized.username;
+				document.cookie = "group=" + authorized.usergroup;
 
-				console.log(resp)
-				console.log(userName+" "+userGroup)
-				alert(document.cookie)
+				console.log(resp);
+				console.log(authorized.username+" "+authorized.usergroup);
+				console.log("cookie is: "+document.cookie);
+				location.reload();
 			}
-		});
-	})
 
+		});
+	});
 }
 
 userAuth();
 
+
+$('#logout').click(clearCookie);
 $('.result').ready(function(){
-					recentSearch(recentVerified)
+					checkMainPage();
+					recentSearch(recentVerified);
 					recentSearch(recentStyles);
 
 				})
+
+
 
 
 $('#search').click(search);
