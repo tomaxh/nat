@@ -3,3 +3,5 @@ falcon
 requests
 werkzeug
 ldap3
+
+# user authentication 需要更新的文件：index.html, names_and_terms.js, names_and_terms.css, app.py, updateCats.py, up.sql,query.py

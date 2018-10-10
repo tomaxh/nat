@@ -148,14 +148,15 @@
     padding-top: 20px;
 }
 
+/* update */
 .verified-terms {
     left: 0;
-    background-color: rgba(192, 238, 209, 0.904);
+    background: rgb(255, 198, 198)
 }
 
 .verified-styles {
     right: 0;
-    background-color: rgb(255, 238, 238);
+	background-color: rgba(199, 243, 215, 0.904)
 }
 
 .results> .list> .recent-item{

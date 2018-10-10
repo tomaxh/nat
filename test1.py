@@ -1,6 +1,12 @@
 import requests
 import re
+import json
 
+import psycopg2
+import psycopg2.extras
+
+from ldap3 import Server, Connection, ALL,NTLM
+from ldap3.core.exceptions import LDAPBindError
 def testInsert():
     requests.post("http://localhost:7990/insert",
                 
@@ -62,7 +68,124 @@ def processSearch():
         w = originalSearch[1:].split()
         print(w)
 
-if __name__ == '__main__':
-    k = ["brand names","events & awards","people","--mlas & elected officials","--government & legislature & statutory officers employees","--fictional personal names & nicknames","--parliamentary officials & statutory officers","--first nations and indigenous peoples leaders & officials & councillors & elders","style","programs & initiatives","works","--reports & studies","--accords & charters & conventions & declarations","--legislation","places","--resource infrastructure","--cities & towns","--physical infrastructure","--parks","--fictional place names & nicknames","organizations","--first nations and indigenous peoples organizations","--post-secondary organizations","--federal & other jurisdictions","--health sector organizations","--k-12 organizations","--crown corporations & government agencies","--unions","--local governments & regional districts","--ministries","modes of transport","non-english words & phrases","--first nations and indigenous peoples words & phrases","miscellaneous","specialized terms and jargon"]
-    print(sorted(k))
+def withAuthentication(meth):
+    def authenticate(self, req, resp):
+        ldapTest(req, resp)
+        return meth(self, req, resp)
+    return authenticate
 
+
+def ldapTest():
+    
+    
+        try:
+            url = 'ldaps://lass.leg.bc.ca'
+            with Connection(url, 
+                    user="LASS\\tqinadmin", password="Aspirine1992*", 
+                    authentication='NTLM', 
+                    auto_bind=True) as connection:
+                readback = connection.extend.standard.who_am_i()
+                tmp = readback.split("u:LASS\\")[1]
+                print(tmp)
+
+        except LDAPBindError:
+            readback = None
+
+        if not readback:
+            #    Invalid user.
+            raise "invalid"
+
+def authTest():
+    resp = requests.post("http://localhost:7990/auth",json={"username":"tqinadmin","password":"Aspirine1992*"})
+    print(resp.text)
+
+def dbUpdateUser():
+    auth_users = {
+        "user":[
+            {   "full_name":"Laurel Bernard",
+                "username":"LBernard",
+                "groups":"etls"
+            },
+            {   "full_name":"Karol Morris",
+                "username":"KMorris",
+                "groups":"etls"
+            }, 
+            {   "full_name":"Amy Reiswig",
+                "username":"AReiswig",
+                "groups":"etls"
+            }, 
+            {   "full_name":"Glenn Wigmore",
+                "username":"GWigmore",
+                "groups":"etls"
+            }, 
+
+            {   "full_name":"Mike Beninger",
+                "username":"MBeninger",
+                "groups":"researchers"
+            }, 
+            {   "full_name":"Niloo Farahzadeh",
+                "username":"NFarahzadeh",
+                "groups":"researchers"
+            }, 
+            {   "full_name":"David Mattison",
+                "username":"DMattison",
+                "groups":"researchers"
+            }, 
+            {   "full_name":"Steve Pocock",
+                "username":"SPocock",
+                "groups":"researchers"
+            }
+        ]
+    }
+    for i in auth_users["user"]:
+        conn = psycopg2.connect(
+            database='nat',
+            user='postgres',
+            password='postgres',
+            host='localhost',
+        )
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(
+        '''
+            insert into 
+                authorized_users(full_name,username,groups)
+                    values
+                        (%s,%s,%s);
+        
+        ''',(i["full_name"],i["username"],i["groups"],)
+        )
+        conn.commit()
+        conn.close()
+
+def queryCheckUser(username):
+	conn = psycopg2.connect(
+		database='nat',
+		user='postgres',
+		password='postgres',
+		host='localhost'
+	)
+	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+	cursor.execute('''
+		select 
+			full_name, groups
+		from
+			authorized_users
+		where lower(username) = lower(%s)
+	''',(username,))
+	try:
+		rows = cursor.fetchall()
+		print((json.dumps(rows[0])))
+	except:
+		rows = None
+		return rows
+
+
+def setCookies():
+	url = "http://localhost:7991/"
+	r = requests.get(url)
+	print(r.cookies["user"])
+
+
+if __name__ == '__main__':
+    # queryCheckUser("tqin")
+	setCookies()

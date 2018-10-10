@@ -36,7 +36,69 @@ def dbUpdateName():
     conn.commit()
     conn.close()
 
+# auth update
+def dbUpdateUser():
+    auth_users = {
+        "user":[
+            {   "full_name":"Laurel Bernard",
+                "username":"LBernard",
+                "groups":"etls"
+            },
+            {   "full_name":"Karol Morris",
+                "username":"KMorris",
+                "groups":"etls"
+            }, 
+            {   "full_name":"Amy Reiswig",
+                "username":"AReiswig",
+                "groups":"etls"
+            }, 
+            {   "full_name":"Glenn Wigmore",
+                "username":"GWigmore",
+                "groups":"etls"
+            }, 
 
+            {   "full_name":"Mike Beninger",
+                "username":"MBeninger",
+                "groups":"researchers"
+            }, 
+            {   "full_name":"Niloo Farahzadeh",
+                "username":"NFarahzadeh",
+                "groups":"researchers"
+            }, 
+            {   "full_name":"David Mattison",
+                "username":"DMattison",
+                "groups":"researchers"
+            }, 
+            {   "full_name":"Steve Pocock",
+                "username":"SPocock",
+                "groups":"researchers"
+            },
+            {
+                "full_name":"Tom Qin",
+                "username":"tqin",
+                "groups":"researchers"
+            }
+        ]
+    }
+    for i in auth_users["user"]:
+        conn = psycopg2.connect(
+            database='nat',
+            user='postgres',
+            password='postgres',
+            host='localhost',
+        )
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(
+        '''
+            insert into 
+                authorized_users(full_name,username,groups)
+                    values
+                        (%s,%s,%s);
+        
+        ''',(i["full_name"],i["username"],i["groups"],)
+        )
+        conn.commit()
+        conn.close()
     
 if __name__ == "__main__":
     dbUpdateName()

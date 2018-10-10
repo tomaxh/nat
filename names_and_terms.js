@@ -9,9 +9,12 @@ var settings = {searchURL: 'http://localhost:7990/search'},
 	searchInput,
 	currentid,
 	category,
-	selectItem;
-	recentVerified = "@";
-	recentStyles = "@ +style"
+	selectItem,
+	recentVerified = "@",
+	recentStyles = "@ +style",
+	// update
+	userGroup="",
+	userName="";
 
 
 function processResults(results, time) {
@@ -60,6 +63,7 @@ function buildResults(results) {
 			.html(name)
 			.click(function() {
 				category = this.innerHTML.replace('&amp;', '&');
+				console.log(category)
 				search();
 			});
 		if (name == category) {
@@ -81,7 +85,9 @@ function buildResults(results) {
 							var temp=one.description?one.description:"(No Description)";
 							
 							var text = one.verified+' - '+temp;
+							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text)
+
 							var dt = new clipboard.DT();
 							dt.setData("text/html",text);
 							clipboard.write(dt);
@@ -135,6 +141,8 @@ function buildRecentStyles(results){
 							var temp=one.description?one.description:"(No Description)";
 							
 							var text = one.verified+' - '+temp;
+							text = text.replace(/<p>|<\/p>/g,'');
+
 							console.log(text)
 							var dt = new clipboard.DT();
 							dt.setData("text/html",text);
@@ -143,7 +151,8 @@ function buildRecentStyles(results){
 					)
 				);
 		item.append(title);
-		item.append($('<div>').addClass('desc').html(one.description ? one.description : "(No description)").attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal"}).click(function(){$(".modal-1 .f0").html("<b>Item Id:</b> "+one.id);
+		item.append($('<div>').addClass('desc').html(one.description ? one.description : "(No description)").attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal"})
+		.click(function(){$(".modal-1 .f0").html("<b>Item Id:</b> "+one.id);
 		$(".modal-1 .f1").html("<b>Verified Name:</b> "+"<p>"+one.verified+"</p>");
 		$(".modal-1 .f2").html("<b>Verified Alternates:</b> "+"<p>"+one.verified_alternates+"</p>");
 		$(".modal-1 .f3").html("<b>Item Description:</b> "+"<p>"+one.description+"</p>");
@@ -186,6 +195,8 @@ function buildRecentResults(results){
 							var temp=one.description?one.description:"(No Description)";
 							
 							var text = one.verified+' - '+temp;
+							text = text.replace(/<p>|<\/p>/g,'');
+
 							console.log(text)
 							var dt = new clipboard.DT();
 							dt.setData("text/html",text);
@@ -231,7 +242,7 @@ function recentSearch(keyword){
 		
 		searchInput = keyword;
 
-		if(searchInput.doesInclude(" +")){
+		if(searchInput.indexOf(" +")>0){
 			category=searchInput.split(" +")[1];
 			searchTerm = searchInput.split(" +")[0];
 			var url = settings.searchURL + '?s=' + encodeURIComponent(searchTerm);
@@ -279,7 +290,7 @@ function recentSearch(keyword){
 		
 		searchInput = keyword;
 
-		if(searchInput.doesInclude(" +")){
+		if(searchInput.indexOf(" +")>0){
 			category=searchInput.split(" +")[1];
 			searchTerm = searchInput.split(" +")[0];
 			var url = settings.searchURL + '?s=' + encodeURIComponent(searchTerm);
@@ -334,14 +345,17 @@ function search() {
 	
 	searchInput = $('[name="search"]').val();
 
-	if(searchInput.doesInclude(" +")){
+	if(searchInput.includes(" +")){
 		category=searchInput.split(" +")[1];
 		searchTerm = searchInput.split(" +")[0];
 		var url = settings.searchURL + '?s=' + encodeURIComponent(searchTerm);
+
 		if (category) {
 			url += '&c=' + encodeURIComponent(category);
+
 		}
 		console.log(url);
+		
 
 		$.ajax({
 			url: url,
@@ -356,7 +370,11 @@ function search() {
 	
 		var url = settings.searchURL + '?s=' + encodeURIComponent($('[name="search"]').val());
 		if (category) {
+			console.log(category)
+
 			url += '&c=' + encodeURIComponent(category);
+
+			
 	}
 		console.log(url);
 
@@ -380,7 +398,7 @@ function vsearch() {
 	}
 	$('[name="search"]').val($('[name="search"]').val().replace(/\s+/g, ' '));
 	searchInput = $('[name="search"]').val();
-	if(searchInput.doesInclude(" +")){
+	if(searchInput.indexOf(" +")>0){
 		category=searchInput.split(" +")[1];
 		searchTerm = searchInput.split(" +")[0];
 		var url = settings2.searchURL + '?s=' + encodeURIComponent(searchTerm);
@@ -418,38 +436,6 @@ function vsearch() {
 	
 }
 
-function insertItem(){
-	var tt = "dasd"
-	mdata={
-		"verified":"New test 731",
-		"verified_plaintext":"Tester2 inserted by new API.",
-		"alpha_order":"Tester1 inderted aplha_order.",
-		"category":"people",
-		"verified_alternates":null,
-		"verification_source":null,
-		"description":"<b>The testing item 2 inserted by REQUEST and POST method",
-		"description_plaintext":"The testing item inserted by REQUEST and POST method",
-		"comments":null,
-		"relationship":"bibi",
-		"location":null,
-		"created_time":"2012-01-31",
-		"created_by":"Tom",
-		"modified_time":null,
-		"modified_by":null,
-		"revised_time":null
-	}
-	/*
-	$.post({
-		type: "POST",
-		url: 'http://localhost:7990/insert',
-		contentType: "application/json",
-		data: JSON.stringify(mdata)
-	});
-	*/
-	console.log(JSON.stringify(mdata))
-	
-	
-}
 
 function highlights(){
 	if(flag){
@@ -552,10 +538,11 @@ function insert(){
 	}
 
 	var quillTitle = new Quill("#titleinput",reqOptions);
-	
+	quillTitle.setText("ASD\t");
 	$('.modal-2 #row2').append($('<label>').html("Verified Alternates: ").addClass("input-labels"));
 	$('.modal-2 #row2').append($('<div>').attr({"id":"titleinput2"}));
 	var quillAlternate = new Quill("#titleinput2",options);
+	
 
 	$('.modal-2 #row2').append($('<label>').html("Description: ").addClass("input-labels"));
 	$('.modal-2 #row2').append($('<div>').attr({"id":"descriptioninput"}));
@@ -601,7 +588,6 @@ function insert(){
 	
 	$('.modal-2 #modal-content2').append($('<div>').addClass('modal-footer').attr({"id":"modal-footer2"}));
 	$('.modal-2 #modal-footer2').append($('<button>').addClass("btn btn-primary").html("INSERT").click(function(){
-		console.log(jQuery.trim($(quillDescription.getText().slice(0,-1)).text()))
 
 		if(quillTitle.root.innerHTML=="<p><br></p>"||$('.modal-2 #selectCat').text()=="Select Category "||quillAlphasort.root.innerHTML=="<p><br></p>"||quillVerification.root.innerHTML=="<p><br></p>"){
 			alert("Enter required information.")
@@ -676,7 +662,10 @@ function update(){
 			'italic',
 			'underline',
 			'link',
-			'script'
+			'script',
+			'code',
+			'size',
+			
 		],
 		modules: {
 			toolbar: [
@@ -780,12 +769,12 @@ function update(){
 	
 	$('.modal-3 #modal-content2').append($('<div>').addClass('modal-footer').attr({"id":"modal-footer2"}));
 	$('.modal-3 #modal-footer2').append($('<button>').addClass("btn btn-primary").html("Update").click(function(){
-		console.log(jQuery.trim($(quillDescription.getText().slice(0,-1)).text()))
 
 		if(quillTitle.root.innerHTML=="<p><br></p>"||$('.modal-3 #selectCat').text()=="Select Category "||quillAlphasort.root.innerHTML=="<p><br></p>"||quillVerification.root.innerHTML=="<p><br></p>"){
 			alert("Enter required information.")
 			return
 		}
+
 		var tmp = quillDescription.root.innerHTML
 		if (tmp =="<p><br></p>"){
 			tmp = null;
@@ -795,7 +784,6 @@ function update(){
 			t.setDate(t.getDate()-3);
 			utc = t.toJSON().slice(0,10).replace(/-/g,'-');
 		}
-	
 		updateItem = {
 			"id":selectItem.id,
 			"verified":quillTitle.root.innerHTML,
@@ -850,9 +838,47 @@ function deleteItem(){
 	
 		}else{return}
 }
-String.prototype.doesInclude=function(needle){
-    return this.substring(needle) != -1;
-  }
+// update auth
+function userAuth(){
+	var credentials;
+	var authorized;
+	$('#auth').attr({"type":"button","data-toggle":"modal","data-target":"#user-auth"})
+	$('.modal-4 #log-in-btn').click(function(){
+		credentials = {
+			username: $('#username').val(),
+			password: $('#password').val(),
+		}
+		$.post({
+			type: "POST",
+			url: "http://localhost:7990/auth",
+			contentType: "text",
+			data: JSON.stringify(credentials),
+			complete: function(resp) {
+				userName = resp.responseJSON.full_name;
+				userGroup = resp.responseJSON.groups;
+				
+				// if (userGroup != 'researchers' | userGroup != 'etls'){
+				// 	return
+				// }
+				// document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+				// document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+				// document.cookie = "researchers; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+				// document.cookie = "pasword=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+				// document.cookie = "editors; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+				document.cookie = "name=oeschger"
+								// document.cookie = userGroup;
+
+				console.log(resp)
+				console.log(userName+" "+userGroup)
+				alert(document.cookie)
+			}
+		});
+	})
+
+}
+
+userAuth();
+
 $('.result').ready(function(){
 					recentSearch(recentVerified)
 					recentSearch(recentStyles);

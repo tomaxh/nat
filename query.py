@@ -5,7 +5,8 @@ import json
 import time
 from datetime import datetime, timedelta
 import re
-
+from ldap3 import Server, Connection, ALL,NTLM
+from ldap3.core.exceptions import LDAPBindError
 PAGE_OFFSET = 0
 
 def ser_datetime(the):
@@ -452,7 +453,7 @@ def checkCat(data):
 	if m==None:
 		return None
 	else:
-		return m[0]
+		return m.group(0)
 
 def queryInsert(data):
 	
@@ -597,29 +598,42 @@ def queryUpdates(data):
 	conn.commit()
 	conn.close()
 
-if __name__ == '__main__':
-	jsont={
-                        "id":87821,
-                        "verified":"tested by python",
-                        "verified_plaintext":"tested by python.",
-                        "alpha_order":"Tester1 inderted aplha_order.",
-                        "category":"people",
-                        "verified_alternates":None,
-                        "verification_source":None,
-                        "description":"UPDATED method",
-                        "description_plaintext":"The testing item UPDATE by REQUEST and POST method",
-                        "comments":None,
-                        "relationship":"Norm's son",
-                        "location":None,
-                        "created_time":"2025-02-02",
-                        "created_by":"Tom",
-                        "modified_time":None,
-                        "modified_by":None,
-                        "revised_time":None
-        }
-	queryUpdates(jsont)
+# auth update
+def ldapTest(user):
+        try:
+            url = 'ldaps://lass.leg.bc.ca'
+            u = user["username"]
+            p = user["password"]
+            with Connection(url, 
+                    user="LASS\\"+ u, password=p, 
+                    authentication='NTLM', 
+                    auto_bind=True) as connection:
+                readback = (connection.extend.standard.who_am_i()).split("u:LASS\\")[1]
 
-	
+        except LDAPBindError:
+            readback = 'editor'
 
-	
+        return readback
 
+#auth update
+def queryCheckUser(username):
+	conn = psycopg2.connect(
+		database='nat',
+		user='postgres',
+		password='postgres',
+		host='localhost'
+	)
+	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+	cursor.execute('''
+		select 
+			full_name, groups
+		from
+			authorized_users
+		where lower(username) = lower(%s)
+	''',(username,))
+	try:
+		rows = cursor.fetchall()
+		return json.dumps(rows[0])
+	except:
+		rows = {'full_name':username,'groups':'editors'}
+		return json.dumps(rows)

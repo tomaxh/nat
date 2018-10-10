@@ -7,6 +7,8 @@ import urllib.parse
 import json
 import psycopg2
 
+# auth update
+import requests
 import query
 
 class QueryEndpointDelete:
@@ -30,6 +32,7 @@ class QueryEndpointSearch:
 		print(query_dict)
 		resp.append_header('Access-Control-Allow-Origin', '*')
 		resp.body = query.query(query_dict['s'], query_dict.get('c'))
+		
 
 
 class QueryEndpointGetOne():
@@ -77,6 +80,7 @@ class QueryEndpointInsert():
 
 
 class QueryEndpointUpdate():
+	
 	def on_post(self, req, resp):
 		resp.append_header('Access-Control-Allow-Origin', '*')
 		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
@@ -92,6 +96,42 @@ class QueryEndpointUpdate():
 		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
 		resp.append_header('Access-Control-Allow-Headers', 'Content-Type')
 	
+# update
+class QueryEndpointAuth():
+	def on_post(self,req,resp):
+		resp.append_header('Access-Control-Allow-Origin', '*')
+		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+		
+		data = json.loads(req.stream.read())
+		resp.status = falcon.HTTP_200
+		response = query.ldapTest(data)
+		print('HI')
+		resp.set_cookie('user', 'falcon test') 
+		cookies = req.cookies
+		print(cookies)
+
+		# if 'user' in cookies:
+		# 	print('here')
+		# 	mycookie = cookies['user']
+		# 	print(mycookie)
+			
+		resp.body = query.queryCheckUser(response)
+
+		# resp.set_header('Location', '...')
+
+		# print(data)
+		# print(responce)
+		
+
+
+	def on_options(self, req, resp):
+		resp.append_header('Access-Control-Allow-Origin', '*')
+		resp.append_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+		resp.append_header('Access-Control-Allow-Headers', 'Content-Type')
+
+	
+
+# update
 
 '''
 optional api
@@ -104,4 +144,7 @@ app.add_route('/insert',QueryEndpointInsert())
 app.add_route('/delete',QueryEndpointDelete())
 app.add_route('/get',QueryEndpointGetOne())
 app.add_route('/update',QueryEndpointUpdate())
+# update
+app.add_route('/auth',QueryEndpointAuth())
+
 werkzeug.serving.run_simple('0.0.0.0', 7990, app)

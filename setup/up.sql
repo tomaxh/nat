@@ -32,3 +32,12 @@ create table names_and_terms (
 	revised_time timestamp,
 	category_id integer references categories (id)
 );
+
+-- update
+create table authorized_users(
+	id serial primary key,
+	full_name varchar(30),
+	username varchar(30),
+	groups varchar(15)
+	
+);
