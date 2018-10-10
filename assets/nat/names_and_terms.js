@@ -1,8 +1,8 @@
-var settings = {searchURL: 'http://localhost:7990/search'}, 
-	settings2 = {searchURL: 'http://localhost:7990/vsearch'},
-	settings3 = {searchURL: 'http://localhost:7990/insert'},
-	settings4 = {searchURL: 'http://localhost:7990/delete'},
-	settings5 = {searchURL: 'http://localhost:7990/get'},
+var settings = {searchURL: 	'http://tree.lass.leg.bc.ca/nat-api/search'}, 
+	settings2 = {searchURL: 'http://tree.lass.leg.bc.ca/nat-api/vsearch'},
+	settings3 = {searchURL: 'http://tree.lass.leg.bc.ca/nat-api/insert'},
+	settings4 = {searchURL: 'http://tree.lass.leg.bc.ca/nat-api/delete'},
+	settings5 = {searchURL: 'http://tree.lass.leg.bc.ca/nat-api/get'},
 	flag = false,
 	status,
 	categories,
@@ -10,8 +10,8 @@ var settings = {searchURL: 'http://localhost:7990/search'},
 	currentid,
 	category,
 	selectItem;
-	recentVerified = "@";
-	recentStyles = "@ +style"
+	recentVerified = "@",
+	recentStyles = "@ +style";
 
 
 function processResults(results, time) {
@@ -81,7 +81,9 @@ function buildResults(results) {
 							var temp=one.description?one.description:"(No Description)";
 							
 							var text = one.verified+' - '+temp;
-							console.log(text)
+							text = text.replace(/<p>|<\/p>/g,'');
+							console.log(text);
+
 							var dt = new clipboard.DT();
 							dt.setData("text/html",text);
 							clipboard.write(dt);
@@ -135,6 +137,8 @@ function buildRecentStyles(results){
 							var temp=one.description?one.description:"(No Description)";
 							
 							var text = one.verified+' - '+temp;
+							text = text.replace(/<p>|<\/p>/g,'');
+
 							console.log(text)
 							var dt = new clipboard.DT();
 							dt.setData("text/html",text);
@@ -185,7 +189,10 @@ function buildRecentResults(results){
 						.click(function(){
 							var temp=one.description?one.description:"(No Description)";
 							
+
 							var text = one.verified+' - '+temp;
+							text = text.replace(/<p>|<\/p>/g,'');
+
 							console.log(text)
 							var dt = new clipboard.DT();
 							dt.setData("text/html",text);
@@ -231,7 +238,7 @@ function recentSearch(keyword){
 		
 		searchInput = keyword;
 
-		if(searchInput.doesInclude(" +")){
+		if(searchInput.indexOf(" +")>0){
 			category=searchInput.split(" +")[1];
 			searchTerm = searchInput.split(" +")[0];
 			var url = settings.searchURL + '?s=' + encodeURIComponent(searchTerm);
@@ -279,7 +286,7 @@ function recentSearch(keyword){
 		
 		searchInput = keyword;
 
-		if(searchInput.doesInclude(" +")){
+		if(searchInput.indexOf(" +")>0){
 			category=searchInput.split(" +")[1];
 			searchTerm = searchInput.split(" +")[0];
 			var url = settings.searchURL + '?s=' + encodeURIComponent(searchTerm);
@@ -334,7 +341,7 @@ function search() {
 	
 	searchInput = $('[name="search"]').val();
 
-	if(searchInput.doesInclude(" +")){
+	if(searchInput.indexOf(" +")>0){
 		category=searchInput.split(" +")[1];
 		searchTerm = searchInput.split(" +")[0];
 		var url = settings.searchURL + '?s=' + encodeURIComponent(searchTerm);
@@ -380,7 +387,7 @@ function vsearch() {
 	}
 	$('[name="search"]').val($('[name="search"]').val().replace(/\s+/g, ' '));
 	searchInput = $('[name="search"]').val();
-	if(searchInput.doesInclude(" +")){
+	if(searchInput.indexOf(" +")>0){
 		category=searchInput.split(" +")[1];
 		searchTerm = searchInput.split(" +")[0];
 		var url = settings2.searchURL + '?s=' + encodeURIComponent(searchTerm);
@@ -418,38 +425,6 @@ function vsearch() {
 	
 }
 
-function insertItem(){
-	var tt = "dasd"
-	mdata={
-		"verified":"New test 731",
-		"verified_plaintext":"Tester2 inserted by new API.",
-		"alpha_order":"Tester1 inderted aplha_order.",
-		"category":"people",
-		"verified_alternates":null,
-		"verification_source":null,
-		"description":"<b>The testing item 2 inserted by REQUEST and POST method",
-		"description_plaintext":"The testing item inserted by REQUEST and POST method",
-		"comments":null,
-		"relationship":"bibi",
-		"location":null,
-		"created_time":"2012-01-31",
-		"created_by":"Tom",
-		"modified_time":null,
-		"modified_by":null,
-		"revised_time":null
-	}
-	/*
-	$.post({
-		type: "POST",
-		url: 'http://localhost:7990/insert',
-		contentType: "application/json",
-		data: JSON.stringify(mdata)
-	});
-	*/
-	console.log(JSON.stringify(mdata))
-	
-	
-}
 
 function highlights(){
 	if(flag){
@@ -601,7 +576,7 @@ function insert(){
 	
 	$('.modal-2 #modal-content2').append($('<div>').addClass('modal-footer').attr({"id":"modal-footer2"}));
 	$('.modal-2 #modal-footer2').append($('<button>').addClass("btn btn-primary").html("INSERT").click(function(){
-		console.log(jQuery.trim($(quillDescription.getText().slice(0,-1)).text()))
+		
 
 		if(quillTitle.root.innerHTML=="<p><br></p>"||$('.modal-2 #selectCat').text()=="Select Category "||quillAlphasort.root.innerHTML=="<p><br></p>"||quillVerification.root.innerHTML=="<p><br></p>"){
 			alert("Enter required information.")
@@ -624,16 +599,17 @@ function insert(){
 			"location":quillLocation.getText().slice(0,-1),
 			"alpha_order":quillAlphasort.getText().slice(0,-1),
 			"created_time":utc,
-			"created_by":"System Account",
+			"created_by":getCookie("user"),
 			"modified_time":utc,
-			"modified_by":"System Account",
+			"modified_by":getCookie("user"),
 			"revised_time":utc,
 			"category":$('#selectCat').text()
 
 		};
+		var url = "http://tree.lass.leg.bc.ca/nat-api/insert"
 		$.post({
 			type: "POST",
-			url: 'http://localhost:7990/insert',
+			url: url,
 			contentType: "application/json",
 			data: JSON.stringify(newItem)
 		});
@@ -780,7 +756,7 @@ function update(){
 	
 	$('.modal-3 #modal-content2').append($('<div>').addClass('modal-footer').attr({"id":"modal-footer2"}));
 	$('.modal-3 #modal-footer2').append($('<button>').addClass("btn btn-primary").html("Update").click(function(){
-		console.log(jQuery.trim($(quillDescription.getText().slice(0,-1)).text()))
+		
 
 		if(quillTitle.root.innerHTML=="<p><br></p>"||$('.modal-3 #selectCat').text()=="Select Category "||quillAlphasort.root.innerHTML=="<p><br></p>"||quillVerification.root.innerHTML=="<p><br></p>"){
 			alert("Enter required information.")
@@ -809,14 +785,14 @@ function update(){
 			"location":quillLocation.getText().slice(0,-1),
 			"alpha_order":quillAlphasort.getText().slice(0,-1),
 			"modified_time":utc,
-			"modified_by":"System Account",
+			"modified_by":getCookie('user'),
 			"revised_time":utc,
 			"category":$('#selectCat').text()
 
 		};
 		$.post({
 			type: "POST",
-			url: "http://localhost:7990/update",
+			url: "http://tree.lass.leg.bc.ca/nat-api/update",
 			contentType: "application/json",
 			data: JSON.stringify(updateItem)
 		});
@@ -850,14 +826,92 @@ function deleteItem(){
 	
 		}else{return}
 }
-String.prototype.doesInclude=function(needle){
-    return this.substring(needle) != -1;
-  }
+
+//update auth
+function getCookie(name){
+	var value = "; " + document.cookie;
+	var parts = value.split("; " + name +"=");
+	if (parts.length == 2) return parts.pop().split(";").shift();
+}
+//update auth
+function checkMainPage(){
+	if (getCookie('group') == "etls" || getCookie('group') == "researchers" ){
+
+		$('#insert, #deleteOne, #update-item').show();
+
+	}else{
+		$('#insert, #deleteOne, #update-item').hide()
+	}
+	
+	var userInfo1 = (getCookie("user"))?getCookie("user"):"Unrecognized";
+	var userInfo = "Welcome, "+userInfo1;
+	console.log(userInfo);
+	$('#welcome').html(userInfo);
+}
+
+
+
+
+//update auth
+function clearCookie(){
+	var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+	console.log("enter")
+	if(keys) {
+		for(var i = keys.length; i--;)
+			document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+			console.log("clear")
+	}
+	location.reload();
+}
+
+// update auth
+function userAuth(){
+	var credentials;
+	var authorized={
+		username:null,
+		usergroup:null,
+	};
+	$('#auth').attr({"type":"button","data-toggle":"modal","data-target":"#user-auth"})
+	
+	$('.modal-4 #log-in-btn').click(function(){
+		credentials = {
+			username: $('#username').val(),
+			password: $('#password').val(),
+		}
+		$.post({
+			type: "POST",
+			url: "http://tree.lass.leg.bc.ca/nat-api/auth",
+			contentType: "text",
+			data: JSON.stringify(credentials),
+			complete: function(resp) {
+				authorized.username = resp.responseJSON.full_name;
+				authorized.usergroup = resp.responseJSON.groups;
+				
+				document.cookie = "user=" + authorized.username;
+				document.cookie = "group=" + authorized.usergroup;
+
+				console.log(resp);
+				console.log(authorized.username+" "+authorized.usergroup);
+				console.log("cookie is: "+document.cookie);
+				location.reload();
+			}
+
+		});
+	});
+}
+
+userAuth();
+
+
+$('#logout').click(clearCookie);
 $('.result').ready(function(){
-					recentSearch(recentVerified)
+					checkMainPage();
+					recentSearch(recentVerified);
 					recentSearch(recentStyles);
 
 				})
+
+
 
 
 $('#search').click(search);
@@ -872,3 +926,4 @@ $('#insert').click(insert);
 $('#textbox1').click(function(){category=null});
 $('.modal-1 #update-item').click(update);
 $('.modal-1 #deleteOne').click(deleteItem);
+

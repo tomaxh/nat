@@ -11,6 +11,11 @@
 	</head>
 	<body>
 		<div class="top" style="margin-top:50px;margin-left:10px">
+		<div class="pull-right" style="margin-right:25px">
+		<p id="welcome">Welcome, User</p>
+		<button id="auth" class="btn btn-primary">User Log-in</button>
+		<button id="logout" class="btn btn-secondary">Log Out</button>
+		</div>
 			<div class="pull-left" style="margin-right:5px">
 				<input id="textbox1" class="form-control" style="width:300px" type="text" name="search" placeholder="Enter a term to search">
 			</div>
@@ -18,7 +23,8 @@
 				<button id="search" class="btn btn-primary">Search</button>
 				<button id="vsearch" class="btn btn-secondary">Verified Search</button>
 				<button id="highlightbutton" class="btn btn-secondary">Highlight/Unhighlight</button>
-				<button id="insert" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">Add Item</button>
+				<button id="insert" style="display:none;" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">Add Item</button>
+				<!-- update auth -->
 			</div>
 		</div>
 		
@@ -56,8 +62,8 @@
 								</div>
 							</div>
 						<div class="modal-footer">
-								<button type="button" class="btn btn-danger" id="deleteOne" >Delete</button>
-								<button type="button" class="btn btn-primary" id="update-item">Update</button>
+								<button type="button" style="display:none;" class="btn btn-danger" id="deleteOne" >Delete</button>
+								<button type="button" style="display:none;" class="btn btn-primary" id="update-item">Update</button>
 						  		<button type="button" class="btn btn-primary" id="btn-modify" data-dismiss="modal">Close</button>
 						</div>
 					 	
@@ -70,6 +76,47 @@
 		
 		<div class="modal-3"></div>
 	
+		<!-- auth update -->
+		<div class="modal-4">
+				<div class="modal fade" id="user-auth" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+						  <div class="modal-content">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+								</button>
+							<div class="modal-header">
+							  <h5 class="modal-title" id="ModalLabel">User Log-in</h5>
+							</div>
+							<div class="modal-body">
+								<div class="row"  style="margin-left:20px">
+										<div>
+												<label for="userName">Username:</label>
+												<input type="text" id="username" name="username"
+													   required 
+													   placeholder="Enter your username" 
+													   class="form-control" style="width:200px" type="text"/>
+											</div>
+										
+											<div>
+												<label for="password">Password:</label>
+												<input type="password" id="password" name="password"
+													   placeholder="Enter your password" 
+													   class="form-control" style="width:200px" type="text"/>
+											</div>
+	
+								</div>
+							<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="log-in-btn">Log in</button>
+									  <button type="button" class="btn btn-primary" id="btn-modify" data-dismiss="modal">Close</button>
+							</div>
+							 
+							</div>
+						  </div>
+					</div>
+				</div>
+
+		</div>
+
 		<!-- Scripts -->
 		
 		

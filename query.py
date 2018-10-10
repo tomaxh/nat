@@ -5,8 +5,10 @@ import json
 import time
 from datetime import datetime, timedelta
 import re
+from ldap3 import Server, Connection, ALL,NTLM
+from ldap3.core.exceptions import LDAPBindError
 
-PAGE_OFFSET = 0
+
 
 def ser_datetime(the):
 	if not isinstance(the, datetime):
@@ -17,8 +19,7 @@ def set_datetime(the):
 	st = datetime.fromtimestamp(the).strftime('%Y-%m-%d %H:%M:%S')
 	return st
 '''
-TODO: MULTIPLE CATEGORY (maybe not)
-
+Search query for all the fields
 '''
 def query(search, cat):
 
@@ -61,7 +62,7 @@ def query(search, cat):
 					order by alpha_order
 					limit 3000;
 					
-					""",(end,begin,end,begin,9,))
+					""",(end,begin,end,begin,1,))
 		else:
 			cursor.execute("""
 
@@ -84,7 +85,7 @@ def query(search, cat):
 					order by alpha_order
 					limit 3000;
 					
-					""",(end,begin,end,begin,9,))
+					""",(end,begin,end,begin,1,))
 	elif search[0]=='!':
 		cursor.execute("""
 
@@ -220,28 +221,6 @@ def query(search, cat):
 		order by alpha_order
 		limit 3000;
 		""",(w,*(cat_id,)*2,True if cat is None else False))	
-		
-		#seems to be faster
-		# w =':* & '.join(search.split())+':*'
-		# cursor.execute("""
-		# 		select 
-		# 				names_and_terms.id, verified, verified_alternates, verification_source, 
-		# 				description, comments, relationship, location, name as category,
-		# 				created_time, created_by,alpha_order, modified_time, modified_by, revised_time
-		# 		from 
-		# 				names_and_terms 
-		# 				inner join categories 
-		# 				on names_and_terms.category_id = categories.id
-		# 		where
-		# 				fulltext_search  @@ to_tsquery(%s) and
-		# 				(
-		# 				categories.id = %s or categories.parent_id = %s or %s
-		# 				)
-		# 		order by alpha_order
-		# 		limit 3000;
-		# """,(w,*(cat_id,)*2,True if cat is None else False))
-
-	
 	
 	return json.dumps({
 		'time': time.time() - start,
@@ -249,7 +228,8 @@ def query(search, cat):
 	}, indent=4, default=ser_datetime)
 
 '''
-search using only verified and verified alternates field
+Search query using only verified and verified alternates field
+Same as regular search except for the where clause in sql query
 '''
 def queryVerified(search, cat):
 	conn = psycopg2.connect(
@@ -399,7 +379,9 @@ def queryVerified(search, cat):
 		'results': list(cursor.fetchall())
 	}, indent=4, default=ser_datetime)
 
-'''delete item from tables'''
+'''
+delete item from tables
+'''
 def queryDelete(id):
 	conn = psycopg2.connect(
 		database='nat',
@@ -415,8 +397,7 @@ def queryDelete(id):
 			FROM
 				names_and_terms
 			WHERE
-				id=%s
-			
+				id=%s			
 		""" %(id)
 		)
 		conn.commit()
@@ -425,7 +406,10 @@ def queryDelete(id):
 	except Exception as e:
 		return e
 
-
+'''
+Return the full name of the category, take category id as parameter
+Used in queryInsert to chekc the input category
+'''
 def checkCat(data):
 
 
@@ -452,7 +436,7 @@ def checkCat(data):
 	if m==None:
 		return None
 	else:
-		return m[0]
+		return m.group(0)
 
 def queryInsert(data):
 	
@@ -596,6 +580,45 @@ def queryUpdates(data):
 	)
 	conn.commit()
 	conn.close()
+# auth update
+def ldapTest(user):
+        try:
+            url = 'ldaps://lass.leg.bc.ca'
+            u = user["username"]
+            p = user["password"]
+            with Connection(url, 
+                    user="LASS\\"+ u, password=p, 
+                    authentication='NTLM', 
+                    auto_bind=True) as connection:
+                readback = (connection.extend.standard.who_am_i()).split("u:LASS\\")[1]
+
+        except LDAPBindError:
+            readback = 'Unrecognized'
+
+        return readback
+
+#auth update
+def queryCheckUser(username):
+	conn = psycopg2.connect(
+		database='nat',
+		user='postgres',
+		password='postgres',
+		host='localhost'
+	)
+	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+	cursor.execute('''
+		select 
+			full_name, groups
+		from
+			authorized_users
+		where lower(username) = lower(%s)
+	''',(username,))
+	try:
+		rows = cursor.fetchall()
+		return json.dumps(rows[0])
+	except:
+		rows = {'full_name':username,'groups':'Unrecognized'}
+		return json.dumps(rows)
 
 if __name__ == '__main__':
 	jsont={
@@ -617,7 +640,7 @@ if __name__ == '__main__':
                         "modified_by":None,
                         "revised_time":None
         }
-	queryUpdates(jsont)
+
 
 	
 
