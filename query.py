@@ -41,7 +41,9 @@ def query(search, cat):
 	start = time.time()
 	begin = datetime.today()+timedelta(days=1)
 	end = datetime.today()-timedelta(days=1)
-	
+	is_quoted = search[0]=='"' and search[len(search)-1]=='"'
+
+
 	if search=='@':
 		if cat != 'style':
 			cursor.execute("""
@@ -167,8 +169,10 @@ def query(search, cat):
 		""", (*("\\m"+search[0:search.find("*")],)*4, *(cat_id,)*2, True if cat is None else False))
 	
 	
-	elif search[0]=='"' and search[len(search)-1]=='"':
-		
+	elif is_quoted or ' ' not in search:
+		if is_quoted:
+			search = search[1:-1]
+
 		print(search)
 		cursor.execute("""
 
@@ -193,7 +197,7 @@ def query(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*(search[1:-1],)*4, *(cat_id,)*2, True if cat is None else False))	
+		""", (*(search,)*4, *(cat_id,)*2, True if cat is None else False))	
 
 	else:
 		w =':* & '.join(search.split())+':*'
