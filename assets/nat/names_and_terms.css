@@ -169,8 +169,8 @@
 #myBtn {
 	display: none;
 	position: fixed;
-	top: 86px;
-	right: 50px;
+	top: 100px;
+	right: 20px;
 	z-index: 99;
 	font-size: 18px;
 	border: none;
