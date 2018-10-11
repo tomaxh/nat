@@ -600,7 +600,7 @@ function insert(){
 		newItem = {
 			"verified":quillTitle.root.innerHTML,
 			"verified_plaintext":quillTitle.getText().slice(0,-1),
-			"verified_alternates":quillAlternate.getText().slice(0,-1),
+			"verified_alternates":quillAlternate.root.innerHTML,
 			"verification_source":quillVerification.getText().slice(0,-1),
 			"description":tmp,
 			"description_plaintext":quillDescription.getText().slice(0,-1),
