@@ -14,7 +14,7 @@ class MyThread (Thread):
         i = 0
         while i < ITERATION:
             t = time.time()
-            requests.get("http://tree.lass.leg.bc.ca/nat-api/search?s=\"canada\"")
+            requests.get("http://tree.lass.leg.bc.ca/nat-api/search?s=canada")
             d = time.time()-t
             result.put(d)
             time.sleep(REQUEST_INTERVAL)

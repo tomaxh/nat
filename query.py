@@ -169,7 +169,7 @@ def query(search, cat):
 		""", (*("\\m"+search[0:search.find("*")],)*4, *(cat_id,)*2, True if cat is None else False))
 	
 	
-	elif is_quoted or ' ' not in search:
+	elif is_quoted or len(search.split()) < 2:
 		if is_quoted:
 			search = search[1:-1]
 
