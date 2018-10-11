@@ -31,9 +31,12 @@ def query(search, cat):
 	)
 	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-	cursor.execute("select id from categories where name ~* %s", (cat,))
-	row = cursor.fetchone()
-	cat_id = row['id'] if row else None
+	if not cat:
+		cat_id = None
+	else:
+		cursor.execute("select id from categories where name ~* %s", (cat,))
+		row = cursor.fetchone()
+		cat_id = row['id'] if row else None
 
 	start = time.time()
 	begin = datetime.today()+timedelta(days=1)
@@ -225,7 +228,7 @@ def query(search, cat):
 	return json.dumps({
 		'time': time.time() - start,
 		'results': list(cursor.fetchall())
-	}, indent=4, default=ser_datetime)
+	}, default=ser_datetime)
 
 '''
 Search query using only verified and verified alternates field

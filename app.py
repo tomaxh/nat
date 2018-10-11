@@ -1,4 +1,4 @@
-
+# pylint: disable=all
 import sys
 sys.path.insert(0, '.')
 
