@@ -14,7 +14,7 @@ class MyThread (Thread):
         i = 0
         while i < ITERATION:
             t = time.time()
-            requests.get("http://tree.lass.leg.bc.ca/nat-api/search?s=canada")
+            requests.get("http://tree.lass.leg.bc.ca/nat-api/search?s=canada pipe line oil policy")
             d = time.time()-t
             result.put(d)
             time.sleep(REQUEST_INTERVAL)
@@ -33,7 +33,7 @@ while len(resultL) < total:
     resultL.append(result.get())
     print(''.join((
         '\r|', 
-        '%'*len(resultL), ' '*(total - len(resultL)), 
+        '%'*len(resultL), '-'*(total - len(resultL)), 
         '| (%.2f %%, Avg: %.2f)'%(
             len(resultL)*100/total, sum(resultL)/len(resultL)
     ))), end='')
