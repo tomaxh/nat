@@ -14,7 +14,7 @@ class MyThread (Thread):
         i = 0
         while i < ITERATION:
             t = time.time()
-            requests.get("http://tree.lass.leg.bc.ca/nat-api/search?s=canada pipe line oil policy")
+            requests.get("http://tree.lass.leg.bc.ca/nat-api/search?s=canada")
             d = time.time()-t
             result.put(d)
             time.sleep(REQUEST_INTERVAL)
@@ -28,7 +28,9 @@ for thread in threads:
     thread.start()
 
 resultL = []
+
 total = NUM_THREAD*ITERATION
+
 while len(resultL) < total:
     resultL.append(result.get())
     print(''.join((

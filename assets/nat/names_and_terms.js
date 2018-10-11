@@ -536,7 +536,6 @@ function insert(){
 	}
 
 	var quillTitle = new Quill("#titleinput",reqOptions);
-	quillTitle.setText("ASD\t");
 	$('.modal-2 #row2').append($('<label>').html("Verified Alternates: ").addClass("input-labels"));
 	$('.modal-2 #row2').append($('<div>').attr({"id":"titleinput2"}));
 	var quillAlternate = new Quill("#titleinput2",options);
@@ -915,7 +914,7 @@ function userAuth(){
 
 userAuth();
 
-
+$('#home').click(function(){location.reload()})
 $('#logout').click(clearCookie);
 $('.result').ready(function(){
 					checkMainPage();
