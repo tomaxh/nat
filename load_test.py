@@ -35,7 +35,7 @@ while len(resultL) < total:
     resultL.append(result.get())
     print(''.join((
         '\r|', 
-        '%'*len(resultL), '-'*(total - len(resultL)), 
+        '>'*len(resultL), '-'*(total - len(resultL)), 
         '| (%.2f %%, Avg: %.2f)'%(
             len(resultL)*100/total, sum(resultL)/len(resultL)
     ))), end='')
