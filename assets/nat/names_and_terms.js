@@ -961,11 +961,7 @@ $('#textbox1').keypress(function(e){
 	}
 });
 $('#highlightbutton').click(highlights);
-$('#insert').click(
-	function(){
-		insert()
-		location.reload();
-	})
+$('#insert').click(insert);
 $('#textbox1').click(function(){category=null});
 $('.modal-1 #update-item').click(update);
 $('.modal-1 #deleteOne').click(deleteItem);
