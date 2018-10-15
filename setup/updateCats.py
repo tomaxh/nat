@@ -56,6 +56,7 @@ def dbAddAuthTable():
 	username varchar(30),
 	groups varchar(15));
 ''')
+
     conn.commit()
     conn.close()
 
@@ -167,6 +168,5 @@ def dbUpdateUser():
     
 if __name__ == "__main__":
     dbUpdateName()
-    dbAddAuthTable()
     dbUpdateUser()
     
