@@ -16,7 +16,8 @@ def dbUpdateName():
     cursor.execute('''update categories set name='Resource infrastructure' where ID=11''')
     cursor.execute('''update categories set name='First Nations and Indigenous Peoples Organizations' where ID=21''')
     cursor.execute('''update categories set name='First Nations and Indigenous Peoples Words & Phrases' where ID=40''')
-    
+    cursor.execute('''update categories set name='physical infrastructure' where ID=13''')
+
     # Ministers cut to people
     cursor.execute('''update names_and_terms set category_id=29 where category_id=36''')
     # create work cut to work
