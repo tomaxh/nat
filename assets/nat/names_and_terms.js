@@ -878,6 +878,11 @@ function clearCookie(){
 
 // update auth
 function checkAuth(){
+	var credentials;
+	var authorized={
+		username:null,
+		usergroup:null,
+	};
 	credentials = {
 		username: $('#username').val(),
 		password: $('#password').val(),
@@ -905,11 +910,7 @@ function checkAuth(){
 
 // update auth
 function userAuth(){
-	var credentials;
-	var authorized={
-		username:null,
-		usergroup:null,
-	};
+	
 	$('#auth').attr({"type":"button","data-toggle":"modal","data-target":"#user-auth"})
 	
 	$('.modal-4 #log-in-btn').click(checkAuth);
