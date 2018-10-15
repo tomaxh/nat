@@ -627,6 +627,7 @@ function insert(){
 	}));
 
 	$('.modal-2 #modal-footer2').append($('<button>').attr({"id":"close-btn","data-dismiss":"modal"}).addClass("btn btn-secondary").html("Cancel"))
+	location.reload();
 
 }
 
@@ -817,6 +818,7 @@ function update(){
 
 	$('.modal-3 #modal-footer2').append($('<button>').attr({"id":"close-btn","data-dismiss":"modal"}).addClass("btn btn-secondary").html("Cancel"))
 
+	$('#search').click()
 
 }
 
