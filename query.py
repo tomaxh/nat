@@ -91,30 +91,6 @@ def query(search, cat):
 					limit 3000;
 					
 					""",(end,begin,end,begin,18,))
-	elif search[0]=='!':
-		cursor.execute("""
-
-			select 
-					names_and_terms.id, verified, verified_alternates, verification_source, 
-					description, comments, relationship, location, name as category,
-					created_time, created_by, modified_time, modified_by, revised_time,alpha_order
-				from 
-					names_and_terms 
-					inner join categories 
-					on names_and_terms.category_id = categories.id
-				where 
-					(
-						verified_plaintext ~* %s 
-						or description_plaintext ~* %s
-						or verified_alternates ~* %s
-						or comments ~* %s
-					)
-					and 
-					(categories.id = %s or categories.parent_id = %s or %s)
-				order by alpha_order
-				limit 3000;
-			
-		""", (*('\\m'+search[1:]+'\\M',)*4, *(cat_id,)*2, True if cat is None else False))
 	
 	elif search[0]=='*':
 		cursor.execute("""
