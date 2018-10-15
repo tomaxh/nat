@@ -877,6 +877,33 @@ function clearCookie(){
 }
 
 // update auth
+function checkAuth(){
+	credentials = {
+		username: $('#username').val(),
+		password: $('#password').val(),
+	}
+	$.post({
+		type: "POST",
+		url: "http://tree.lass.leg.bc.ca/nat-api/auth",
+		contentType: "text",
+		data: JSON.stringify(credentials),
+		complete: function(resp) {
+			authorized.username = resp.responseJSON.full_name;
+			authorized.usergroup = resp.responseJSON.groups;
+			
+			document.cookie = "user=" + authorized.username;
+			document.cookie = "group=" + authorized.usergroup;
+
+			console.log(resp);
+			console.log(authorized.username+" "+authorized.usergroup);
+			console.log("cookie is: "+document.cookie);
+			location.reload();
+		}
+
+	});
+}
+
+// update auth
 function userAuth(){
 	var credentials;
 	var authorized={
@@ -885,30 +912,12 @@ function userAuth(){
 	};
 	$('#auth').attr({"type":"button","data-toggle":"modal","data-target":"#user-auth"})
 	
-	$('.modal-4 #log-in-btn').click(function(){
-		credentials = {
-			username: $('#username').val(),
-			password: $('#password').val(),
+	$('.modal-4 #log-in-btn').click(checkAuth);
+
+	$('.modal-4 #password').keypress(function(e){
+		if (e.which ===13){
+			checkAuth();
 		}
-		$.post({
-			type: "POST",
-			url: "http://tree.lass.leg.bc.ca/nat-api/auth",
-			contentType: "text",
-			data: JSON.stringify(credentials),
-			complete: function(resp) {
-				authorized.username = resp.responseJSON.full_name;
-				authorized.usergroup = resp.responseJSON.groups;
-				
-				document.cookie = "user=" + authorized.username;
-				document.cookie = "group=" + authorized.usergroup;
-
-				console.log(resp);
-				console.log(authorized.username+" "+authorized.usergroup);
-				console.log("cookie is: "+document.cookie);
-				location.reload();
-			}
-
-		});
 	});
 }
 
