@@ -175,7 +175,7 @@ function buildRecentStyles(results){
 	
 }
 function buildRecentResults(results){
-	$('.result-title').html('Recently Verified Items &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Recent Styles');
+	$('.result-title').html('Recently Verified Items &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Recent Styles');
 
 	var container = $('.results');
 
