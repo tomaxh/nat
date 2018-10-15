@@ -222,7 +222,7 @@ def queryVerified(search, cat):
 		host='localhost'
 	)
 	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-	cursor.execute("select id from categories where name ~ \y%s\y", (cat,))
+	cursor.execute(r"select id from categories where name ~ \y%s\y", (cat,))
 	row = cursor.fetchone()
 	cat_id = row['id'] if row else None
 
