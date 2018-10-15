@@ -222,9 +222,14 @@ def queryVerified(search, cat):
 		host='localhost'
 	)
 	cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-	cursor.execute("select id from categories where name ~ %s", ('\\m'+cat+'\\M',))
-	row = cursor.fetchone()
-	cat_id = row['id'] if row else None
+	
+	if not cat:
+		cat_id = None
+	else:
+		cursor.execute("select id from categories where name ~ %s", ('\\m'+cat+'\\M',))
+		row = cursor.fetchone()
+		cat_id = row['id'] if row else None
+
 
 	start = time.time()
 	if search[0]=='!':
