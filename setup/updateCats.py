@@ -11,18 +11,22 @@ def dbUpdateName():
     )
     cursor = conn.cursor()
 
-    cursor.execute('''update categories set name='First Nations and Indigenous Peoples leaders & officials & councillors & elders' where ID=31''')
-    cursor.execute('''update categories set name='Specialized terms and Jargon' where ID=27''')
-    cursor.execute('''update categories set name='Resource infrastructure' where ID=12''')
-    cursor.execute('''update categories set name='First Nations and Indigenous Peoples Organizations' where ID=44''')
-    cursor.execute('''update categories set name='First Nations and Indigenous Peoples Words & Phrases' where ID=21''')
-
-    cursor.execute('''update names_and_terms set category_id=29 where category_id=36 or category_id=35''')
-    cursor.execute('''update names_and_terms set category_id=27 where category_id=28''')
-    cursor.execute('''update names_and_terms set category_id=22 where category_id=25''')
-    cursor.execute('''update names_and_terms set category_id=2 where category_id=10 or category_id=15 or category_id=6 or category_id=4 or category_id=13 or category_id=11 or category_id=7 or category_id=8''')
+    cursor.execute('''update categories set name='First Nations and Indigenous Peoples leaders & officials & councillors & elders' where ID=34''')
+    cursor.execute('''update categories set name='Specialized terms and Jargon' where ID=37''')
+    cursor.execute('''update categories set name='Resource infrastructure' where ID=11''')
+    cursor.execute('''update categories set name='First Nations and Indigenous Peoples Organizations' where ID=21''')
+    cursor.execute('''update categories set name='First Nations and Indigenous Peoples Words & Phrases' where ID=40''')
     
-    cursor.execute('''delete from categories where ID=36 or ID=35 or ID=11 or ID=28 or ID=10 or ID=15 or ID=6 or ID=4 or ID=13 or ID=11 or ID=7 or ID=8''')
+    # Ministers cut to people
+    cursor.execute('''update names_and_terms set category_id=29 where category_id=36''')
+    # create work cut to work
+    cursor.execute('''update names_and_terms set category_id=41 where category_id=45''')
+    # medical condition/ job titles cut to jargons
+    cursor.execute('''update names_and_terms set category_id=37 where category_id=38 or category_id=35''')
+    # merge places
+    cursor.execute('''update names_and_terms set category_id=4 where category_id=5 or category_id=8 or category_id=9 or category_id=10 or category_id=14 or category_id=16 or category_id=17 or category_id=12''')
+    
+    cursor.execute('''delete from categories where ID=36 or ID=45 or ID=38 or ID=35 or ID=5 or ID=8 or ID=9 or ID=10 or ID=14 or ID=16 or ID=17 or ID=12''')
     
     cursor.execute('''update categories set name=lower(name);''')
     
@@ -140,29 +144,6 @@ def dbUpdateUser():
         conn.close()
         print("auth update done")
 
-            {   "full_name":"Mike Beninger",
-                "username":"MBeninger",
-                "groups":"researchers"
-            }, 
-            {   "full_name":"Niloo Farahzadeh",
-                "username":"NFarahzadeh",
-                "groups":"researchers"
-            }, 
-            {   "full_name":"David Mattison",
-                "username":"DMattison",
-                "groups":"researchers"
-            }, 
-            {   "full_name":"Steve Pocock",
-                "username":"SPocock",
-                "groups":"researchers"
-            },
-            {
-                "full_name":"Tom Qin",
-                "username":"tqin",
-                "groups":"researchers"
-            }
-        ]
-    }
     for i in auth_users["user"]:
         conn = psycopg2.connect(
             database='nat',
@@ -184,7 +165,7 @@ def dbUpdateUser():
         conn.close()
     
 if __name__ == "__main__":
-    '''dbAddAuthTable()'''
+    dbUpdateName()
+    dbAddAuthTable()
     dbUpdateUser()
-    print('Categories update done.')    
     
