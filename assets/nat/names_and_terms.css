@@ -50,6 +50,8 @@
 	vertical-align: top;
 	width: 70%;
 	position: relative;
+	cursor: pointer;
+
 }
 
 .item .badge {

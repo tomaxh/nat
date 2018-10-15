@@ -93,7 +93,7 @@ function buildResults(results) {
 				);
 
 		item.append(title);
-		item.append($('<div>').addClass('desc').html(one.description ? one.description : "(No description)").attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal","cursor":"pointer"}).click(function(){
+		item.append($('<div>').addClass('desc').html(one.description ? one.description : "(No description)").attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal"}).click(function(){
 			
 			$(".modal-1 .f0").html("<b>Item Id:</b> "+one.id);
 			$(".modal-1 .f1").html("<b>Verified Name:</b> "+"<p>"+one.verified+"</p>");
@@ -148,7 +148,7 @@ function buildRecentStyles(results){
 					)
 				);
 		item.append(title);
-		item.append($('<div>').addClass('desc').html(one.description ? one.description : "(No description)").attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal","cursor":"pointer"})
+		item.append($('<div>').addClass('desc').html(one.description ? one.description : "(No description)").attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal"})
 		.click(function(){$(".modal-1 .f0").html("<b>Item Id:</b> "+one.id);
 		$(".modal-1 .f1").html("<b>Verified Name:</b> "+"<p>"+one.verified+"</p>");
 		$(".modal-1 .f2").html("<b>Verified Alternates:</b> "+"<p>"+one.verified_alternates+"</p>");
@@ -203,7 +203,7 @@ function buildRecentResults(results){
 					)
 				);
 		item.append(title);
-		item.append($('<div>').addClass('desc').html(one.description ? one.description : "(No description)").attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal","cursor":"pointer"}).click(function(){$(".modal-1 .f0").html("<b>Item Id:</b> "+one.id);
+		item.append($('<div>').addClass('desc').html(one.description ? one.description : "(No description)").attr({"type":"button","data-toggle":"modal","data-target":"#exampleModal"}).click(function(){$(".modal-1 .f0").html("<b>Item Id:</b> "+one.id);
 		$(".modal-1 .f1").html("<b>Verified Name:</b> "+"<p>"+one.verified+"</p>");
 		$(".modal-1 .f2").html("<b>Verified Alternates:</b> "+"<p>"+one.verified_alternates+"</p>");
 		$(".modal-1 .f3").html("<b>Item Description:</b> "+"<p>"+one.description+"</p>");
