@@ -627,7 +627,6 @@ function insert(){
 	}));
 
 	$('.modal-2 #modal-footer2').append($('<button>').attr({"id":"close-btn","data-dismiss":"modal"}).addClass("btn btn-secondary").html("Cancel"))
-	location.reload();
 
 }
 
@@ -962,7 +961,11 @@ $('#textbox1').keypress(function(e){
 	}
 });
 $('#highlightbutton').click(highlights);
-$('#insert').click(insert);
+$('#insert').click(
+	function(){
+		insert()
+		location.reload();
+	})
 $('#textbox1').click(function(){category=null});
 $('.modal-1 #update-item').click(update);
 $('.modal-1 #deleteOne').click(deleteItem);
