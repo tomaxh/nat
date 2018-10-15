@@ -34,7 +34,7 @@ def query(search, cat):
 	if not cat:
 		cat_id = None
 	else:
-		cursor.execute("select id from categories where name ~* %s", (cat,))
+		cursor.execute("select id from categories where name = %s", (cat,))
 		row = cursor.fetchone()
 		cat_id = row['id'] if row else None
 
@@ -67,7 +67,7 @@ def query(search, cat):
 					order by alpha_order
 					limit 3000;
 					
-					""",(end,begin,end,begin,1,))
+					""",(end,begin,end,begin,18,))
 		else:
 			cursor.execute("""
 
@@ -90,7 +90,7 @@ def query(search, cat):
 					order by alpha_order
 					limit 3000;
 					
-					""",(end,begin,end,begin,1,))
+					""",(end,begin,end,begin,18,))
 	elif search[0]=='!':
 		cursor.execute("""
 
@@ -223,7 +223,7 @@ def query(search, cat):
 		(category_id = %s or parent_id = %s or %s )
         
 
-    )as t3
+    	)as t3
 		
 		order by alpha_order
 		limit 3000;
