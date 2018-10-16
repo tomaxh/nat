@@ -23,7 +23,7 @@
 	vertical-align: top;
 	width: 30%;
 	position: relative;
-	cursor: -webkit-grab;
+	cursor: pointer;
 }
 
 .item .main-title {
