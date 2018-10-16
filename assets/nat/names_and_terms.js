@@ -85,9 +85,8 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 
-							var dt = new clipboard.DT();
-							dt.setData("text/html",text);
-							clipboard.write(dt);
+							copy(text)
+
 						}
 					)
 				);
