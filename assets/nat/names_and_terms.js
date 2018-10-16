@@ -141,9 +141,7 @@ function buildRecentStyles(results){
 							text = text.replace(/<p>|<\/p>/g,'');
 
 							console.log(text)
-							var dt = new clipboard.DT();
-							dt.setData("text/html",text);
-							clipboard.write(dt);
+							copy(text)
 						}
 					)
 				);
@@ -889,6 +887,19 @@ function deleteItem(){
 
 	
 		}else{return}
+}
+
+//update copy for IE
+function copy(itemString)
+{
+    var aux = document.createElement("div");
+    aux.setAttribute("contentEditable", true);
+    aux.innerHTML = itemString
+    document.body.appendChild(aux);
+    window.getSelection().selectAllChildren(aux);
+    document.execCommand("copy");
+    document.body.removeChild(aux);
+    console.log("COPY");
 }
 
 //update auth
