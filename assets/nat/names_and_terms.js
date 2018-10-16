@@ -703,8 +703,13 @@ function update(){
 	$('.modal-3 #row2').append($('<div>').html(selectItem.verified));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"titleinput"}));
 	var quillTitle = new Quill(".modal-3 #titleinput",reqOptions);
-	quillTitle.setContents(selectItem.verified)
+	quillTitle.setContents({
+		"ops":[
+			{"insert":selectItem.verified}
+		]
+	})
 	
+
 	$('.modal-3 #row2').append($('<label>').html("Verified Alternates: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.verified_alternates));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"titleinput2"}));
