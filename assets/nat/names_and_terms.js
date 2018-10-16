@@ -1021,7 +1021,7 @@ $('.result').ready(function(){
 					checkMainPage();
 					recentSearch(recentVerified);
 					recentSearch(recentStyles);
-					fixScroll();
+					// fixScroll();
 				
 				})
 
