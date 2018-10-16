@@ -714,37 +714,72 @@ function update(){
 	$('.modal-3 #row2').append($('<div>').html(selectItem.verified_alternates));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"titleinput2"}));
 	var quillAlternate = new Quill(".modal-3 #titleinput2",options);
-	
+	quillAlternate.setContents({
+		"ops":[
+			{"insert":selectItem.verified_alternates}
+		]
+	})
+
 	$('.modal-3 #row2').append($('<label>').html("Description: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.description));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"descriptioninput"}));
 	var quillDescription = new Quill(".modal-3 #descriptioninput",options);
-	
+	quillDescription.setContents({
+		"ops":[
+			{"insert":selectItem.description}
+		]
+	})
+
 	$('.modal-3 #row2').append($('<label>').html("Alphabetical Sort: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.alpha_order));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"alphasort"}));
 	var quillAlphasort = new Quill(".modal-3 #alphasort",reqOptions);
-	
+	quillAlphasort.setContents({
+		"ops":[
+			{"insert":selectItem.alpha_order}
+		]
+	})
+
 	$('.modal-3 #row2').append($('<label>').html("Verification Source: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.verification_source));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"verification"}));
 	var quillVerification = new Quill(".modal-3 #verification",reqOptions);
+	quillVerification.setContents({
+		"ops":[
+			{"insert":selectItem.verification_source}
+		]
+	})
 	
 	$('.modal-3 #row2').append($('<label>').html("Relationship: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.relationship));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"relationship"}));
 	var quillRlationship = new Quill(".modal-3 #relationship",options2);
-	
+	quillRlationship.setContents({
+		"ops":[
+			{"insert":selectItem.relationship}
+		]
+	})
+
 	$('.modal-3 #row2').append($('<label>').html("Location: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.location));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"location"}));
 	var quillLocation = new Quill(".modal-3 #location",options2);
-	
+	quillLocation.setContents({
+		"ops":[
+			{"insert":selectItem.location}
+		]
+	})
+
 	$('.modal-3 #row2').append($('<label>').html("Comments: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.comments));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"comments"}));
 	var quillComments = new Quill(".modal-3 #comments",options2);
-	
+	quillComments.setContents({
+		"ops":[
+			{"insert":selectItem.comments}
+		]
+	})
+
 	$('.modal-3 #row2').append($('<label>').html("Item Type: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"category"}));
 	$('.modal-3 #category').append($('<div>').addClass("btn-group"));
