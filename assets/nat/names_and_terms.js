@@ -983,34 +983,34 @@ function userAuth(){
 	});
 }
 
-window.onscroll = function() {scrollFunction()};
+// window.onscroll = function() {scrollFunction()};
 
-function scrollFunction() {
-    if (document.body.scrollTop > 66 || document.documentElement.scrollTop > 66) {
-        document.getElementById("myBtn").style.display = "block";
-    } else {
-        document.getElementById("myBtn").style.display = "none";
-    }
-}
+// function scrollFunction() {
+//     if (document.body.scrollTop > 66 || document.documentElement.scrollTop > 66) {
+//         document.getElementById("myBtn").style.display = "block";
+//     } else {
+//         document.getElementById("myBtn").style.display = "none";
+//     }
+// }
 
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-}
-function fixScroll(){
-	var D = document;
+// // When the user clicks on the button, scroll to the top of the document
+// function topFunction() {
+//     document.body.scrollTop = 0;
+//     document.documentElement.scrollTop = 0;
+// }
+// function fixScroll(){
+// 	var D = document;
 
-    var dheight = Math.max(
-        Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
-        Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
-        Math.max(D.body.clientHeight, D.documentElement.clientHeight)
-    );
+//     var dheight = Math.max(
+//         Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+//         Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+//         Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+//     );
 
    
-    var parentFrame = parent.document.getElementById(window.name);
-    parentFrame.style.height = dheight + 'px';
-}
+//     var parentFrame = parent.document.getElementById(window.name);
+//     parentFrame.style.height = dheight + 'px';
+// }
 
 
 userAuth();
