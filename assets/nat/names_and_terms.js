@@ -705,7 +705,7 @@ function update(){
 	var quillTitle = new Quill(".modal-3 #titleinput",reqOptions);
 	quillTitle.setContents({
 		"ops":[
-			{"insert":selectItem.verified.replace(/<p>|<\/p>/g, "")}
+			{"insert":selectItem.verified.replace(/<p>|<\/p>|<br>/g, "")}
 		]
 	})
 	
@@ -717,7 +717,7 @@ function update(){
 	if (selectItem.verified_alternates){
 		quillAlternate.setContents({
 			"ops":[
-				{"insert":selectItem.verified_alternates.replace(/<p>|<\/p>/g, "")}
+				{"insert":selectItem.verified_alternates.replace(/<p>|<\/p>|<br>/g, "")}
 			]
 		})
 	}
@@ -729,7 +729,7 @@ function update(){
 	if (selectItem.description){
 		quillDescription.setContents({
 			"ops":[
-				{"insert":selectItem.description.replace(/<p>|<\/p>/g, "")}
+				{"insert":selectItem.description.replace(/<p>|<\/p>|<br>/g, "")}
 			]
 		})
 	}
@@ -740,7 +740,7 @@ function update(){
 	var quillAlphasort = new Quill(".modal-3 #alphasort",reqOptions);
 	quillAlphasort.setContents({
 		"ops":[
-			{"insert":selectItem.alpha_order.replace(/<p>|<\/p>/g, "")}
+			{"insert":selectItem.alpha_order.replace(/<p>|<\/p>|<br>/g, "")}
 		]
 	})
 
@@ -751,7 +751,7 @@ function update(){
 	if (selectItem.verification_source){
 		quillVerification.setContents({
 			"ops":[
-				{"insert":selectItem.verification_source.replace(/<p>|<\/p>/g, "")}
+				{"insert":selectItem.verification_source.replace(/<p>|<\/p>|<br>/g, "")}
 			]
 		})
 	}
@@ -763,7 +763,7 @@ function update(){
 	if(selectItem.relationship){
 		quillRlationship.setContents({
 			"ops":[
-				{"insert":selectItem.relationship.replace(/<p>|<\/p>/g, "")}
+				{"insert":selectItem.relationship.replace(/<p>|<\/p>|<br>/g, "")}
 			]
 		})
 	}
@@ -775,7 +775,7 @@ function update(){
 	if (selectItem.location){
 		quillLocation.setContents({
 			"ops":[
-				{"insert":selectItem.location.replace(/<p>|<\/p>/g, "")}
+				{"insert":selectItem.location.replace(/<p>|<\/p>|<br>/g, "")}
 			]
 		})
 	}
@@ -786,7 +786,7 @@ function update(){
 	if (selectItem.comments){
 		quillComments.setContents({
 			"ops":[
-				{"insert":selectItem.comments.replace(/<p>|<\/p>/g, "")}
+				{"insert":selectItem.comments.replace(/<p>|<\/p>|<br>/g, "")}
 			]
 		})
 	}
