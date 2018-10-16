@@ -989,6 +989,20 @@ function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
+function fixScroll(){
+	var D = document;
+
+    var dheight = Math.max(
+        Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+        Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+        Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+    );
+
+   
+    var parentFrame = parent.document.getElementById(window.name);
+    parentFrame.style.height = dheight + 'px';
+}
+
 
 userAuth();
 
@@ -998,7 +1012,8 @@ $('.result').ready(function(){
 					checkMainPage();
 					recentSearch(recentVerified);
 					recentSearch(recentStyles);
-
+					fixScroll();
+				
 				})
 
 
