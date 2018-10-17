@@ -141,6 +141,8 @@ function buildRecentStyles(results){
 
 							console.log(text)
 							copy(text)
+							copySelected(results.length,i);
+
 						}
 					)
 				);
@@ -194,6 +196,7 @@ function buildRecentResults(results){
 
 							console.log(text)
 							copy(text)
+							copySelected(results.length,i);
 
 						}
 					)
