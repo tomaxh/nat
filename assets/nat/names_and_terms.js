@@ -141,7 +141,7 @@ function buildRecentStyles(results){
 
 							console.log(text)
 							copy(text)
-							copySelected(results.length,i);
+							copySelected("style",results.length,i);
 
 						}
 					)
@@ -196,7 +196,7 @@ function buildRecentResults(results){
 
 							console.log(text)
 							copy(text)
-							copySelected(results.length,i);
+							copySelected("recent",results.length,i);
 
 						}
 					)
@@ -891,8 +891,7 @@ function deleteItem(){
 }
 //update for copy selected
 function copySelected(mode='dafault',resultLength,id){
-	if (root=='default'){
-		$('.item #'+i).css("border-left","6px solid red");
+	if (mode=='default'){
 
 		for (var i =0; i <resultLength; i++){
 			if (i == id){
@@ -900,6 +899,27 @@ function copySelected(mode='dafault',resultLength,id){
 
 			}else{
 				$('.item #'+i).css("border-style","none");
+
+			}
+		}
+	}else if(mode=='style'){
+		for (var i =0; i <resultLength; i++){
+			if (i == id){
+				$('.list verified-styles split2 .item #'+i).css("border-left","6px solid red");
+
+			}else{
+				$('.list verified-styles split2 .item #'+i).css("border-left","none");
+
+			}
+		}
+		
+	}else if(mode=='recent'){
+		for (var i =0; i <resultLength; i++){
+			if (i == id){
+				$('.list verified-styles split1 .item #'+i).css("border-left","6px solid red");
+
+			}else{
+				$('.list verified-styles split1 .item #'+i).css("border-left","none");
 
 			}
 		}
