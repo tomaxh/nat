@@ -183,13 +183,13 @@ def query(search, cat):
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,t2.description_plaintext,t2.verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
     	from(
     	select * FROM
         (
             SELECT  names_and_terms.id as t1id,parent_id, verified,verified_alternates, verification_source, 
                         description, comments, relationship, location, name as category,category_id,
-                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,description_plaintext,verified_alternates,comments)) as t1 
+                        created_time,description_plaintext,verified_plaintext, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,description_plaintext,verified_alternates,comments)) as t1 
                 from  
                     (
                     names_and_terms 
