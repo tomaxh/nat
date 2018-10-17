@@ -74,7 +74,7 @@ function buildResults(results) {
 	$.each(results, function(i, one) {
 		var item = $('<div>').addClass('item');
 		var title = $('<div>').addClass('title');
-		
+		var popUp = $('<a>').addClass('popup').attr({"href":"#", "data-toggle":"popover", "data-trigger":"focus", "data-content":"Content Copied"})
 		title.append($('<div>')
 						.addClass('main-title')
 						.html(one.verified)
@@ -84,8 +84,8 @@ function buildResults(results) {
 							var text = one.verified_plaintext+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
-
-							copy(text)
+							copy(text);
+							$('.popup').popover();
 
 						}
 					)
