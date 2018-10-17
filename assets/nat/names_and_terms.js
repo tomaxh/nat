@@ -887,11 +887,11 @@ function deleteItem(){
 //update for copy selected
 function copySelected(id){
 	
-	for (let i =0; i <id; i++){
+	for (var i =0; i <id; i++){
 		if (i == id){
-			$('.item #'+i).css("border-left","6px solid red");
+			$('.item #'+i).css("border-style","inset");
 		}else{
-			$('.item #'+i).css({"border-left":"none"});
+			$('.item #'+i).css({"border-style":"none"});
 
 		}
 	}
