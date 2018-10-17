@@ -72,9 +72,8 @@ function buildResults(results) {
 
 	var list = $('<div>').addClass('list');
 	$.each(results, function(i, one) {
-		var item = $('<div>').addClass('item');
+		var item = $('<div>').addClass('item').attr({"listNum":i});
 		var title = $('<div>').addClass('title');
-		var popUp = $('<a>').addClass('popup').attr({"href":"#", "data-toggle":"popover", "data-trigger":"focus", "data-content":"Content Copied"})
 		title.append($('<div>')
 						.addClass('main-title')
 						.html(one.verified)
@@ -85,7 +84,6 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-							title.attr({"color":"red"})
 						}
 					)
 				);
