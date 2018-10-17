@@ -893,7 +893,7 @@ function deleteItem(){
 function copySelected(mode,resultLength,id){
 
 	if (mode=='default'){
-		$('. results .item #'+id).css("border-left","6px solid red");
+		$('.results .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
