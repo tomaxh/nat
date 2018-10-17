@@ -86,7 +86,7 @@ function buildResults(results) {
 							copy(text);
 							$('.item #'+i).css("border-style","inset");
 
-							// copySelected(i);
+							copySelected(i);
 
 						}
 					)
@@ -891,12 +891,9 @@ function deleteItem(){
 function copySelected(id){
 	
 	for (var i =0; i <id; i++){
-		if (i == id){
-			$('.item #'+i).css("border-style","inset");
-			
-		}else{
+		if (i != id){
 			$('.item #'+i).css("border-style","none");
-
+			
 		}
 	}
 
