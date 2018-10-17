@@ -72,10 +72,10 @@ function buildResults(results) {
 
 	var list = $('<div>').addClass('list');
 	$.each(results, function(i, one) {
-		var item = $('<div>').addClass('item').attr({"id":i});
+		var item = $('<div>').addClass('item');
 		var title = $('<div>').addClass('title');
 		title.append($('<div>')
-						.addClass('main-title')
+						.addClass('main-title').attr({"id":i})
 						.html(one.verified)
 						.click(function(){
 
@@ -85,7 +85,7 @@ function buildResults(results) {
 							console.log(text);
 							copy(text);
 							
-							console.log($('.item #'+i+'.title .main-title').val())
+							console.log($('.item .title #'+i).val())
 						}
 					)
 				);
