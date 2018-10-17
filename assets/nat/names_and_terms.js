@@ -84,8 +84,7 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-							$('.item #'+i).css("border-style","groove")
-
+							copySelected(i);
 						}
 					)
 				);
@@ -887,7 +886,15 @@ function deleteItem(){
 }
 //update for copy selected
 function copySelected(id){
-	$('.item .title').css("border-style","groove")
+	
+	for (let i =0; i <id; i++){
+		if (i == id){
+			$('.item #'+i).css("border-left","6px solid red");
+		}else{
+			$('.item #'+i).css({"border-left":"none"});
+
+		}
+	}
 
 }
 //update copy for IE
