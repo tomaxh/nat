@@ -913,13 +913,13 @@ function copySelected(mode,resultLength,id){
 		}
 		
 	}else if(mode=='recent'){
-		$('.split1 .item #'+id).css("border-left","6px solid red");
+		$('.split .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
 				
 			}else{
-				$('.split1 .item #'+i).css("border-left","none");
+				$('.split .item #'+i).css("border-left","none");
 
 			}
 		}
