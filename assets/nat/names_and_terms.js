@@ -890,16 +890,18 @@ function deleteItem(){
 		}else{return}
 }
 //update for copy selected
-function copySelected(resultLength,id){
-	$('.item #'+i).css("border-left","6px solid red");
+function copySelected(mode='dafault',resultLength,id){
+	if (root=='default'){
+		$('.item #'+i).css("border-left","6px solid red");
 
-	for (var i =0; i <resultLength; i++){
-		if (i == id){
-			$('.item #'+i).css("border-left","6px solid red");
+		for (var i =0; i <resultLength; i++){
+			if (i == id){
+				$('.item #'+i).css("border-left","6px solid red");
 
-		}else{
-			$('.item #'+i).css("border-style","none");
+			}else{
+				$('.item #'+i).css("border-style","none");
 
+			}
 		}
 	}
 
