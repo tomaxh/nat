@@ -86,7 +86,7 @@ function buildResults(results) {
 							copy(text);
 							
 							console.log($('.list .item .title'))
-							console.log($(''.list .item .title).val())
+							console.log($('.list .item .title').val())
 						}
 					)
 				);
