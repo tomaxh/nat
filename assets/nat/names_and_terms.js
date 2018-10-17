@@ -902,7 +902,10 @@ function copySelected(mode,resultLength,id){
 			}
 		}
 	}else if(mode=='style'){
+		console.log("enter style")
+
 		$('.verified-styles .item #'+id).css("border-left","6px solid red");
+		console.log($('.verified-styles .item #'+id).val())
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
