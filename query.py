@@ -109,6 +109,7 @@ def query(search, cat):
 						or description_plaintext ~* %s
 						or verified_alternates ~* %s
 						or comments ~* %s
+						or diacritics ~* %s
 
 					)
 					and 
@@ -116,7 +117,7 @@ def query(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*(search[1:]+"\\M",)*4, *(cat_id,)*2, True if cat is None else False))
+		""", (*(search[1:]+"\\M",)*5, *(cat_id,)*2, True if cat is None else False))
 	elif search.find("*")>0:
 
 		cursor.execute("""
@@ -135,6 +136,7 @@ def query(search, cat):
 						or description_plaintext ~* %s
 						or verified_alternates ~* %s
 						or comments ~* %s
+						or diacritics ~* %s
 
 					)
 					and 
@@ -142,7 +144,7 @@ def query(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*("\\m"+search[0:search.find("*")],)*4, *(cat_id,)*2, True if cat is None else False))
+		""", (*("\\m"+search[0:search.find("*")],)*5, *(cat_id,)*2, True if cat is None else False))
 	
 	
 	elif is_quoted or len(search.split()) < 2:
@@ -166,6 +168,7 @@ def query(search, cat):
 						or description_plaintext ~* %s
 						or verified_alternates ~* %s
 						or comments ~* %s
+						or diacritics ~* %s
 
 					)
 					and 
@@ -173,7 +176,7 @@ def query(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*(search,)*4, *(cat_id,)*2, True if cat is None else False))	
+		""", (*(search,)*5, *(cat_id,)*2, True if cat is None else False))	
 
 	else:
 		w =':* & '.join(search.split())+':*'
@@ -186,7 +189,7 @@ def query(search, cat):
         (
             SELECT  names_and_terms.id as t1id,parent_id, verified,verified_alternates, verification_source, 
                         description, comments, relationship, location, name as category,category_id,
-                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,description_plaintext,verified_alternates,comments)) as t1 
+                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,description_plaintext,verified_alternates,comments,diacritics)) as t1 
                 from  
                     (
                     names_and_terms 
@@ -270,6 +273,8 @@ def queryVerified(search, cat):
 					(
 						verified_plaintext ~* %s
 						or verified_alternates ~* %s
+						or diacritics ~* %s
+
 
 					)
 					and 
@@ -277,7 +282,7 @@ def queryVerified(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*("\\w+"+search[1:],)*2, *(cat_id,)*2, True if cat is None else False))
+		""", (*("\\w+"+search[1:],)*3, *(cat_id,)*2, True if cat is None else False))
 	elif search.find("*")>0:
 
 		cursor.execute("""
@@ -294,6 +299,7 @@ def queryVerified(search, cat):
 					(
 						verified_plaintext ~* %s
 						or verified_alternates ~* %s
+						or diacritics ~* %s
 
 					)
 					and 
@@ -301,7 +307,7 @@ def queryVerified(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*(search[0:search.find("*")]+"\\w+",)*2, *(cat_id,)*2, True if cat is None else False))
+		""", (*(search[0:search.find("*")]+"\\w+",)*3, *(cat_id,)*2, True if cat is None else False))
 	
 	
 	elif search[0]=='"' and search[len(search)-1]=='"':
@@ -319,6 +325,7 @@ def queryVerified(search, cat):
 					(
 						verified_plaintext ~* %s
 						or verified_alternates ~* %s
+						or diacritics ~* %s
 
 					)
 					and 
@@ -326,7 +333,7 @@ def queryVerified(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*(search[1:-1],)*2, *(cat_id,)*2, True if cat is None else False))
+		""", (*(search[1:-1],)*3, *(cat_id,)*2, True if cat is None else False))
 	
 	
 	else:
@@ -343,7 +350,7 @@ def queryVerified(search, cat):
         (
             SELECT  names_and_terms.id as t1id,verified,verified_alternates, verification_source, 
                         description, comments, relationship, location, name as category,category_id,
-                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,verified_alternates,comments)) as t1 
+                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,verified_alternates,comments,diacritics)) as t1 
                 from  
                     (
                     names_and_terms 

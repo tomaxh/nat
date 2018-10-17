@@ -165,7 +165,33 @@ def dbUpdateUser():
         )
         conn.commit()
         conn.close()
-    
+        
+# add unaccent field to search diacritics 
+def addUnaccent():
+    conn = psycopg2.connect(
+        database='nat',
+        user='postgres',
+        password='postgres',
+        host='localhost'
+    )
+      cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(
+        '''
+            ALTER TABLE names_and_terms
+            ADD column diacritics text;
+
+            UPDATE names_and_terms
+            set diacritics = concat_ws(';',verified_plaintext,verified_alternates,description_plaintext);
+
+            ----(might not needed if you already have it)
+            Create EXTENSION unaccent;
+
+            update names_and_terms
+            set diacritics = unaccent(diacritics);
+        '''
+        )
+        conn.commit()
+        conn.close()
 if __name__ == "__main__":
     dbUpdateName()
     dbUpdateUser()
