@@ -84,7 +84,9 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-							copySelected(i);
+							$('.item #'+i).css("border-style","inset");
+
+							// copySelected(i);
 
 						}
 					)
