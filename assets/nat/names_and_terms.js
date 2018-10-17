@@ -888,7 +888,7 @@ function deleteItem(){
 		}else{return}
 }
 //update for copy selected
-function copySelected(resultLength){
+function copySelected(resultLength,id){
 	
 	for (var i =0; i <resultLength; i++){
 		if (i != id){
