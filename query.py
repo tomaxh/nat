@@ -183,7 +183,7 @@ def query(search, cat):
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
-					created_time,t1.description_plaintext,t1.verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
     	from(
     	select * FROM
         (
