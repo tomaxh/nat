@@ -85,7 +85,7 @@ function buildResults(results) {
 							console.log(text);
 							copy(text);
 
-							copySelected(results.length,i);
+							copySelected("default",results.length,i);
 
 						}
 					)
@@ -890,7 +890,7 @@ function deleteItem(){
 		}else{return}
 }
 //update for copy selected
-function copySelected(mode='dafault',resultLength,id){
+function copySelected(mode,resultLength,id){
 	$('.item #'+i).css("border-left","6px solid red");
 
 	if (mode=='default'){
