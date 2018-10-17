@@ -891,8 +891,9 @@ function copySelected(id){
 	for (var i =0; i <id; i++){
 		if (i == id){
 			$('.item #'+i).css("border-style","inset");
+			
 		}else{
-			$('.item #'+i).css({"border-style":"none"});
+			$('.item #'+i).css("border-style","none");
 
 		}
 	}
