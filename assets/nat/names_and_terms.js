@@ -85,7 +85,6 @@ function buildResults(results) {
 							console.log(text);
 							copy(text);
 							copySelected(i);
-							$('.item #'+i).css("border-style","inset");
 
 						}
 					)
