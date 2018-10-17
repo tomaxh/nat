@@ -86,7 +86,7 @@ function buildResults(results) {
 							copy(text);
 							$('.item #'+i).css("border-style","inset");
 
-							copySelected(results.length);
+							copySelected(results.length,i);
 
 						}
 					)
@@ -888,9 +888,9 @@ function deleteItem(){
 		}else{return}
 }
 //update for copy selected
-function copySelected(id){
+function copySelected(resultLength){
 	
-	for (var i =0; i <id; i++){
+	for (var i =0; i <resultLength; i++){
 		if (i != id){
 			$('.item #'+i).css("border-style","none");
 			
