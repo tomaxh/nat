@@ -84,7 +84,6 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-							$('.item #'+i).css("border-left","6px solid red");
 
 							copySelected(results.length,i);
 
@@ -889,11 +888,15 @@ function deleteItem(){
 }
 //update for copy selected
 function copySelected(resultLength,id){
-	
+	$('.item #'+i).css("border-left","6px solid red");
+
 	for (var i =0; i <resultLength; i++){
-		if (i != id){
+		if (i == id){
+			$('.item #'+i).css("border-left","6px solid red");
+
+		}else{
 			$('.item #'+i).css("border-style","none");
-			
+
 		}
 	}
 
