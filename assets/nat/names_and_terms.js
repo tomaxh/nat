@@ -891,35 +891,33 @@ function deleteItem(){
 }
 //update for copy selected
 function copySelected(mode,resultLength,id){
-	$('.item #'+i).css("border-left","6px solid red");
 
 	if (mode=='default'){
+		$('.item #'+i).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
-			if (i == id){
-				$('.item #'+i).css("border-left","6px solid red");
-
-			}else{
+			if (i != id){
 				$('.item #'+i).css("border-style","none");
 
 			}
 		}
 	}else if(mode=='style'){
-		for (var i =0; i <resultLength; i++){
-			if (i == id){
-				$('.list verified-styles split2 .item #'+i).css("border-left","6px solid red");
+		$('.list verified-styles split2 .item #'+i).css("border-left","6px solid red");
 
-			}else{
+		for (var i =0; i <resultLength; i++){
+			if (i != id){
+
 				$('.list verified-styles split2 .item #'+i).css("border-left","none");
 
 			}
 		}
 		
 	}else if(mode=='recent'){
-		for (var i =0; i <resultLength; i++){
-			if (i == id){
-				$('.list verified-styles split1 .item #'+i).css("border-left","6px solid red");
+		$('.list verified-styles split1 .item #'+i).css("border-left","6px solid red");
 
+		for (var i =0; i <resultLength; i++){
+			if (i != id){
+				
 			}else{
 				$('.list verified-styles split1 .item #'+i).css("border-left","none");
 
