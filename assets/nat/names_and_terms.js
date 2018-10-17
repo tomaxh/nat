@@ -84,7 +84,7 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-							$('.item .title').css("cursor","cell")
+							$('.item .title').css("border-style","groove")
 
 						}
 					)
