@@ -905,7 +905,7 @@ function copySelected(mode,resultLength,id){
 		console.log("enter style")
 
 		$('.verified-styles .item #'+id).css("border-left","6px solid red");
-		console.log($('.verified-styles .item #'+id).val())
+		console.log($('.verified-styles .item #'+id).innerHTML)
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
