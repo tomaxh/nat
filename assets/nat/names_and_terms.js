@@ -131,7 +131,7 @@ function buildRecentStyles(results){
 		var title = $('<div>').addClass('title');
 		
 		title.append($('<div>')
-						.addClass('recent-main-title')
+						.addClass('recent-main-title').attr({"id":i})
 						.html(one.verified)
 						.click(function(){
 							var temp=one.description?one.description_plaintext:"";
@@ -185,7 +185,7 @@ function buildRecentResults(results){
 		var title = $('<div>').addClass('title');
 		
 		title.append($('<div>')
-						.addClass('recent-main-title')
+						.addClass('recent-main-title').attr({"id":i})
 						.html(one.verified)
 						.click(function(){
 							var temp=one.description?one.description_plaintext:"";
