@@ -893,7 +893,7 @@ function deleteItem(){
 function copySelected(mode,resultLength,id){
 
 	if (mode=='default'){
-		$('.item #'+i).css("border-left","6px solid red");
+		$('.item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
@@ -902,7 +902,7 @@ function copySelected(mode,resultLength,id){
 			}
 		}
 	}else if(mode=='style'){
-		$('.list verified-styles split2 .item #'+i).css("border-left","6px solid red");
+		$('.list verified-styles split2 .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
@@ -913,7 +913,7 @@ function copySelected(mode,resultLength,id){
 		}
 		
 	}else if(mode=='recent'){
-		$('.list verified-styles split1 .item #'+i).css("border-left","6px solid red");
+		$('.list verified-styles split1 .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
