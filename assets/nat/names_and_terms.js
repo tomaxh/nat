@@ -983,23 +983,25 @@ function userAuth(){
 	});
 }
 
-window.onscroll = function() {scrollFunction()};
+function toTheTop(){
 
-function scrollFunction() {
-    if (document.body.scrollTop > 66 || document.documentElement.scrollTop > 66) {
-        document.getElementById("myBtn").style.display = "block";
-    } else {
-        document.getElementById("myBtn").style.display = "none";
-    }
+
+	function scrollFunction() {
+		if (document.body.scrollTop > 66 || document.documentElement.scrollTop > 66) {
+			document.getElementById("myBtn").style.display = "block";
+		} else {
+			document.getElementById("myBtn").style.display = "none";
+		}
+	}
+
+	// When the user clicks on the button, scroll to the top of the document
+	function topFunction() {
+		$('html, body').animate({ scrollTop: 0 }, 'fast');
+	}
+	window.onscroll = function() {scrollFunction()};
 }
 
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
-}
-
-
-
+toTheTop();
 userAuth();
 
 $('#home').click(function(){location.reload()})
