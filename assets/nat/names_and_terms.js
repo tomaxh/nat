@@ -74,7 +74,7 @@ function buildResults(results) {
 	$.each(results, function(i, one) {
 		var item = $('<div>').addClass('item');
 		var title = $('<div>').addClass('title');
-		var popUp = $('<div>').addClass('popup');
+		var title = $('<div>').addClass('popup');
 		title.append($('<div>')
 						.addClass('main-title')
 						.html(one.verified)
