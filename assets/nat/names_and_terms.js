@@ -906,6 +906,7 @@ function copySelected(mode,resultLength,id){
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
+				$('.split .item #'+i).css("border-left","none");
 
 				$('.split2 .item #'+i).css("border-left","none");
 
@@ -917,9 +918,9 @@ function copySelected(mode,resultLength,id){
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
-				
-			}else{
+
 				$('.split .item #'+i).css("border-left","none");
+				$('.split2 .item #'+i).css("border-left","none");
 
 			}
 		}
