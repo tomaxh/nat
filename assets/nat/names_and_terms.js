@@ -891,6 +891,8 @@ function deleteItem(){
 }
 //update for copy selected
 function copySelected(mode='dafault',resultLength,id){
+	$('.item #'+i).css("border-left","6px solid red");
+
 	if (mode=='default'){
 
 		for (var i =0; i <resultLength; i++){
