@@ -72,7 +72,7 @@ function buildResults(results) {
 
 	var list = $('<div>').addClass('list');
 	$.each(results, function(i, one) {
-		var item = $('<div>').addClass('item').attr({"listNum":i});
+		var item = $('<div>').addClass('item').attr({"id":i});
 		var title = $('<div>').addClass('title');
 		title.append($('<div>')
 						.addClass('main-title')
@@ -84,6 +84,9 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
+							$('.item #'+i).css({"border-color": "#C1E0FF", 
+							"border-width":"1px", 
+							"border-style":"solid"});
 						}
 					)
 				);
