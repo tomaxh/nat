@@ -85,7 +85,8 @@ function buildResults(results) {
 							console.log(text);
 							copy(text);
 							
-							console.log($('.item .title #'+i).val())
+							console.log($('.list .item .title'))
+							console.log($(''.list .item .title).val())
 						}
 					)
 				);
