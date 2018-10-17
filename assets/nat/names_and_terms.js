@@ -84,9 +84,8 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-							
-							console.log($('.list .item .title  #1'))
-							console.log($('.list .item .title  #1').val())
+							$('.item .title').css("cursor","cell")
+
 						}
 					)
 				);
