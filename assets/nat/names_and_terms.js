@@ -79,7 +79,7 @@ function buildResults(results) {
 						.addClass('main-title')
 						.html(one.verified)
 						.click(function(){
-							var temp=one.description?one.description:"(No Description)";
+							var temp=one.description?one.description:"";
 							
 							var text = one.verified+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
@@ -134,7 +134,7 @@ function buildRecentStyles(results){
 						.addClass('recent-main-title')
 						.html(one.verified)
 						.click(function(){
-							var temp=one.description?one.description:"(No Description)";
+							var temp=one.description?one.description:"";
 							
 							var text = one.verified+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
@@ -186,7 +186,7 @@ function buildRecentResults(results){
 						.addClass('recent-main-title')
 						.html(one.verified)
 						.click(function(){
-							var temp=one.description?one.description:"(No Description)";
+							var temp=one.description?one.description:"";
 							
 
 							var text = one.verified+' - '+temp;
