@@ -914,9 +914,12 @@ function copySelected(mode,resultLength,id){
 		}
 		
 	}else if(mode=='recent'){
+		console.log("enter recent")
 		$('.verified-terms .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
+			console.log("enter for loop")
+
 			if (i != id){
 
 				$('.verified-terms .item #'+i).css("border-left","none");
