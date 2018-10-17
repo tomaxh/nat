@@ -84,7 +84,7 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-							$('.item #'+i).css({"border-color": "#C1E0FF", 
+							$('.item #'+i+'.title .main-title').css({"border-color": "#C1E0FF", 
 							"border-width":"1px", 
 							"border-style":"solid"});
 						}
