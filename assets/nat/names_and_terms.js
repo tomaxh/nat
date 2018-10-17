@@ -85,7 +85,7 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-
+							title.attr({"color":"red"})
 						}
 					)
 				);
