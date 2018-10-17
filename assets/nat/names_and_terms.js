@@ -902,24 +902,24 @@ function copySelected(mode,resultLength,id){
 			}
 		}
 	}else if(mode=='style'){
-		$('.list verified-styles split2 .item #'+id).css("border-left","6px solid red");
+		$('.split2 .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
 
-				$('.list verified-styles split2 .item #'+i).css("border-left","none");
+				$('.split2 .item #'+i).css("border-left","none");
 
 			}
 		}
 		
 	}else if(mode=='recent'){
-		$('.list verified-styles split1 .item #'+id).css("border-left","6px solid red");
+		$('.split1 .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
 				
 			}else{
-				$('.list verified-styles split1 .item #'+i).css("border-left","none");
+				$('.split1 .item #'+i).css("border-left","none");
 
 			}
 		}
