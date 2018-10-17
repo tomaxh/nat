@@ -902,25 +902,25 @@ function copySelected(mode,resultLength,id){
 			}
 		}
 	}else if(mode=='style'){
-		$('.split2 .item #'+id).css("border-left","6px solid red");
+		$('.verified-styles .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
-				$('.split .item #'+i).css("border-left","none");
+				$('.verified-terms .item #'+i).css("border-left","none");
 
-				$('.split2 .item #'+i).css("border-left","none");
+				$('.verified-styles .item #'+i).css("border-left","none");
 
 			}
 		}
 		
 	}else if(mode=='recent'){
-		$('.split .item #'+id).css("border-left","6px solid red");
+		$('.verified-terms .item #'+id).css("border-left","6px solid red");
 
 		for (var i =0; i <resultLength; i++){
 			if (i != id){
 
-				$('.split .item #'+i).css("border-left","none");
-				$('.split2 .item #'+i).css("border-left","none");
+				$('.verified-terms .item #'+i).css("border-left","none");
+				$('.verified-styles .item #'+i).css("border-left","none");
 
 			}
 		}
