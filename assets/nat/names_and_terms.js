@@ -85,7 +85,7 @@ function buildResults(results) {
 							console.log(text);
 							copy(text);
 							
-							$('.item #'+i+'.title .main-title').css({"color": "#C1E0FF"});
+							console.log($('.item #'+i+'.title .main-title').val())
 						}
 					)
 				);
