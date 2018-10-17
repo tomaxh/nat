@@ -51,7 +51,7 @@ def query(search, cat):
 				select 
 						names_and_terms.id, verified, verified_alternates, verification_source, 
 						description, comments, relationship, location, name as category,
-						created_time, created_by, modified_time, modified_by, revised_time,alpha_order
+						created_time, created_by, modified_time, modified_by, revised_time,alpha_order,description_plaintext,verified_plaintext
 					from 
 						names_and_terms 
 						inner join categories 
@@ -74,7 +74,7 @@ def query(search, cat):
 				select 
 						names_and_terms.id, verified, verified_alternates, verification_source, 
 						description, comments, relationship, location, name as category,
-						created_time, created_by, modified_time, modified_by, revised_time,alpha_order
+						created_time, created_by,description_plaintext,verified_plaintext, modified_time, modified_by, revised_time,alpha_order
 					from 
 						names_and_terms 
 						inner join categories 
@@ -98,7 +98,7 @@ def query(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,description_plaintext,verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -125,7 +125,7 @@ def query(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,description_plaintext,verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -157,7 +157,7 @@ def query(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,description_plaintext,verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -183,7 +183,7 @@ def query(search, cat):
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,description_plaintext,verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
     	from(
     	select * FROM
         (

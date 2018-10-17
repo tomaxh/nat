@@ -79,9 +79,9 @@ function buildResults(results) {
 						.addClass('main-title')
 						.html(one.verified)
 						.click(function(){
-							var temp=one.description?one.description:"";
-							
-							var text = one.verified+' - '+temp;
+
+							var temp=one.description?one.description_plaintext:"";
+							var text = one.verified_plaintext+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 
@@ -134,9 +134,9 @@ function buildRecentStyles(results){
 						.addClass('recent-main-title')
 						.html(one.verified)
 						.click(function(){
-							var temp=one.description?one.description:"";
+							var temp=one.description?one.description_plaintext:"";
 							
-							var text = one.verified+' - '+temp;
+							var text = one.verified_plaintext+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
 
 							console.log(text)
@@ -186,10 +186,10 @@ function buildRecentResults(results){
 						.addClass('recent-main-title')
 						.html(one.verified)
 						.click(function(){
-							var temp=one.description?one.description:"";
+							var temp=one.description?one.description_plaintext:"";
 							
 
-							var text = one.verified+' - '+temp;
+							var text = one.verified_plaintext+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
 
 							console.log(text)
