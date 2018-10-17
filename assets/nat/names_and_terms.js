@@ -84,7 +84,7 @@ function buildResults(results) {
 							text = text.replace(/<p>|<\/p>/g,'');
 							console.log(text);
 							copy(text);
-							$('.item .title').css("border-style","groove")
+							$('.item #'+i).css("border-style","groove")
 
 						}
 					)
@@ -885,7 +885,11 @@ function deleteItem(){
 	
 		}else{return}
 }
+//update for copy selected
+function copySelected(id){
+	$('.item .title').css("border-style","groove")
 
+}
 //update copy for IE
 function copy(itemString)
 {
