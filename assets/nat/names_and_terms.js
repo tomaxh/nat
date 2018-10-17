@@ -916,6 +916,7 @@ function copySelected(mode,resultLength,id){
 	}else if(mode=='recent'){
 		console.log("enter recent")
 		$('.verified-terms .item #'+id).css("border-left","6px solid red");
+		console.log($('.verified-terms .item #'+id).val())
 
 		for (var i =0; i <resultLength; i++){
 			console.log("enter for loop")
