@@ -196,7 +196,7 @@ function buildRecentResults(results){
 
 							console.log(text)
 							copy(text)
-							copySelected("default",results.length,i);
+							// copySelected("default",results.length,i);
 
 						}
 					)
@@ -901,36 +901,7 @@ function copySelected(mode,resultLength,id){
 
 			}
 		}
-	// }else if(mode=='style'){
-	// 	console.log("enter style")
-
-	// 	$('.verified-styles .item #'+id).css("border-left","6px solid red");
-	// 	console.log($('.verified-styles .item #'+id).innerHTML)
-
-	// 	for (var i =0; i <resultLength; i++){
-	// 		if (i != id){
-	// 			$('.verified-terms .item #'+i).css("border-left","none");
-
-	// 			$('.verified-styles .item #'+i).css("border-left","none");
-
-	// 		}
-	// 	}
-		
-	// }else if(mode=='recent'){
-	// 	console.log("enter recent")
-	// 	$('.verified-terms .item #'+id).css("border-left","6px solid red");
-	// 	console.log($('.verified-terms .item #'+id).val())
-
-	// 	for (var i =0; i <resultLength; i++){
-	// 		console.log("enter for loop")
-
-	// 		if (i != id){
-
-	// 			$('.verified-terms .item #'+i).css("border-left","none");
-	// 			$('.verified-styles .item #'+i).css("border-left","none");
-
-	// 		}
-	// 	}
+	
 	}
 
 }
