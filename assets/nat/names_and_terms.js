@@ -33,7 +33,7 @@ function processResults(results, time) {
 
 function buildResults(results) {
 	highlights();
-	$(body).css('cursor','progress');
+	$(document.body).css({'cursor' : 'wait'});
 
 	var container = $('.results').html('');
 
