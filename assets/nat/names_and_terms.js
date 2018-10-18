@@ -32,8 +32,8 @@ function processResults(results, time) {
 }
 
 function buildResults(results) {
-	$(document.body).css({'cursor' : 'wait'});
 	highlights();
+	$(body).css('cursor','progress');
 
 	var container = $('.results').html('');
 
@@ -126,7 +126,6 @@ function buildResults(results) {
 	});
 	container.append(list);
 	highlights();
-	$(document.body).css({'cursor' : 'default'});
 }
 function buildRecentStyles(results){
 
