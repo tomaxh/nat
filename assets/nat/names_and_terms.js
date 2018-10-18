@@ -381,8 +381,8 @@ function search() {
 
 			url += '&c=' + encodeURIComponent(category);
 
-			
-	}
+		
+		}
 		console.log(url);
 
 		$.ajax({
@@ -390,7 +390,12 @@ function search() {
 			success: function(resp) {
 				processResults(resp.results, resp.time);
 				buildResults(resp.results);
-		}
+				$(document).ajaxStart(function() {
+					$(document.body).css({'cursor' : 'wait'});
+				}).ajaxStop(function() {
+					$(document.body).css({'cursor' : 'default'});
+				});
+			}
 	});
 	}
 }
