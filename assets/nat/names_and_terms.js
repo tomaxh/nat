@@ -219,9 +219,11 @@ function buildRecentResults(results){
 		$(".modal-1 .f9").html("Modified at <b>"+one.modified_time+"</b> by <b>"+one.modified_by+"</b>");
 		$(".modal-1 #update-item").attr({"type":"button","data-toggle":"modal","data-target":".modal-3 #myModal"});
 		selectItem = one;}));
-
+		
+		var alts = one.verified_alternates ? one.verified_alternates :''
+		alts = alts.replace(/<br>/g,'')
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? one.verified_alternates : ''
+			one.verified_alternates ? alts : ''
 			
 		));			
 
