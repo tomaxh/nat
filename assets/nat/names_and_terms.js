@@ -126,6 +126,8 @@ function buildResults(results) {
 	});
 	container.append(list);
 	highlights();
+	$(document.body).css({'cursor' : 'default'});
+
 }
 function buildRecentStyles(results){
 
