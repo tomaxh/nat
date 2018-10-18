@@ -32,6 +32,7 @@ function processResults(results, time) {
 }
 
 function buildResults(results) {
+	$(document.body).css({'cursor' : 'wait'});
 	highlights();
 
 	var container = $('.results').html('');
@@ -125,6 +126,7 @@ function buildResults(results) {
 	});
 	container.append(list);
 	highlights();
+	$(document.body).css({'cursor' : 'default'});
 }
 function buildRecentStyles(results){
 
@@ -390,12 +392,7 @@ function search() {
 			success: function(resp) {
 				processResults(resp.results, resp.time);
 				buildResults(resp.results);
-				$(document).ajaxStart(function() {
-					$(document.body).css({'cursor' : 'wait'});
-				}).ajaxStop(function() {
-					$(document.body).css({'cursor' : 'default'});
-				});
-			}
+		}
 	});
 	}
 }
