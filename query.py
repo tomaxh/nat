@@ -188,7 +188,7 @@ def query(search, cat):
         (
             SELECT  names_and_terms.id as t1id,parent_id, verified,verified_alternates, verification_source, 
                         description, comments, relationship, location, name as category,category_id,
-                        created_time,description_plaintext,verified_plaintext, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,description_plaintext,verified_alternates,comments,diacritics)) as t1 
+                        created_time,description_plaintext,verified_plaintext, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,verified_alternates,comments,diacritics)) as t1 
                 from  
                     (
                     names_and_terms 
@@ -325,9 +325,7 @@ def queryVerified(search, cat):
 				where 
 					(
 						verified_plaintext ~* %s
-						or description_plaintext ~* %s
 						or verified_alternates ~* %s
-						or comments ~* %s
 						or verified_diacritics ~* %s
 
 					)
@@ -336,7 +334,7 @@ def queryVerified(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*('\\m'+search+'\\M',)*5, *(cat_id,)*2, True if cat is None else False))	
+		""", (*('\\m'+search+'\\M',)*3, *(cat_id,)*2, True if cat is None else False))	
 	else:
 		w =':* & '.join(search.split())+':*'
 		cursor.execute("""
