@@ -220,10 +220,10 @@ function buildRecentResults(results){
 		$(".modal-1 #update-item").attr({"type":"button","data-toggle":"modal","data-target":".modal-3 #myModal"});
 		selectItem = one;}));
 		
-		var alts = one.verified_alternates ? one.verified_alternates :' '
+		var alts = one.verified_alternates ? one.verified_alternates :''
 		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? alts : ''
+			one.verified_alternates ? alts : ' '
 			
 		));			
 
