@@ -15,8 +15,12 @@ var settings = {searchURL: 	'http://tree.lass.leg.bc.ca/nat-api/search'},
 
 
 function processResults(results, time) {
-	status = 'Loaded ' + results.length + ' results in ' + time.toFixed(2) + ' second(s)';
-	
+	if (results.length < 3000){
+		status = 'Loaded ' + results.length + ' results in ' + time.toFixed(2) + ' second(s)';
+	}else{
+		status ='There are more than 3000 results; ' + 'Loaded ' + results.length + ' results in ' + time.toFixed(2) + ' second(s)';
+
+	}
 	var catMap = {};
 	$.each(results, function(i, one){
 		catMap[one.category] = true;
