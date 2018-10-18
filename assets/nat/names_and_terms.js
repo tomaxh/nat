@@ -115,7 +115,7 @@ function buildResults(results) {
 		}));
 
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? one.verified_alternates.repalce(/<br>/g,'') : ''
+			one.verified_alternates ? one.verified_alternates : ''
 			
 		));			
 
@@ -167,7 +167,7 @@ function buildRecentStyles(results){
 		selectItem = one;}));
 
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? one.verified_alternates.repalce(/<br>/g,'') : ''
+			one.verified_alternates ? one.verified_alternates : ''
 			
 		));			
 
@@ -221,7 +221,7 @@ function buildRecentResults(results){
 		selectItem = one;}));
 
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? one.verified_alternates.repalce(/<br>/g,'') : ''
+			one.verified_alternates ? one.verified_alternates : ''
 			
 		));			
 
