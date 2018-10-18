@@ -176,8 +176,7 @@ def query(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*(search,)*5, *(cat_id,)*2, True if cat is None else False))	
-
+		""", (*('\\m'+search+'\\M',)*5, *(cat_id,)*2, True if cat is None else False))	
 	else:
 		w =':* & '.join(search.split())+':*'
 		cursor.execute("""
