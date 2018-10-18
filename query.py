@@ -232,6 +232,7 @@ def queryVerified(search, cat):
 		row = cursor.fetchone()
 		cat_id = row['id'] if row else None
 
+	is_quoted = search[0]=='"' and search[len(search)-1]=='"'
 
 	start = time.time()
 	if search[0]=='!':
@@ -263,7 +264,7 @@ def queryVerified(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,description_plaintext,verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -272,7 +273,7 @@ def queryVerified(search, cat):
 					(
 						verified_plaintext ~* %s
 						or verified_alternates ~* %s
-						or diacritics ~* %s
+						or verified_diacritics ~* %s
 
 
 					)
@@ -289,7 +290,7 @@ def queryVerified(search, cat):
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,description_plaintext,verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -298,7 +299,7 @@ def queryVerified(search, cat):
 					(
 						verified_plaintext ~* %s
 						or verified_alternates ~* %s
-						or diacritics ~* %s
+						or verified_diacritics ~* %s
 
 					)
 					and 
@@ -308,14 +309,15 @@ def queryVerified(search, cat):
 			
 		""", (*(search[0:search.find("*")]+"\\w+",)*3, *(cat_id,)*2, True if cat is None else False))
 	
-	
-	elif search[0]=='"' and search[len(search)-1]=='"':
+	elif is_quoted or len(search.split()) < 2:
+		if is_quoted:
+			search = search[1:-1]
 		cursor.execute("""
 
 			select 
 					names_and_terms.id, verified, verified_alternates, verification_source, 
 					description, comments, relationship, location, name as category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,description_plaintext,verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
 				from 
 					names_and_terms 
 					inner join categories 
@@ -323,8 +325,10 @@ def queryVerified(search, cat):
 				where 
 					(
 						verified_plaintext ~* %s
+						or description_plaintext ~* %s
 						or verified_alternates ~* %s
-						or diacritics ~* %s
+						or comments ~* %s
+						or verified_diacritics ~* %s
 
 					)
 					and 
@@ -332,24 +336,19 @@ def queryVerified(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*(search[1:-1],)*3, *(cat_id,)*2, True if cat is None else False))
-	
-	
+		""", (*('\\m'+search+'\\M',)*5, *(cat_id,)*2, True if cat is None else False))	
 	else:
-		
 		w =':* & '.join(search.split())+':*'
-		print(search)
-
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
-					created_time, created_by,alpha_order, modified_time, modified_by, revised_time
+					created_time,description_plaintext,verified_plaintext, created_by,alpha_order, modified_time, modified_by, revised_time
     	from(
     	select * FROM
         (
-            SELECT  names_and_terms.id as t1id,verified,verified_alternates, verification_source, 
+            SELECT  names_and_terms.id as t1id,parent_id, verified,verified_alternates, verification_source, 
                         description, comments, relationship, location, name as category,category_id,
-                        created_time, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,verified_alternates,comments)) as t1 
+                        created_time,description_plaintext,verified_plaintext, created_by, alpha_order,modified_time, modified_by, revised_time,(concat_ws(';',verified_plaintext,verified_alternates,verified_diacritics)) as t1 
                 from  
                     (
                     names_and_terms 
@@ -359,15 +358,15 @@ def queryVerified(search, cat):
         )as t2 
         
         where (t1) @@ to_tsquery(%s) and 
-		(category_id = %s or %s)
+		(category_id = %s or parent_id = %s or %s )
         
 
-    )as t3
+    	)as t3
 		
 		order by alpha_order
 		limit 3000;
-		""",(w,cat_id,True if cat is None else False))
-
+		""",(w,*(cat_id,)*2,True if cat is None else False))	
+	
 	return json.dumps({
 		'time': time.time() - start,
 		'results': list(cursor.fetchall())

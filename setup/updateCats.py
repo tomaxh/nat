@@ -189,6 +189,20 @@ def addUnaccent():
             update names_and_terms
             set diacritics = unaccent(diacritics);
         '''
+
+        '''!!!!!also'''
+        '''ALTER TABLE names_and_terms
+            ADD column verified_diacritics text;
+
+            UPDATE names_and_terms
+            set verified_diacritics = concat_ws(';',verified_plaintext,verified_alternates);
+
+            ----(might not needed if you already have it)
+            Create EXTENSION unaccent;
+
+            update names_and_terms
+            set diacritics = unaccent(diacritics);
+            '''
         )
     conn.commit()
     conn.close()
