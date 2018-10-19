@@ -33,7 +33,6 @@ function processResults(results, time) {
 
 function buildResults(results) {
 	highlights();
-	$(document.body).css({'cursor' : 'wait'});
 
 	var container = $('.results').html('');
 
@@ -118,7 +117,7 @@ function buildResults(results) {
 		var alts = one.verified_alternates ? one.verified_alternates :''
 		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? alts : ' '
+			one.verified_alternates ? alts : '(no alternates)'
 			
 		));			
 
@@ -126,7 +125,6 @@ function buildResults(results) {
 	});
 	container.append(list);
 	highlights();
-	$(document.body).css({'cursor' : 'default'});
 
 }
 function buildRecentStyles(results){
@@ -174,7 +172,7 @@ function buildRecentStyles(results){
 		var alts = one.verified_alternates ? one.verified_alternates :''
 		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? alts : ' '
+			one.verified_alternates ? alts : '(no alternates)'
 			
 		));			
 
@@ -230,7 +228,7 @@ function buildRecentResults(results){
 		var alts = one.verified_alternates ? one.verified_alternates :''
 		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? alts : ' '
+			one.verified_alternates ? alts : '(no alternates)'
 			
 		));			
 
