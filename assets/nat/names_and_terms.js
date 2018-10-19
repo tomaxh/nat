@@ -172,7 +172,7 @@ function buildRecentStyles(results){
 		var alts = one.verified_alternates ? one.verified_alternates :''
 		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? alts : '(no alternates)'
+			alts ? alts : '(no alternates)'
 			
 		));			
 
@@ -228,7 +228,7 @@ function buildRecentResults(results){
 		var alts = one.verified_alternates ? one.verified_alternates :''
 		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? alts : '(no alternates)'
+			alts ? alts : '(no alternates)'
 			
 		));			
 
