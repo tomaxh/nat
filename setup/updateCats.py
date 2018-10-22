@@ -189,8 +189,18 @@ def addUnaccent():
             update names_and_terms
             set diacritics = unaccent(diacritics);
         '''
-
-        '''!!!!!also'''
+        )
+    conn.commit()
+    conn.close()
+    conn = psycopg2.connect(
+        database='nat',
+        user='postgres',
+        password='postgres',
+        host='localhost'
+    )
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cursor.execute(
+        
         '''ALTER TABLE names_and_terms
             ADD column verified_diacritics text;
 
