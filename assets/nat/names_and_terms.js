@@ -117,7 +117,7 @@ function buildResults(results) {
 		var alts = one.verified_alternates ? one.verified_alternates :''
 		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
 		item.append($('<div>').addClass('alt-title').html(
-			one.verified_alternates ? alts : '<br/>'
+			one.verified_alternates ? alts : '<p></p>'
 			
 		));			
 
