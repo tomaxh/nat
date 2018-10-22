@@ -349,9 +349,9 @@ function search() {
 		$('[name="search"]').val($('[name="search"]').val().substr(0,$('[name="search"]').val().length-1))
 
 	}
-	$('[name="search"]').val($('[name="search"]').val().replace(/\s+/g, ' '));
+	$('[name="search"]').val($('[name="search"]').val().replace(/\s+/g, ' ').replace(/b.c.|B.C./g,'b.c'));
 	
-	searchInput = $('[name="search"]').val().replace(/b.c./g,'b.c');;
+	searchInput = $('[name="search"]').val()
 
 	if(searchInput.indexOf(" +")>0){
 		category=searchInput.split(" +")[1];
