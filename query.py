@@ -336,7 +336,7 @@ def queryVerified(search, cat):
 			
 		""", (*('\\m'+search+'\\M',)*3, *(cat_id,)*2, True if cat is None else False))	
 	else:
-		w =' & '.join(search.split())
+		w =':* & '.join(search.split())+':*'
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
