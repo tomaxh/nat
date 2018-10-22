@@ -1016,7 +1016,7 @@ function toTheTop(){
 
 
 	function scrollFunction() {
-		if (document.body.scrollTop > 66 || document.documentElement.scrollTop > 66) {
+		if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
 			document.getElementById("myBtn").style.display = "block";
 		} else {
 			document.getElementById("myBtn").style.display = "none";
@@ -1032,6 +1032,7 @@ function toTheTop(){
 function topFunction() {
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
 }
+
 toTheTop();
 userAuth();
 
