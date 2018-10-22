@@ -1026,6 +1026,7 @@ function toTheTop(){
 	// When the user clicks on the button, scroll to the top of the document
 	
 	window.onscroll = function() {scrollFunction()};
+	$('#textbox1').focus();
 }
 
 function topFunction() {
