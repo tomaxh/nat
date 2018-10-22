@@ -1021,7 +1021,6 @@ function toTheTop(){
 		} else {
 			document.getElementById("myBtn").style.display = "none";
 		}
-		$('#textbox1').focus();
 
 	}
 
