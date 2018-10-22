@@ -197,7 +197,7 @@ def query(search, cat):
                     )
         )as t2 
         
-        where (t1) @@ to_tsquery(%s) and 
+        where to_tsvector(t1) @@ to_tsquery(%s) and 
 		(category_id = %s or parent_id = %s or %s )
         
 
@@ -355,7 +355,7 @@ def queryVerified(search, cat):
                     )
         )as t2 
         
-        where (t1) @@ to_tsquery(%s) and 
+        where to_tsvector(t1) @@ to_tsquery(%s) and 
 		(category_id = %s or parent_id = %s or %s )
         
 
