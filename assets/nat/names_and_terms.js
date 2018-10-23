@@ -35,8 +35,13 @@ function processResults(results, time) {
 function buildResults(results) {
 	highlights();
 
-	var container = $('.results, .result-title2').html('');
+	var container = $('.results').html('');
 
+	if($('[name="search"]').val()=='@'){
+		$('.result-title').html('Recent Verifications');
+	}else{
+		$('.result-title').html('Search Results');
+	}
 	container.append($('<em>').attr('style','margin-left:10').html(
 		status
 	));
