@@ -1036,6 +1036,7 @@ function toTheTop(){
 
 function topFunction() {
 	$('html, body').animate({ scrollTop: 0 }, 'fast');
+	$("#textbox1").focus();
 }
 
 toTheTop();
