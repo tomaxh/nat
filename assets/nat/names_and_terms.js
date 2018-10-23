@@ -659,11 +659,7 @@ function update(){
 			toolbar: [
 			['bold', 'italic', 'underline','link',{ 'script': 'sub'}, { 'script': 'super' }],
 			],
-			history: {
-				delay: 2000,
-				maxStack: 500,
-				userOnly: true
-			  }
+			
 		},
 		placeholder: 'This is a required field.',
 		
