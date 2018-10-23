@@ -68,6 +68,9 @@ function buildResults(results) {
 				console.log(category)
 				search();
 			});
+		if (name == "style"){
+			cat.css('background-color', 'green');
+		}
 		if (name == category) {
 			cat.addClass('class="font-weight-light"').attr("id","current");
 		}
@@ -126,7 +129,6 @@ function buildResults(results) {
 	});
 	container.append(list);
 	highlights();
-	$("div[innerHTML]=style").attr({"id":"green-thing"})
 
 }
 function buildRecentStyles(results){
