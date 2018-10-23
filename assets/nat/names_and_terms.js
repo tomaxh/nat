@@ -28,6 +28,7 @@ function processResults(results, time) {
 	categories = [];
 	for (var key in catMap) {
 		categories.push(key);
+		categories.sort();
 	}
 }
 
