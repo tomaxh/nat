@@ -228,7 +228,7 @@ def queryVerified(search, cat):
 	if not cat:
 		cat_id = None
 	else:
-		cursor.execute("select id from categories where name ~ %s", ('\\m'+cat+'\\M',))
+		cursor.execute("select id from categories where name = %s", (cat,))
 		row = cursor.fetchone()
 		cat_id = row['id'] if row else None
 
