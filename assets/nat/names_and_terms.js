@@ -34,7 +34,8 @@ function processResults(results, time) {
 
 function buildResults(results) {
 	highlights();
-
+	$('.result-title2').html('');
+	
 	var container = $('.results').html('');
 
 	if($('[name="search"]').val()=='@'){
