@@ -187,8 +187,8 @@ function buildRecentStyles(results){
 	
 }
 function buildRecentResults(results){
-	$('.result-title').html('Recently Verified');
-	$('.result-title').append("<h2>").html('Recent Styles');
+	$('.result-title').attr("id","recenttitle").html('Recently Verified');
+	$('#recenttitle').append("<h2>").html('Recent Styles');
 
 	var container = $('.results');
 
