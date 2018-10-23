@@ -69,7 +69,7 @@ function buildResults(results) {
 				search();
 			});
 		if (name == "style"){
-			cat.css('background-color', 'green');
+			cat.css('background-color', '#82E0AA');
 		}
 		if (name == category) {
 			cat.addClass('class="font-weight-light"').attr("id","current");
