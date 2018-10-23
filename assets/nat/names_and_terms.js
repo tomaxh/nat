@@ -35,13 +35,8 @@ function processResults(results, time) {
 function buildResults(results) {
 	highlights();
 
-	var container = $('.results').html('');
+	var container = $('.results, .result-title2').html('');
 
-	if($('[name="search"]').val()=='@'){
-		$('.result-title').html('Recent Verifications');
-	}else{
-		$('.result-title').html('Search Results');
-	}
 	container.append($('<em>').attr('style','margin-left:10').html(
 		status
 	));
@@ -132,6 +127,7 @@ function buildResults(results) {
 
 }
 function buildRecentStyles(results){
+	$('.result-title2').html('Recent Styles');
 
 	var container = $('.results');
 
@@ -188,7 +184,6 @@ function buildRecentStyles(results){
 }
 function buildRecentResults(results){
 	$('.result-title').html('Recently Verified');
-	$('.result-title2').html('Recent Styles');
 
 
 	var container = $('.results');
