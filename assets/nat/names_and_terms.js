@@ -126,6 +126,7 @@ function buildResults(results) {
 	});
 	container.append(list);
 	highlights();
+	$("div[innerHTML]=style").attr({"id":"green-thing"})
 
 }
 function buildRecentStyles(results){
