@@ -183,8 +183,6 @@ def addUnaccent():
             UPDATE names_and_terms
             set diacritics = concat_ws(';',verified_plaintext,verified_alternates,description_plaintext);
 
-            ----(might not needed if you already have it)
-            Create EXTENSION unaccent;
 
             update names_and_terms
             set diacritics = unaccent(diacritics);
@@ -207,8 +205,6 @@ def addUnaccent():
             UPDATE names_and_terms
             set verified_diacritics = concat_ws(';',verified_plaintext,verified_alternates);
 
-            ----(might not needed if you already have it)
-            Create EXTENSION unaccent;
 
             update names_and_terms
             set diacritics = unaccent(diacritics);
@@ -218,5 +214,7 @@ def addUnaccent():
     conn.close()
 if __name__ == "__main__":
     dbUpdateName()
+    dbAddAuthTable()
     dbUpdateUser()
+    addUnaccent()
     
