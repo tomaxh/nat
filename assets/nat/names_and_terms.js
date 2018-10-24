@@ -1044,9 +1044,7 @@ function topFunction() {
 
 function logging(){
 	window.alert(
-		`'Top' button now selects the textarea automatically. \n
-	
-		`
+		"'Top' button now selects the textarea automatically. \n"
 	)
 }
 
