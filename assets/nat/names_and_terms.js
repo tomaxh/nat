@@ -69,11 +69,11 @@ function buildResults(results) {
 				console.log(category)
 				search();
 			});
-		if (name == "style"){
-			cat.css('background-color', '#82E0AA');
-		}
+	
 		if (name == category) {
 			cat.addClass('class="font-weight-light"').attr("id","current");
+		}else if(name == "style"){
+			cat.css('background-color', '#82E0AA');
 		}
 		cats.append(cat);
 	});
