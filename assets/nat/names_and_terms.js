@@ -1042,6 +1042,15 @@ function topFunction() {
 	$("#textbox1").focus();
 }
 
+function logging(){
+	window.alert(
+		`'Top' button now selects the textarea automatically. \n
+	
+		`
+	)
+}
+
+
 toTheTop();
 userAuth();
 
