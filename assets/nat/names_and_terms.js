@@ -393,7 +393,7 @@ function search() {
 		}
 
 		console.log(url);
-		($('#stemcheck').prop('checked')==(true)) ? console.log("stemon"): console.log("stemoff")
+		console.log(($('#stemcheck').prop('checked')==(true)) ? "stemon": "stemoff")
 
 		$.ajax({
 			url: url,
