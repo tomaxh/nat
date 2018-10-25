@@ -392,8 +392,9 @@ function search() {
 		
 		}
 
+		let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
+		url += '&m=' + encodeURIComponent(st)
 		console.log(url);
-		console.log(($('#stemcheck').prop('checked')==(true)) ? "stemon": "stemoff")
 
 		$.ajax({
 			url: url,
