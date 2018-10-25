@@ -33,7 +33,7 @@ class QueryEndpointSearch:
 		}
 		print(query_dict)
 		resp.append_header('Access-Control-Allow-Origin', '*')
-		resp.body = query.query(query_dict['s'], query_dict.get('c'))
+		resp.body = query.query(query_dict['s'],query_dict.get('m'), query_dict.get('c'))
 		
 
 
@@ -58,7 +58,7 @@ class QueryEndpointSearchVerified:
 		}
 		print(query_dict)
 		resp.append_header('Access-Control-Allow-Origin', '*')
-		resp.body = query.queryVerified(query_dict['s'], query_dict.get('c'))
+		resp.body = query.queryVerified(query_dict['s'], query_dict.get('m'),query_dict.get('c'))
 
 
 
