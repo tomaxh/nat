@@ -445,15 +445,10 @@ function vsearch() {
 		if (category) {
 			url += '&c=' + encodeURIComponent(category);
 	}
-<<<<<<< HEAD
-
-		console.log(url);
-=======
 	
 	let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
 	url += '&m=' + encodeURIComponent(st)
 	console.log(url);
->>>>>>> stemming
 
 		$.ajax({
 			url: url,
