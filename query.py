@@ -148,10 +148,12 @@ def query(search,cat=None,mode="stemon"):
 	
 	
 	elif is_quoted or len(search.split()) < 2:
-		if is_quoted and mode=="stemon":
+		if is_quoted:
 			search = search[1:-1]
-		elif is_quoted and mode =="stemoff":
-			search = "\\y"+search[1:-1]+"\\y"
+		
+		if mode =="stemoff":
+			search = "\\y"+search+"\\y"
+		
 		print(search)
 		cursor.execute("""
 
