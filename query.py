@@ -21,7 +21,7 @@ def set_datetime(the):
 '''
 Search query for all the fields
 '''
-def query(search, cat):
+def query(search,mode="stemon",cat=None):
 
 	conn = psycopg2.connect(
 		database='nat', 
@@ -149,8 +149,11 @@ def query(search, cat):
 	
 	elif is_quoted or len(search.split()) < 2:
 		if is_quoted:
-			search = search[1:-1]
-
+			search = "\\y"+search[1:-1]+"\\y"
+		
+		if mode =="stemoff":
+			search = "\\y"+search+"\\y"
+		
 		print(search)
 		cursor.execute("""
 
@@ -176,9 +179,16 @@ def query(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*("\\y"+search+"\\y",)*5, *(cat_id,)*2, True if cat is None else False))	
+		""", (*(search,)*5, *(cat_id,)*2, True if cat is None else False))	
 	else:
-		w =':* & '.join(search.split())+':*'
+		if mode == "stemoff":
+			w =' & '.join(search.split())		
+		else:
+			w =':* & '.join(search.split())+':*'
+			
+		
+		print(w)
+
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
@@ -216,7 +226,7 @@ def query(search, cat):
 Search query using only verified and verified alternates field
 Same as regular search except for the where clause in sql query
 '''
-def queryVerified(search, cat):
+def queryVerified(search, mode="stemon", cat=None):
 	conn = psycopg2.connect(
 		database='nat',
 		user='postgres',
@@ -310,8 +320,10 @@ def queryVerified(search, cat):
 		""", (*(search[0:search.find("*")]+"\\w+",)*3, *(cat_id,)*2, True if cat is None else False))
 	
 	elif is_quoted or len(search.split()) < 2:
-		if is_quoted:
+		if is_quoted and mode=="stemon":
 			search = search[1:-1]
+		elif is_quoted and mode=="stemoff":
+			search = "\\y"+search[1:-1]+"\\y"
 		cursor.execute("""
 
 			select 
@@ -334,9 +346,13 @@ def queryVerified(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*("\\y"+search+"\\y",)*3, *(cat_id,)*2, True if cat is None else False))	
+		""", (*(search,)*3, *(cat_id,)*2, True if cat is None else False))	
 	else:
-		w =':* & '.join(search.split())+':*'
+		if mode == "stemon":
+			w =':* & '.join(search.split())+':*'
+		elif mode =="stemoff":
+			w =' & '.join(search.split())
+
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
@@ -613,26 +629,7 @@ def queryCheckUser(username):
 		return json.dumps(rows)
 
 if __name__ == '__main__':
-	jsont={
-                        "id":87821,
-                        "verified":"tested by python",
-                        "verified_plaintext":"tested by python.",
-                        "alpha_order":"Tester1 inderted aplha_order.",
-                        "category":"people",
-                        "verified_alternates":None,
-                        "verification_source":None,
-                        "description":"UPDATED method",
-                        "description_plaintext":"The testing item UPDATE by REQUEST and POST method",
-                        "comments":None,
-                        "relationship":"Norm's son",
-                        "location":None,
-                        "created_time":"2025-02-02",
-                        "created_by":"Tom",
-                        "modified_time":None,
-                        "modified_by":None,
-                        "revised_time":None
-        }
-
+	query("pipe west","stemoff")
 
 	
 
