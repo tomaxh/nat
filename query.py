@@ -21,7 +21,7 @@ def set_datetime(the):
 '''
 Search query for all the fields
 '''
-def query(search, cat):
+def query(search,cat=None,mode="stemon"):
 
 	conn = psycopg2.connect(
 		database='nat', 
@@ -148,9 +148,10 @@ def query(search, cat):
 	
 	
 	elif is_quoted or len(search.split()) < 2:
-		if is_quoted:
+		if is_quoted and mode=="stemon":
 			search = search[1:-1]
-
+		elif is_quoted and mode =="stemoff":
+			search = "\\y"+search[1:-1]+"\\y"
 		print(search)
 		cursor.execute("""
 
@@ -176,9 +177,13 @@ def query(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*("\\y"+search+"\\y",)*5, *(cat_id,)*2, True if cat is None else False))	
+		""", (*(search,)*5, *(cat_id,)*2, True if cat is None else False))	
 	else:
-		w =':* & '.join(search.split())+':*'
+		if mode == "stemon":
+			w =':* & '.join(search.split())+':*'
+		elif mode == "stemoff":
+			w =' & '.join(search.split())
+			
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
@@ -216,7 +221,7 @@ def query(search, cat):
 Search query using only verified and verified alternates field
 Same as regular search except for the where clause in sql query
 '''
-def queryVerified(search, cat):
+def queryVerified(search, cat=None, mode="stemon"):
 	conn = psycopg2.connect(
 		database='nat',
 		user='postgres',
@@ -310,8 +315,10 @@ def queryVerified(search, cat):
 		""", (*(search[0:search.find("*")]+"\\w+",)*3, *(cat_id,)*2, True if cat is None else False))
 	
 	elif is_quoted or len(search.split()) < 2:
-		if is_quoted:
+		if is_quoted and mode=="stemon":
 			search = search[1:-1]
+		elif is_quoted and mode=="stemoff":
+			search = "\\y"+search[1:-1]+"\\y"
 		cursor.execute("""
 
 			select 
@@ -334,9 +341,13 @@ def queryVerified(search, cat):
 				order by alpha_order
 				limit 3000;
 			
-		""", (*("\\y"+search+"\\y",)*3, *(cat_id,)*2, True if cat is None else False))	
+		""", (*(search,)*3, *(cat_id,)*2, True if cat is None else False))	
 	else:
-		w =':* & '.join(search.split())+':*'
+		if mode == "stemon":
+			w =':* & '.join(search.split())+':*'
+		elif mode =="stemoff":
+			w =' & '.join(search.split())
+
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,

@@ -369,6 +369,7 @@ function search() {
 			url += '&c=' + encodeURIComponent(category);
 
 		}
+		url += '&m=' + $('#stemcheck').prop("checked")?"stemon":"stemoff"
 		console.log(url);
 		
 
@@ -391,6 +392,8 @@ function search() {
 
 		
 		}
+		url += '&m=' + $('#stemcheck').prop("checked")?"stemon":"stemoff"
+
 		console.log(url);
 
 		$.ajax({
@@ -421,6 +424,7 @@ function vsearch() {
 			url += '&c=' + encodeURIComponent(category);
 		}
 		console.log(url);
+		url += '&m=' + $('#stemcheck').prop("checked")?"stemon":"stemoff"
 
 		$.ajax({
 			url: url,
@@ -438,6 +442,8 @@ function vsearch() {
 		if (category) {
 			url += '&c=' + encodeURIComponent(category);
 	}
+		url += '&m=' + $('#stemcheck').prop("checked")?"stemon":"stemoff"
+
 		console.log(url);
 
 		$.ajax({
