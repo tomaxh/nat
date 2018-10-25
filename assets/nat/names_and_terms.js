@@ -392,7 +392,7 @@ function search() {
 		
 		}
 
-		console.log(url+'\n'+$('#stemcheck').prop('checked'));
+		console.log(url+'\n'+$('#stemcheck').prop('checked')?"stemon":"stemoff");
 
 		$.ajax({
 			url: url,
