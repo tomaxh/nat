@@ -369,8 +369,10 @@ function search() {
 			url += '&c=' + encodeURIComponent(category);
 
 		}
-		console.log(url);
 		
+		let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
+		url += '&m=' + encodeURIComponent(st)
+		console.log(url);
 
 		$.ajax({
 			url: url,
@@ -391,6 +393,8 @@ function search() {
 
 		
 		}
+		let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
+		url += '&m=' + encodeURIComponent(st)
 		console.log(url);
 
 		$.ajax({
@@ -420,6 +424,9 @@ function vsearch() {
 		if (category) {
 			url += '&c=' + encodeURIComponent(category);
 		}
+
+		let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
+		url += '&m=' + encodeURIComponent(st)
 		console.log(url);
 
 		$.ajax({
@@ -438,7 +445,10 @@ function vsearch() {
 		if (category) {
 			url += '&c=' + encodeURIComponent(category);
 	}
-		console.log(url);
+	
+	let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
+	url += '&m=' + encodeURIComponent(st)
+	console.log(url);
 
 		$.ajax({
 			url: url,

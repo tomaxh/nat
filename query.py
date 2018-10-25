@@ -320,10 +320,12 @@ def queryVerified(search, mode="stemon", cat=None):
 		""", (*(search[0:search.find("*")]+"\\w+",)*3, *(cat_id,)*2, True if cat is None else False))
 	
 	elif is_quoted or len(search.split()) < 2:
-		if is_quoted and mode=="stemon":
-			search = search[1:-1]
-		elif is_quoted and mode=="stemoff":
+		if is_quoted:
 			search = "\\y"+search[1:-1]+"\\y"
+		
+		if mode =="stemoff":
+			search = "\\y"+search+"\\y"
+
 		cursor.execute("""
 
 			select 
@@ -348,10 +350,11 @@ def queryVerified(search, mode="stemon", cat=None):
 			
 		""", (*(search,)*3, *(cat_id,)*2, True if cat is None else False))	
 	else:
-		if mode == "stemon":
+		if mode == "stemoff":
+			w =' & '.join(search.split())		
+		else:
 			w =':* & '.join(search.split())+':*'
-		elif mode =="stemoff":
-			w =' & '.join(search.split())
+
 
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
