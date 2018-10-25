@@ -21,11 +21,7 @@ def set_datetime(the):
 '''
 Search query for all the fields
 '''
-<<<<<<< HEAD
-def query(search,cat=None,mode="stemon"):
-=======
 def query(search,mode="stemon",cat=None):
->>>>>>> stemming
 
 	conn = psycopg2.connect(
 		database='nat', 
@@ -153,11 +149,7 @@ def query(search,mode="stemon",cat=None):
 	
 	elif is_quoted or len(search.split()) < 2:
 		if is_quoted:
-<<<<<<< HEAD
-			search = search[1:-1]
-=======
 			search = "\\y"+search[1:-1]+"\\y"
->>>>>>> stemming
 		
 		if mode =="stemoff":
 			search = "\\y"+search+"\\y"
@@ -189,13 +181,6 @@ def query(search,mode="stemon",cat=None):
 			
 		""", (*(search,)*5, *(cat_id,)*2, True if cat is None else False))	
 	else:
-<<<<<<< HEAD
-		if mode == "stemon":
-			w =':* & '.join(search.split())+':*'
-		elif mode == "stemoff":
-			w =' & '.join(search.split())
-			
-=======
 		if mode == "stemoff":
 			w =' & '.join(search.split())		
 		else:
@@ -204,7 +189,6 @@ def query(search,mode="stemon",cat=None):
 		
 		print(w)
 
->>>>>>> stemming
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
 					description, comments, relationship, location, category,
@@ -242,11 +226,7 @@ def query(search,mode="stemon",cat=None):
 Search query using only verified and verified alternates field
 Same as regular search except for the where clause in sql query
 '''
-<<<<<<< HEAD
-def queryVerified(search, cat=None, mode="stemon"):
-=======
 def queryVerified(search, mode="stemon", cat=None):
->>>>>>> stemming
 	conn = psycopg2.connect(
 		database='nat',
 		user='postgres',
@@ -340,19 +320,12 @@ def queryVerified(search, mode="stemon", cat=None):
 		""", (*(search[0:search.find("*")]+"\\w+",)*3, *(cat_id,)*2, True if cat is None else False))
 	
 	elif is_quoted or len(search.split()) < 2:
-<<<<<<< HEAD
-		if is_quoted and mode=="stemon":
-			search = search[1:-1]
-		elif is_quoted and mode=="stemoff":
-			search = "\\y"+search[1:-1]+"\\y"
-=======
 		if is_quoted:
 			search = "\\y"+search[1:-1]+"\\y"
 		
 		if mode =="stemoff":
 			search = "\\y"+search+"\\y"
 
->>>>>>> stemming
 		cursor.execute("""
 
 			select 
@@ -377,18 +350,11 @@ def queryVerified(search, mode="stemon", cat=None):
 			
 		""", (*(search,)*3, *(cat_id,)*2, True if cat is None else False))	
 	else:
-<<<<<<< HEAD
-		if mode == "stemon":
-			w =':* & '.join(search.split())+':*'
-		elif mode =="stemoff":
-			w =' & '.join(search.split())
-=======
 		if mode == "stemoff":
 			w =' & '.join(search.split())		
 		else:
 			w =':* & '.join(search.split())+':*'
 
->>>>>>> stemming
 
 		cursor.execute("""
 		select t1id id,verified,verified_alternates, verification_source, 
