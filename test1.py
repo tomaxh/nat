@@ -185,7 +185,34 @@ def setCookies():
 	r = requests.get(url)
 	print(r.cookies["user"])
 
+def synonymCheck():
+    keyword = 'bc'
+    conn = psycopg2.connect(
+		database='nat',
+		user='postgres',
+		password='postgres',
+		host='localhost'
+    )
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cursor.execute('''
+        select 
+            * 
+        from 
+            synonym
+        where item ~* %s;
+	''',(keyword,))
+    try:
+        rows = cursor.fetchall()
+        result = json.dumps((rows[0]['item'][1:-1]))
+        print(type(result))
+    except:
+        rows = "None"
+        return rows
+    # for item in result:
+        # result.pop(result.index(""))
+    " ".join(list(result))
+    print(result)
 
 if __name__ == '__main__':
     # queryCheckUser("tqin")
-	setCookies()
+	synonymCheck()
