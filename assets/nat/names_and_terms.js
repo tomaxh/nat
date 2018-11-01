@@ -1054,7 +1054,7 @@ function topFunction() {
 
 function logging(){
 	window.alert(
-		"'Top' button now selects the textarea automatically. \n 'Stem toggle is now avaliable.'"
+		"1. 'Top' button now selects the textarea automatically. \n2. Stem toggle is now avaliable."
 	)
 }
 
