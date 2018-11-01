@@ -207,7 +207,7 @@ def query(search,mode="stemon",cat=None):
                     )
         )as t2 
         
-        where to_tsvector(t1) @@ to_tsquery(%s) and 
+        where to_tsvector('simple',t1) @@ to_tsquery('simple',%s) and 
 		(category_id = %s or parent_id = %s or %s )
         
 
