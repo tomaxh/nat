@@ -615,10 +615,10 @@ function insert(){
 		
 
 		if(quillTitle.root.innerHTML=="<p><br></p>"||$('.modal-2 #selectCat').text()=="Select Category "||quillAlphasort.root.innerHTML=="<p><br></p>"||quillVerification.root.innerHTML=="<p><br></p>"){
-			alert("Enter required information.")
-			return
+			alert("Enter required information.");
+			return;
 		}
-		var tmp = quillDescription.root.innerHTML
+		var tmp = quillDescription.root.innerHTML;
 		if (tmp =="<p><br></p>"){
 			tmp = null;
 		}
@@ -642,7 +642,7 @@ function insert(){
 			"category":$('#selectCat').text()
 
 		};
-		var url = "http://tree.lass.leg.bc.ca/nat-api/insert"
+		var url = "http://tree.lass.leg.bc.ca/nat-api/insert";
 		$.post({
 			type: "POST",
 			url: url,
@@ -653,7 +653,7 @@ function insert(){
 		
 	}));
 
-	$('.modal-2 #modal-footer2').append($('<button>').attr({"id":"close-btn","data-dismiss":"modal"}).addClass("btn btn-secondary").html("Cancel"))
+	$('.modal-2 #modal-footer2').append($('<button>').attr({"id":"close-btn","data-dismiss":"modal"}).addClass("btn btn-secondary").html("Cancel"));
 
 }
 
@@ -681,7 +681,7 @@ function update(){
 		placeholder: 'This is a required field.',
 		
 		
-	}
+	};
 	var options = {
 		theme: 'snow',
 		formats: [
@@ -699,7 +699,7 @@ function update(){
 			['bold', 'italic', 'underline','link',{ 'script': 'sub'}, { 'script': 'super' }],
 			],
 		},
-	}
+	};
 	var options2 = {
 		theme: 'snow',
 		formats: [
@@ -715,7 +715,7 @@ function update(){
 			],
 		},
 
-	}
+	};
 			
 
 	var container = $('.modal-3').html('');
@@ -735,7 +735,7 @@ function update(){
 		"ops":[
 			{"insert":selectItem.verified.replace(/<p>|<\/p>|<br>/g, "")}
 		]
-	})
+	});
 	
 
 	$('.modal-3 #row2').append($('<label>').html("Verified Alternates: ").addClass("input-labels"));
@@ -747,7 +747,7 @@ function update(){
 			"ops":[
 				{"insert":selectItem.verified_alternates.replace(/<p>|<\/p>|<br>/g, "")}
 			]
-		})
+		});
 	}
 
 	$('.modal-3 #row2').append($('<label>').html("Description: ").addClass("input-labels"));
@@ -759,7 +759,7 @@ function update(){
 			"ops":[
 				{"insert":selectItem.description.replace(/<p>|<\/p>|<br>/g, "")}
 			]
-		})
+		});
 	}
 
 	$('.modal-3 #row2').append($('<label>').html("Alphabetical Sort: ").addClass("input-labels"));
@@ -770,7 +770,7 @@ function update(){
 		"ops":[
 			{"insert":selectItem.alpha_order.replace(/<p>|<\/p>|<br>/g, "")}
 		]
-	})
+	});
 
 	$('.modal-3 #row2').append($('<label>').html("Verification Source: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.verification_source));
@@ -781,7 +781,7 @@ function update(){
 			"ops":[
 				{"insert":selectItem.verification_source.replace(/<p>|<\/p>|<br>/g, "")}
 			]
-		})
+		});
 	}
 
 	$('.modal-3 #row2').append($('<label>').html("Relationship: ").addClass("input-labels"));
@@ -793,7 +793,7 @@ function update(){
 			"ops":[
 				{"insert":selectItem.relationship.replace(/<p>|<\/p>|<br>/g, "")}
 			]
-		})
+		});
 	}
 
 	$('.modal-3 #row2').append($('<label>').html("Location: ").addClass("input-labels"));
@@ -805,7 +805,7 @@ function update(){
 			"ops":[
 				{"insert":selectItem.location.replace(/<p>|<\/p>|<br>/g, "")}
 			]
-		})
+		});
 	}
 	$('.modal-3 #row2').append($('<label>').html("Comments: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').html(selectItem.comments));
@@ -816,50 +816,50 @@ function update(){
 			"ops":[
 				{"insert":selectItem.comments.replace(/<p>|<\/p>|<br>/g, "")}
 			]
-		})
+		});
 	}
 	$('.modal-3 #row2').append($('<label>').html("Item Type: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"category"}));
 	$('.modal-3 #category').append($('<div>').addClass("btn-group"));
-	$('.modal-3 .btn-group').append($('<button>').addClass("btn btn-default dropdown-toggle").attr({"type":"button","data-toggle":"dropdown","id":"selectCat"}).html(selectItem.category).append($("<span>").addClass("caret")))
+	$('.modal-3 .btn-group').append($('<button>').addClass("btn btn-default dropdown-toggle").attr({"type":"button","data-toggle":"dropdown","id":"selectCat"}).html(selectItem.category).append($("<span>").addClass("caret")));
 	$('.modal-3 .btn-group').append($('<ul>').addClass("dropdown-menu scrollable-menu").attr({"role":"menu","id":"dropdown"}));
 	
 	$('.modal-3 #row2').append($('<label>').html("Status: ").addClass("input-labels"));
 	$('.modal-3 #row2').append($('<div>').attr({"id":"status"}));
 	$('.modal-3 #status').append($('<div>').addClass("btn-group"));
-	$('.modal-3 #status .btn-group').append($('<button>').addClass("btn btn-default dropdown-toggle").attr({"type":"button","data-toggle":"dropdown","id":"selectStat"}).html("Show").append($("<span>").addClass("caret")))
+	$('.modal-3 #status .btn-group').append($('<button>').addClass("btn btn-default dropdown-toggle").attr({"type":"button","data-toggle":"dropdown","id":"selectStat"}).html("Show").append($("<span>").addClass("caret")));
 
 	$('.modal-3 #status .btn-group').append($('<ul>').addClass("dropdown-menu scrollable-menu").attr({"role":"menu","id":"dropdown"}));
 
-	$('.modal-3 #status #dropdown').append($('<li><a href="#">'+ "Ignore" + '</a></li>'))
-	$('.modal-3 #status #dropdown').append($('<li><a href="#">'+ "Show" + '</a></li>'))
+	$('.modal-3 #status #dropdown').append($('<li><a href="#">'+ "Ignore" + '</a></li>'));
+	$('.modal-3 #status #dropdown').append($('<li><a href="#">'+ "Show" + '</a></li>'));
 	$('.modal-3 #status #dropdown > li').click(function(){
 		$('.modal-3 #status #selectStat').text(($(this).text()));
-	})
+	});
 
-	for (i in categories){
-		$('.modal-3 #category #dropdown').append($('<li><a href="#">'+ categories[i] + '</a></li>'))
+	for (var i in categories){
+		$('.modal-3 #category #dropdown').append($('<li><a href="#">'+ categories[i] + '</a></li>'));
 
 	}
 	$('.modal-3 #category #dropdown > li').click(function(){
 		$('.modal-3 #category #selectCat').text(($(this).text()).split('--')[1] ?($(this).text()).split('--')[1] : ($(this).text()) );
-	})
+	});
 	
 	$('.modal-3 #modal-content2').append($('<div>').addClass('modal-footer').attr({"id":"modal-footer2"}));
 	$('.modal-3 #modal-footer2').append($('<button>').addClass("btn btn-primary").html("Update").click(function(){
 		
 
 		if(quillTitle.root.innerHTML=="<p><br></p>"||$('.modal-3 #selectCat').text()=="Select Category "||quillAlphasort.root.innerHTML=="<p><br></p>"||quillVerification.root.innerHTML=="<p><br></p>"){
-			alert("Enter required information.")
-			return
+			alert("Enter required information.");
+			return;
 		}
 
-		var tmp = quillDescription.root.innerHTML
+		var tmp = quillDescription.root.innerHTML;
 		if (tmp =="<p><br></p>"){
 			tmp = null;
 		}
 		if ($('.modal-3 #status #selectStat').text()=="Ignore"){
-			let t = new Date();
+			var t = new Date();
 			t.setDate(t.getDate()-3);
 			utc = t.toJSON().slice(0,10).replace(/-/g,'-');
 		}
@@ -894,9 +894,9 @@ function update(){
 
 
 
-	$('.modal-3 #modal-footer2').append($('<button>').attr({"id":"close-btn","data-dismiss":"modal"}).addClass("btn btn-secondary").html("Cancel"))
+	$('.modal-3 #modal-footer2').append($('<button>').attr({"id":"close-btn","data-dismiss":"modal"}).addClass("btn btn-secondary").html("Cancel"));
 
-	$('#search').click()
+	$('#search').click();
 
 }
 
@@ -912,11 +912,11 @@ function deleteItem(){
 					buildResults(resp.results);
 				}
 			});
-			$(".modal-1 #btn-modify").click()
-			$('#search').click()
+			$(".modal-1 #btn-modify").click();
+			$('#search').click();
 
 	
-		}else{return}
+		}else{return;}
 }
 //update for copy selected
 function copySelected(mode,resultLength,id){
@@ -939,7 +939,7 @@ function copy(itemString)
 {
     var aux = document.createElement("div");
     aux.setAttribute("contentEditable", true);
-    aux.innerHTML = itemString
+    aux.innerHTML = itemString;
     document.body.appendChild(aux);
     window.getSelection().selectAllChildren(aux);
     document.execCommand("copy");
@@ -960,7 +960,7 @@ function checkMainPage(){
 		$('#insert, #deleteOne, #update-item').show();
 
 	}else{
-		$('#insert, #deleteOne, #update-item').hide()
+		$('#insert, #deleteOne, #update-item').hide();
 	}
 	
 	var userInfo1 = (getCookie("user"))?getCookie("user"):"Unrecognized";
@@ -975,11 +975,11 @@ function checkMainPage(){
 //update auth
 function clearCookie(){
 	var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-	console.log("enter")
+	console.log("enter");
 	if(keys) {
 		for(var i = keys.length; i--;)
-			document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
-			console.log("clear")
+			document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString();
+			console.log("clear");
 	}
 	location.reload();
 }
@@ -994,7 +994,7 @@ function checkAuth(){
 	credentials = {
 		username: $('#username').val(),
 		password: $('#password').val(),
-	}
+	};
 	$.post({
 		type: "POST",
 		url: "http://tree.lass.leg.bc.ca/nat-api/auth",
@@ -1019,7 +1019,7 @@ function checkAuth(){
 // update auth
 function userAuth(){
 	
-	$('#auth').attr({"type":"button","data-toggle":"modal","data-target":"#user-auth"})
+	$('#auth').attr({"type":"button","data-toggle":"modal","data-target":"#user-auth"});
 	
 	$('.modal-4 #log-in-btn').click(checkAuth);
 
@@ -1044,7 +1044,7 @@ function toTheTop(){
 
 	// When the user clicks on the button, scroll to the top of the document
 	
-	window.onscroll = function() {scrollFunction()};
+	window.onscroll = function() {scrollFunction();};
 }
 
 function topFunction() {
@@ -1055,21 +1055,21 @@ function topFunction() {
 function logging(){
 	window.alert(
 		"1. 'Top' button now selects the textarea automatically. \n2. Stem toggle is now avaliable.\n3. Synonym search beta is now avaliable, try 'BC' or 'CIBC'"
-	)
+	);
 }
 
 
 toTheTop();
 userAuth();
 
-$('#home').click(function(){location.reload()})
+$('#home').click(function(){location.reload();});
 $('#logout').click(clearCookie);
 $('.result').ready(function(){
 					checkMainPage();
 					recentSearch(recentVerified);
 					recentSearch(recentStyles);
 				
-				})
+				});
 
 
 
@@ -1083,7 +1083,7 @@ $('#textbox1').keypress(function(e){
 });
 $('#highlightbutton').click(highlights);
 $('#insert').click(insert);
-$('#textbox1').click(function(){category=null});
-$('#textbox1').on('input', function(){category=null});
+$('#textbox1').click(function(){category=null;});
+$('#textbox1').on('input', function(){category=null;});
 $('.modal-1 #update-item').click(update);
 $('.modal-1 #deleteOne').click(deleteItem);
