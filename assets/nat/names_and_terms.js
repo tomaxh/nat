@@ -1054,7 +1054,7 @@ function topFunction() {
 
 function logging(){
 	window.alert(
-		"1. 'Top' button now selects the textarea automatically. \n2. Stem toggle is now avaliable.\n3. Synonym search beta is now avaliable, try 'BC' or 'CIBC'"
+		"1. 'Top' button now selects the textarea automatically. \n2. Stem toggle is now avaliable.\n3. Synonym search beta is now avaliable, try 'BC' or 'CIBC'\n 4. Stop words won't be ignored anymore."
 	);
 }
 
