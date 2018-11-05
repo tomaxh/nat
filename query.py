@@ -181,10 +181,23 @@ def query(search,mode="stemon",cat=None):
 			
 		""", (*(search,)*5, *(cat_id,)*2, True if cat is None else False))	
 	else:
-		if mode == "stemoff":
-			w =' & '.join(search.split())		
-		else:
-			w =':* & '.join(search.split())+':*'
+		checked = replaceSynonym(search)
+    	if mode == "stemoff":
+        	if len(checked[1])==0:
+            	w = ' & '.join(checked[0][:-1])
+        	else:
+            	w1 =''.join(checked[1])[:-1].replace('.','\\.')
+            	w = ' & '.join(checked[0]) + '(' +w1.replace(' ','<->') +')'
+    	else:
+        	if len(checked[1])==0:
+            	w = ':* & '.join(checked[0][:-1])+':*'
+        	else:
+            	w1 =''.join(checked[1])[:-1].replace('.','\\.')
+            	w = ':* & '.join(checked[0]) + '(' +w1.replace(' ','<->') +')'
+		# if mode == "stemoff":
+		# 	w =' & '.join(search.split())		
+		# else:
+		# 	w =':* & '.join(search.split())+':*'
 			
 		
 		print(w)
@@ -630,6 +643,43 @@ def queryCheckUser(username):
 	except:
 		rows = {'full_name':username,'groups':'Unrecognized'}
 		return json.dumps(rows)
+
+def getSynonym(keyword):
+    conn = psycopg2.connect(
+		database='nat',
+		user='postgres',
+		password='postgres',
+		host='localhost'
+    )
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cursor.execute('''
+        select 
+            * 
+        from 
+            synonyms
+        where item ~* %s;
+	''',('\\;'+keyword+'\\;',))
+    try:
+        rows = cursor.fetchall()
+        result = json.dumps((rows[0]['item']))
+        result = "|".join([i for i in result.split(";") if i !='"'])
+    except:
+        result = None
+
+    return result
+
+# check if the search string contains a synonym return if exist
+def replaceSynonym(search):
+    result = []
+    search = search.split()    
+    for i in search:
+        if getSynonym(i):
+            result.append(getSynonym(i)+'|')
+    search = [x for x in search if not getSynonym(x)]+['']
+    
+    return [search,list(set(result))]
+
+
 
 if __name__ == '__main__':
 	query("pipe west","stemoff")
