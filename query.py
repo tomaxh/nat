@@ -182,18 +182,18 @@ def query(search,mode="stemon",cat=None):
 		""", (*(search,)*5, *(cat_id,)*2, True if cat is None else False))	
 	else:
 		checked = replaceSynonym(search)
-    	if mode == "stemoff":
-        	if len(checked[1])==0:
-            	w = ' & '.join(checked[0][:-1])
-        	else:
-            	w1 =''.join(checked[1])[:-1].replace('.','\\.')
-            	w = ' & '.join(checked[0]) + '(' +w1.replace(' ','<->') +')'
-    	else:
-        	if len(checked[1])==0:
-            	w = ':* & '.join(checked[0][:-1])+':*'
-        	else:
-            	w1 =''.join(checked[1])[:-1].replace('.','\\.')
-            	w = ':* & '.join(checked[0]) + '(' +w1.replace(' ','<->') +')'
+		if mode == "stemoff":
+			if len(checked[1])==0:
+				w = ' & '.join(checked[0][:-1])
+			else:
+				w1 =''.join(checked[1])[:-1].replace('.','\\.')
+				w = ' & '.join(checked[0]) + '(' +w1.replace(' ','<->') +')'
+		else:
+			if len(checked[1])==0:
+				w = ':* & '.join(checked[0][:-1])+':*'
+			else:
+				w1 =''.join(checked[1])[:-1].replace('.','\\.')
+				w = ':* & '.join(checked[0]) + '(' +w1.replace(' ','<->') +')'
 		# if mode == "stemoff":
 		# 	w =' & '.join(search.split())		
 		# else:
