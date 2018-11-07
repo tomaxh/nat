@@ -55,10 +55,10 @@ function buildResults(results) {
 			.click(function() {
 				category = null;
 				var tmp = $('[name="search"]').val().split(" +")[0];
-				$('[name="search"]').val(tmp)
+				$('[name="search"]').val(tmp);
 				search();
 			})
-	)
+	);
 	
 
 	$.each(categories, function(i, name) {
@@ -66,7 +66,7 @@ function buildResults(results) {
 			.html(name)
 			.click(function() {
 				category = this.innerHTML.replace('&amp;', '&');
-				console.log(category)
+				console.log(category);
 				search();
 			});
 	
@@ -119,8 +119,8 @@ function buildResults(results) {
 		
 		}));
 
-		var alts = one.verified_alternates ? one.verified_alternates :''
-		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
+		var alts = one.verified_alternates ? one.verified_alternates :'';
+		alts = alts.replace(/<br>|<p>|<\/p>/g,'');
 		item.append($('<div>').addClass('alt-title').html(
 			one.verified_alternates ? alts : '<p></p>'
 			
@@ -138,7 +138,7 @@ function buildRecentStyles(results){
 	var container = $('.results');
 
 	var list = $('<div>').addClass('list verified-styles split2');
-	list.append("<div>").attr({"padding-left":"50px"});;
+	list.append("<div>").attr({"padding-left":"50px"});
 	$.each(results, function(i, one) {
 		var item = $('<div>').addClass('item');
 		var title = $('<div>').addClass('title');
@@ -152,8 +152,8 @@ function buildRecentStyles(results){
 							var text = one.verified_plaintext+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
 
-							console.log(text)
-							copy(text)
+							console.log(text);
+							copy(text);
 							copySelected("default",results.length,i);
 
 						}
@@ -175,8 +175,8 @@ function buildRecentStyles(results){
 		$(".modal-1 #update-item").attr({"type":"button","data-toggle":"modal","data-target":".modal-3 #myModal"});
 		selectItem = one;}));
 
-		var alts = one.verified_alternates ? one.verified_alternates :''
-		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
+		var alts = one.verified_alternates ? one.verified_alternates :'';
+		alts = alts.replace(/<br>|<p>|<\/p>/g,'');
 		item.append($('<div>').addClass('alt-title').html(
 			one.verified_alternates ? alts : '<p></p>'
 			
@@ -210,8 +210,8 @@ function buildRecentResults(results){
 							var text = one.verified_plaintext+' - '+temp;
 							text = text.replace(/<p>|<\/p>/g,'');
 
-							console.log(text)
-							copy(text)
+							console.log(text);
+							copy(text);
 							// copySelected("default",results.length,i);
 
 						}
@@ -232,8 +232,8 @@ function buildRecentResults(results){
 		$(".modal-1 #update-item").attr({"type":"button","data-toggle":"modal","data-target":".modal-3 #myModal"});
 		selectItem = one;}));
 		
-		var alts = one.verified_alternates ? one.verified_alternates :''
-		alts = alts.replace(/<br>|<p>|<\/p>/g,'')
+		var alts = one.verified_alternates ? one.verified_alternates :'';
+		alts = alts.replace(/<br>|<p>|<\/p>/g,'');
 		item.append($('<div>').addClass('alt-title').html(
 			one.verified_alternates ? alts : '<p></p>'
 			
@@ -250,7 +250,7 @@ function recentSearch(keyword){
 		$('[name="search"]').val(keyword);
 		
 		while(keyword[keyword.length-1]==' '){
-			keyword=keyword.substr(0,keyword.length-1)
+			keyword=keyword.substr(0,keyword.length-1);
 
 		}
 		keyword=(keyword.replace(/\s+/g, ' '));
@@ -298,7 +298,7 @@ function recentSearch(keyword){
 	}else{
 		$('[name="search"]').val(keyword);
 		while(keyword[keyword.length-1]==' '){
-			keyword=keyword.substr(0,keyword.length-1)
+			keyword=keyword.substr(0,keyword.length-1);
 
 		}
 		keyword=(keyword.replace(/\s+/g, ' '));
@@ -358,7 +358,7 @@ function search() {
 	}
 	$('[name="search"]').val($('[name="search"]').val().replace(/\s+/g, ' ').replace(/b\.c\./gi,'b.c'));
 	
-	searchInput = $('[name="search"]').val()
+	searchInput = $('[name="search"]').val();
 
 	if(searchInput.indexOf(" +")>0){
 		category=searchInput.split(" +")[1];
@@ -371,7 +371,7 @@ function search() {
 		}
 		
 		let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
-		url += '&m=' + encodeURIComponent(st)
+		url += '&m=' + encodeURIComponent(st);
 		console.log(url);
 
 		$.ajax({
@@ -387,7 +387,7 @@ function search() {
 	
 		var url = settings.searchURL + '?s=' + encodeURIComponent($('[name="search"]').val());
 		if (category) {
-			console.log(category)
+			console.log(category);
 
 			url += '&c=' + encodeURIComponent(category);
 
@@ -426,7 +426,7 @@ function vsearch() {
 		}
 
 		let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
-		url += '&m=' + encodeURIComponent(st)
+		url += '&m=' + encodeURIComponent(st);
 		console.log(url);
 
 		$.ajax({
@@ -447,7 +447,7 @@ function vsearch() {
 	}
 	
 	let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
-	url += '&m=' + encodeURIComponent(st)
+	url += '&m=' + encodeURIComponent(st);
 	console.log(url);
 
 		$.ajax({
@@ -463,6 +463,7 @@ function vsearch() {
 
 
 function highlights(){
+	return;
 	if(flag){
 		if($('[name="search"]').val()[0]=='!' || $('[name="search"]').val()[0]=='*'){
 			$('.main-title, .desc, .alt-title').highlight($('[name="search"]').val().substring(1));
@@ -483,7 +484,7 @@ function highlights(){
 		}
 		flag=false;
 	}else if($('[name="search"]').val()==''){
-		return		
+		return;
 	}
 	else
 	{
