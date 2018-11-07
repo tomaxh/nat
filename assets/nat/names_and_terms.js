@@ -87,7 +87,7 @@ function buildResults(results) {
 	renderMoreResults();
 }
 
-var currentResultI = 0, resultsPerAdd = 200;
+var currentResultI = 0, resultsPerAdd = 200, currentItemId = 0;
 function renderMoreResults() {
 	var resultPage = resultsList.filter(function (d, i) {
 		return i >= currentResultI && (i < currentResultI + resultsPerAdd);
@@ -96,7 +96,7 @@ function renderMoreResults() {
 		var item = $('<div>').addClass('item');
 		var title = $('<div>').addClass('title');
 		title.append($('<div>')
-						.addClass('main-title').attr({"id":i})
+						.addClass('main-title').attr({"id":i + currentResultI})
 						.html(one.verified)
 						.click(function(){
 
@@ -106,8 +106,7 @@ function renderMoreResults() {
 							console.log(text);
 							copy(text);
 
-							copySelected("default",resultPage.length,i);
-
+							copySelected("default",3000,$(this).attr("id"));
 						}
 					)
 				);
@@ -157,7 +156,7 @@ function buildRecentStyles(results){
 		var title = $('<div>').addClass('title');
 		
 		title.append($('<div>')
-						.addClass('recent-main-title').attr({"id":i})
+						.addClass('recent-main-title').attr({"id":i +currentResultI})
 						.html(one.verified)
 						.click(function(){
 							var temp=one.description?one.description_plaintext:"";
@@ -167,7 +166,7 @@ function buildRecentStyles(results){
 
 							console.log(text);
 							copy(text);
-							copySelected("default",resultPage.length,i);
+							copySelected("default",3000,$(this).attr("id"));
 
 						}
 					)
@@ -214,7 +213,7 @@ function buildRecentResults(results){
 		var title = $('<div>').addClass('title');
 		
 		title.append($('<div>')
-						.addClass('recent-main-title').attr({"id":i})
+						.addClass('recent-main-title').attr({"id":i +currentItemId})
 						.html(one.verified)
 						.click(function(){
 							var temp=one.description?one.description_plaintext:"";
@@ -484,36 +483,22 @@ function vsearch() {
 
 function highlights(){
 	
-	if(flag){
 		if($('[name="search"]').val()[0]=='!' || $('[name="search"]').val()[0]=='*'){
 			$('.main-title, .desc, .alt-title').highlight($('[name="search"]').val().substring(1));
 		}else if($('[name="search"]').val().indexOf("*")>0){
 			$('.main-title, .desc, .alt-title').highlight($('[name="search"]').val().substring(0,$('[name="search"]').val().indexOf("*")));
 		}else if($('[name="search"]').val()[0]=='"'){
 			$('.main-title, .desc, .alt-title').highlight($('[name="search"]').val().substring(1,$('[name="search"]').val().length-1));
-
-			// $('.main-title, .desc, .alt-title').highlight(tmp);
-
 		}
 		else{
 			
-			var tmp = ($('[name="search"]').val().split(" "))
-			for (i in tmp){
+			var tmp = ($('[name="search"]').val().split(" "));
+			for (var i in tmp){
 				$('.main-title, .desc, .alt-title').highlight(tmp[i]);
 			}
 		}
-	}else if($('[name="search"]').val()==''){
-		return;
-	}
-	else
-	{
-		$('.main-title, .desc, .alt-title').removeHighlight();
-		flag=true;
-	}
-
-
-
 }
+
 
 
 function insert(){
