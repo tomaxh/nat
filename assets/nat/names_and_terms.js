@@ -32,6 +32,7 @@ function processResults(results, time) {
 	}
 }
 
+var resultsList = null, resultsListEl = null;
 function buildResults(results) {
 	highlights();
 	$('.result-title2').html('');
@@ -80,7 +81,18 @@ function buildResults(results) {
 	container.append(cats);
 
 	var list = $('<div>').addClass('list');
-	$.each(results, function(i, one) {
+	container.append(list);
+	resultsListEl = list;
+	resultsList = results;
+	renderMoreResults();
+}
+
+var currentResultI = 0, resultsPerAdd = 200;
+function renderMoreResults() {
+	var resultPage = resultsList.filter(function (d, i) {
+		return i >= currentResultI && (i < currentResultI + resultsPerAdd);
+	});
+	$.each(resultPage, function(i, one) {
 		var item = $('<div>').addClass('item');
 		var title = $('<div>').addClass('title');
 		title.append($('<div>')
@@ -94,7 +106,7 @@ function buildResults(results) {
 							console.log(text);
 							copy(text);
 
-							copySelected("default",results.length,i);
+							copySelected("default",resultPage.length,i);
 
 						}
 					)
@@ -126,12 +138,13 @@ function buildResults(results) {
 			
 		));			
 
-		list.append(item);
+		resultsListEl.append(item);
 	});
-	container.append(list);
-	highlights();
 
+	currentResultI += resultsPerAdd;
+	highlights();
 }
+
 function buildRecentStyles(results){
 	$('.result-title2').html('Recent Styles');
 
@@ -154,7 +167,7 @@ function buildRecentStyles(results){
 
 							console.log(text);
 							copy(text);
-							copySelected("default",results.length,i);
+							copySelected("default",resultPage.length,i);
 
 						}
 					)
@@ -244,6 +257,13 @@ function buildRecentResults(results){
 	container.append(list);
 
 }
+window.addEventListener('scroll', function() {
+	var bodyBounds = document.getElementsByTagName('body')[0].getBoundingClientRect();
+
+	if (bodyBounds.height - 1000 < window.innerHeight + window.pageYOffset) {
+		renderMoreResults();
+	}
+});
 
 function recentSearch(keyword){
 	if(keyword==recentVerified){	
@@ -463,7 +483,7 @@ function vsearch() {
 
 
 function highlights(){
-	return;
+	
 	if(flag){
 		if($('[name="search"]').val()[0]=='!' || $('[name="search"]').val()[0]=='*'){
 			$('.main-title, .desc, .alt-title').highlight($('[name="search"]').val().substring(1));
@@ -482,7 +502,6 @@ function highlights(){
 				$('.main-title, .desc, .alt-title').highlight(tmp[i]);
 			}
 		}
-		flag=false;
 	}else if($('[name="search"]').val()==''){
 		return;
 	}
