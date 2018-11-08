@@ -34,7 +34,6 @@ function processResults(results, time) {
 
 var resultsList = null, resultsListEl = null;
 function buildResults(results) {
-	highlights();
 	$('.result-title2').html('');
 	
 	var container = $('.results').html('');
@@ -84,10 +83,14 @@ function buildResults(results) {
 	container.append(list);
 	resultsListEl = list;
 	resultsList = results;
+	currentResultI = 0;
+	resultsPerAdd = 200;
+	currentItemId = 0;
+
 	renderMoreResults();
 }
 
-var currentResultI = 0, resultsPerAdd = 200, currentItemId = 0;
+var currentResultI, resultsPerAdd, currentItemId;
 function renderMoreResults() {
 	var resultPage = resultsList.filter(function (d, i) {
 		return i >= currentResultI && (i < currentResultI + resultsPerAdd);
@@ -368,6 +371,7 @@ function recentSearch(keyword){
 
 }
 function search() {
+
 	if($('[name="search"]').val().length==0){
 		return;
 	}
@@ -389,7 +393,7 @@ function search() {
 
 		}
 		
-		let st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
+		var st = ($('#stemcheck').prop('checked')==(true)) ? "stemon" : "stemoff"
 		url += '&m=' + encodeURIComponent(st);
 		console.log(url);
 
